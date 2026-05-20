@@ -1,6 +1,8 @@
-﻿public class CaseCategory
+﻿using AMS.BaseEntities;
+
+public class CaseCategory: BaseEntity
 {
-    public int Id { get; set; }
+ 
     public string CategoryName { get; set; }
     public bool IsActive { get; set; }  
 }

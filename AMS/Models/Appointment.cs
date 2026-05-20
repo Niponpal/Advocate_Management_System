@@ -1,6 +1,7 @@
-﻿public class Appointment
+﻿using AMS.BaseEntities;
+
+public class Appointment :BaseEntity
 {
-    public int Id { get; set; }
 
     public DateTime AppointmentDate { get; set; }
     public string Purpose { get; set; }
