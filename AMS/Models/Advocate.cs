@@ -1,8 +1,8 @@
-﻿using AMS.Models;
+﻿using AMS.BaseEntities;
+using AMS.Models;
 
-public class Advocate
+public class Advocate: BaseEntity
 {
-public int Id { get; set; }
 public string AdvocateName { get; set; }
 public string LicenseNumber { get; set; }
 public string Specialization { get; set; }

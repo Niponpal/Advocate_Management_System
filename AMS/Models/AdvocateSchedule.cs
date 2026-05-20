@@ -1,6 +1,8 @@
-﻿public class AdvocateSchedule
+﻿using AMS.BaseEntities;
+
+public class AdvocateSchedule : BaseEntity
 {
-    public int Id { get; set; }
+   
 
     public DateTime ScheduleDate { get; set; }
     public string AvailableTime { get; set; }
