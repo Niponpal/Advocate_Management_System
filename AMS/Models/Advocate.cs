@@ -9,7 +9,7 @@ public string Specialization { get; set; }
 public string Email { get; set; }
 public string Phone { get; set; }
 public string Address { get; set; }
-public int ExperienceYears { get; set; }
+public long ExperienceYears { get; set; }
 
 public ICollection<Case> Cases { get; set; }
 }
