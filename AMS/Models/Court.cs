@@ -1,8 +1,8 @@
-﻿using AMS.Models;
+﻿using AMS.BaseEntities;
+using AMS.Models;
 
-public class Court
+public class Court:BaseEntity
 {
-public int Id { get; set; }
 
 public string CourtName { get; set; }
 public string CourtType { get; set; }

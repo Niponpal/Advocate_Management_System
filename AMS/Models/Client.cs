@@ -1,8 +1,9 @@
-﻿using AMS.Models;
+﻿using AMS.BaseEntities;
+using AMS.Models;
 
-public class Client
+public class Client:BaseEntity
 {
-public int Id { get; set; }
+
 public string ClientName { get; set; }
 public string Email { get; set; }
 public string Phone { get; set; }

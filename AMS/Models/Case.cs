@@ -1,8 +1,9 @@
-﻿using AMS.Models;
+﻿using AMS.BaseEntities;
+using AMS.Models;
 
-public class Case
+public class Case: BaseEntity
 {
-public int Id {get; set; }
+
 
 public string CaseNumber { get; set; }
 public string CaseTitle { get; set; }

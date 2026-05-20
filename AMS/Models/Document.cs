@@ -1,6 +1,7 @@
-﻿public class Document
+﻿using AMS.BaseEntities;
+
+public class Document:BaseEntity
 {
-    public int Id { get; set; }
 
     public string DocumentTitle { get; set; }
     public string FilePath { get; set; }
