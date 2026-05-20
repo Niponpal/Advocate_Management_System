@@ -7,9 +7,9 @@ public class Appointment :BaseEntity
     public string Purpose { get; set; }
     public string Status { get; set; }
 
-    public int ClientId { get; set; }
+    public long ClientId { get; set; }
     public Client Client { get; set; }
 
-    public int AdvocateId { get; set; }
+    public long AdvocateId { get; set; }
     public Advocate Advocate { get; set; }
 }

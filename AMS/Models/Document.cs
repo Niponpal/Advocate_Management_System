@@ -9,6 +9,6 @@ public class Document:BaseEntity
 
     public DateTime UploadDate { get; set; }
 
-    public int CaseId { get; set; }
+    public long CaseId { get; set; }
     public Case Case { get; set; }
 }
