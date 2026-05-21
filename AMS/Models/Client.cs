@@ -13,4 +13,5 @@ public class Client:BaseEntity
     public ICollection<Case> Cases { get; set; }
 
     public ICollection<Payment> Payments { get; set; }
+    public ICollection<Appointment> Appointments { get; set; }
 }
