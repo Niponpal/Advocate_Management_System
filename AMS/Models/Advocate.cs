@@ -11,4 +11,6 @@ public string Phone { get; set; }
 public string Address { get; set; }
 public long ExperienceYears { get; set; }
 public ICollection<AdvocateSchedule> AdvocateSchedules { get; set; } public ICollection<Case> Cases { get; set; }
+    public ICollection<Appointment> Appointments { get; set; }
+
 }
