@@ -9,4 +9,6 @@ public class Invoice:BaseEntity
 
     public long ClientId { get; set; }
     public Client Client { get; set; }
+
+   
 }
