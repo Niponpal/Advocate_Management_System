@@ -15,4 +15,5 @@ public class Client:BaseEntity
     public ICollection<Payment> Payments { get; set; }
     public ICollection<Appointment> Appointments { get; set; }
     public ICollection<Invoice> Invoices { get; set; }
+    public ICollection<LegalNotice> LegalNotices { get; set; }
 }
