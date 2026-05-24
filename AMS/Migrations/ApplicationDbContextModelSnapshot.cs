@@ -442,7 +442,7 @@ namespace AMS.Migrations
             modelBuilder.Entity("AdvocateSchedule", b =>
                 {
                     b.HasOne("Advocate", "Advocate")
-                        .WithMany()
+                        .WithMany("AdvocateSchedules")
                         .HasForeignKey("AdvocateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -453,13 +453,13 @@ namespace AMS.Migrations
             modelBuilder.Entity("Appointment", b =>
                 {
                     b.HasOne("Advocate", "Advocate")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("AdvocateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Client", "Client")
-                        .WithMany()
+                        .WithMany("Appointments")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -521,7 +521,7 @@ namespace AMS.Migrations
             modelBuilder.Entity("Invoice", b =>
                 {
                     b.HasOne("Client", "Client")
-                        .WithMany()
+                        .WithMany("Invoices")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -532,7 +532,7 @@ namespace AMS.Migrations
             modelBuilder.Entity("LegalNotice", b =>
                 {
                     b.HasOne("Client", "Client")
-                        .WithMany()
+                        .WithMany("LegalNotices")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -562,7 +562,7 @@ namespace AMS.Migrations
             modelBuilder.Entity("TaskManagement", b =>
                 {
                     b.HasOne("Advocate", "Advocate")
-                        .WithMany()
+                        .WithMany("TaskManagements")
                         .HasForeignKey("AdvocateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -572,7 +572,13 @@ namespace AMS.Migrations
 
             modelBuilder.Entity("Advocate", b =>
                 {
+                    b.Navigation("AdvocateSchedules");
+
+                    b.Navigation("Appointments");
+
                     b.Navigation("Cases");
+
+                    b.Navigation("TaskManagements");
                 });
 
             modelBuilder.Entity("Case", b =>
@@ -584,7 +590,13 @@ namespace AMS.Migrations
 
             modelBuilder.Entity("Client", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("Cases");
+
+                    b.Navigation("Invoices");
+
+                    b.Navigation("LegalNotices");
 
                     b.Navigation("Payments");
                 });
