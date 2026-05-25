@@ -1,4 +1,6 @@
-﻿namespace AMS.Repository;
+﻿using AMS.Data;
+using Microsoft.EntityFrameworkCore;
+namespace AMS.Repository;
 
 public interface IAdvocateRepository
 {
@@ -15,28 +17,78 @@ public interface IAdvocateRepository
 
 public class AdvocateRepository : IAdvocateRepository
 {
-    public Task<Advocate> AddAdvocateAsync(Advocate advocate, CancellationToken cancellationToken)
+    private readonly ApplicationDbContext _context;
+    public AdvocateRepository(ApplicationDbContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
+    }
+    public async Task<Advocate> AddAdvocateAsync(Advocate advocate, CancellationToken cancellationToken)
+    {
+        await _context.advocates.AddAsync(advocate, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        return advocate;
     }
 
-    public Task<Advocate> DeleteAdvocateAsync(long id, CancellationToken cancellationToken)
+    public async Task<Advocate> DeleteAdvocateAsync(long id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+       var data =await _context.advocates.FindAsync(id, cancellationToken);
+        if (data != null)
+        {
+            _context.advocates.Remove(data);
+            await _context.SaveChangesAsync(cancellationToken);
+            return data;
+        }
+        else
+        {
+            throw new Exception("Advocate not found");
+        }
     }
 
-    public Task<Advocate?> GetAdvocateByIdAsync(long id, CancellationToken cancellationToken)
+    public async Task<Advocate?> GetAdvocateByIdAsync(long id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var data = await _context.advocates.FindAsync(id, cancellationToken);
+        if (data != null)
+        {
+            return data;
+        }
+        else
+        {
+            throw new Exception("Advocate not found");
+        }
     }
 
-    public Task<IEnumerable<Advocate>> GetAllApplicationsAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Advocate>> GetAllApplicationsAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+      var data = await _context.advocates.ToListAsync(cancellationToken);
+        if (data != null)
+        {
+            return data;
+        }
+        else
+        {
+            throw new Exception("No advocates found");
+        }
     }
 
-    public Task<Advocate?> UpdateAdvocateAsync(Advocate advocate, CancellationToken cancellationToken)
+    public async Task<Advocate?> UpdateAdvocateAsync(Advocate advocate, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+       var data = await _context.advocates.FindAsync(advocate.Id, cancellationToken);
+        if (data != null)
+        {
+            data.AdvocateName = advocate.AdvocateName;
+            data.LicenseNumber = advocate.LicenseNumber;
+            data.Specialization = advocate.Specialization;
+            data.Email = advocate.Email;
+            data.Phone = advocate.Phone;
+            data.Address = advocate.Address;
+            data.ExperienceYears = advocate.ExperienceYears;
+            _context.advocates.Update(data);
+            await _context.SaveChangesAsync(cancellationToken);
+            return data;
+        }
+        else
+        {
+            throw new Exception("Advocate not found");
+        }
     }
 }
