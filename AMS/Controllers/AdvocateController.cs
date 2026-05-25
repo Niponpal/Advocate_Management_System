@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AMS.Controllers;
 
-public class AdvocateController1 : Controller
+public class AdvocateController : Controller
 {
     private readonly IAdvocateRepository _advocateRepository;
 
-    public AdvocateController1(IAdvocateRepository advocateRepository)
+    public AdvocateController(IAdvocateRepository advocateRepository)
     {
         _advocateRepository = advocateRepository;
     }
