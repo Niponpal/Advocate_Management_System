@@ -11,8 +11,66 @@ public class AdvocateController1 : Controller
     {
         _advocateRepository = advocateRepository;
     }
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        return View();
+        var data =await _advocateRepository.GetAllApplicationsAsync(cancellationToken);
+        if (data != null)
+        {
+            return View(data);
+        }
+        return NotFound();
     }
+    [HttpGet]
+    public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
+    {
+        if (id == 0)
+        {
+            return View(new Advocate());
+        }
+        else
+        {
+            var data = await _advocateRepository.GetAdvocateByIdAsync(id, cancellationToken);
+            if (data != null)
+            {
+                return View(data);
+            }
+            return NotFound();
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateOrEdit(Advocate advocate, CancellationToken cancellationToken)
+    {
+        if (ModelState.IsValid)
+        {
+            if (advocate.Id == 0)
+            {
+                await _advocateRepository.AddAdvocateAsync(advocate, cancellationToken);
+            }
+            else
+            {
+                await _advocateRepository.UpdateAdvocateAsync(advocate, cancellationToken);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        return View(advocate);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(long id, CancellationToken cancellationToken)
+    {
+        var data = await _advocateRepository.GetAdvocateByIdAsync(id, cancellationToken);
+        if (data != null)
+        {
+            return View(data);
+        }
+        return NotFound();
+    }
+    [HttpPost]
+    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+    {
+        await _advocateRepository.DeleteAdvocateAsync(id, cancellationToken);
+        return RedirectToAction(nameof(Index));
+    }
+
 }
