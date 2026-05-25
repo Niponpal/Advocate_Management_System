@@ -1,4 +1,5 @@
 using AMS.Data;
+using AMS.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext> (x=>x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Register repositories
+builder.Services.AddScoped<IAdvocateRepository, AdvocateRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
