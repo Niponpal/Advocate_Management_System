@@ -11,6 +11,7 @@ builder.Services.AddDbContext<ApplicationDbContext> (x=>x.UseSqlServer(builder.C
 
 // Register repositories
 builder.Services.AddScoped<IAdvocateRepository, AdvocateRepository>();
+builder.Services.AddScoped<IAdvocateScheduleRepository, AdvocateScheduleRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
