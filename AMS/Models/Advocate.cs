@@ -15,5 +15,4 @@ public ICollection<Case> Cases { get; set; }
 public ICollection<Appointment> Appointments { get; set; }
 public ICollection<TaskManagement> TaskManagements { get; set; }
 
-
 }
