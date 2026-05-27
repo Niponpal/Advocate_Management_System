@@ -18,6 +18,7 @@ builder.Services.AddScoped<ICaseCategoryRepository, CaseCategoryRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ICourtRepository, CourtRepository>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<IHearingRepository, HearingRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
