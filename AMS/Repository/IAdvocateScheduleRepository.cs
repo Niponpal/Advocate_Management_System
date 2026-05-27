@@ -5,11 +5,11 @@ namespace AMS.Repository;
 
 public interface IAdvocateScheduleRepository
 { // CRUD operations for Application entity
-    Task<IEnumerable<Advocate>> GetAllApplicationsAsync(CancellationToken cancellationToken);
-    Task<Advocate?> GetAdvocateByIdAsync(long id, CancellationToken cancellationToken);
-    Task<Advocate> AddAdvocateAsync(Advocate advocate, CancellationToken cancellationToken);
-    Task<Advocate?> UpdateAdvocateAsync(Advocate advocate, CancellationToken cancellationToken);
-    Task<Advocate> DeleteAdvocateAsync(long id, CancellationToken cancellationToken);
+    Task<IEnumerable<AdvocateSchedule>> GetAllApplicationsAsync(CancellationToken cancellationToken);
+    Task<AdvocateSchedule?> GetAdvocateByIdAsync(long id, CancellationToken cancellationToken);
+    Task<AdvocateSchedule> AddAdvocateAsync(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken);
+    Task<AdvocateSchedule?> UpdateAdvocateAsync(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken);
+    Task<AdvocateSchedule> DeleteAdvocateAsync(long id, CancellationToken cancellationToken);
 
 }
 
@@ -20,71 +20,69 @@ public class AdvocateScheduleRepository : IAdvocateScheduleRepository
     {
         _context = context;
     }
-    public async Task<Advocate> AddAdvocateAsync(Advocate advocate, CancellationToken cancellationToken)
+
+    public async Task<AdvocateSchedule?> UpdateAdvocateAsync(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken)
     {
-        await _context.advocates.AddAsync(advocate, cancellationToken);
+        var data = await _context.advocateSchedules.FindAsync(advocateSchedule.Id, cancellationToken);
+        if (data != null)
+        {
+            data.ScheduleDate = advocateSchedule.ScheduleDate;
+            data.AvailableTime = advocateSchedule.AvailableTime;
+            data.AdvocateId = advocateSchedule.AdvocateId;
+            await _context.SaveChangesAsync(cancellationToken);
+            return data;
+        }
+        else
+        {
+            throw new Exception("Advocate Schedule not found");
+        }
+    }
+
+    async Task<AdvocateSchedule> IAdvocateScheduleRepository.AddAdvocateAsync(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken)
+    {
+      var data = await _context.advocateSchedules.AddAsync(advocateSchedule, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        return advocate;
+        return advocateSchedule;
     }
-    public async Task<Advocate> DeleteAdvocateAsync(long id, CancellationToken cancellationToken)
+
+    async Task<AdvocateSchedule> IAdvocateScheduleRepository.DeleteAdvocateAsync(long id, CancellationToken cancellationToken)
     {
-        var data = await _context.advocates.FindAsync(id, cancellationToken);
+        var data = await _context.advocateSchedules.FindAsync(id, cancellationToken);
         if (data != null)
         {
-            _context.advocates.Remove(data);
+            _context.advocateSchedules.Remove(data);
             await _context.SaveChangesAsync(cancellationToken);
             return data;
         }
         else
         {
-            throw new Exception("Advocate not found");
-        }
-    }
-    public async Task<Advocate?> GetAdvocateByIdAsync(long id, CancellationToken cancellationToken)
-    {
-        var data = await _context.advocates.FindAsync(id, cancellationToken);
-        if (data != null)
-        {
-            return data;
-        }
-        else
-        {
-            throw new Exception("Advocate not found");
-        }
-    }
-    public async Task<IEnumerable<Advocate>> GetAllApplicationsAsync(CancellationToken cancellationToken)
-    {
-        var data = await _context.advocates.ToListAsync(cancellationToken);
-        if (data != null)
-        {
-            return data;
-        }
-        else
-        {
-            throw new Exception("No advocates found");
+            throw new Exception("Advocate Schedule not found");
         }
     }
 
-    public async Task<Advocate?> UpdateAdvocateAsync(Advocate advocate, CancellationToken cancellationToken)
+    async Task<AdvocateSchedule?> IAdvocateScheduleRepository.GetAdvocateByIdAsync(long id, CancellationToken cancellationToken)
     {
-        var data = await _context.advocates.FindAsync(advocate.Id, cancellationToken);
+       var data = await _context.advocateSchedules.FindAsync(id, cancellationToken);
         if (data != null)
         {
-            data.AdvocateName = advocate.AdvocateName;
-            data.LicenseNumber = advocate.LicenseNumber;
-            data.Specialization = advocate.Specialization;
-            data.Email = advocate.Email;
-            data.Phone = advocate.Phone;
-            data.Address = advocate.Address;
-            data.ExperienceYears = advocate.ExperienceYears;
-            _context.advocates.Update(data);
-            await _context.SaveChangesAsync(cancellationToken);
             return data;
         }
         else
         {
-            throw new Exception("Advocate not found");
+            throw new Exception("Advocate Schedule not found");
         }
     }
 
+    async Task<IEnumerable<AdvocateSchedule>> IAdvocateScheduleRepository.GetAllApplicationsAsync(CancellationToken cancellationToken)
+    {
+      var data = await _context.advocateSchedules.ToListAsync(cancellationToken);
+        if (data != null)
+        {
+            return data;
+        }
+        else
+        {
+            throw new Exception("No advocate schedules found");
+        }
+    }
 }
