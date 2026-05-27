@@ -1,6 +1,5 @@
 ﻿using AMS.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace AMS.Controllers;
 
