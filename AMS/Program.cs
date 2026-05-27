@@ -15,6 +15,7 @@ builder.Services.AddScoped<IAdvocateScheduleRepository, AdvocateScheduleReposito
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<ICaseRepository, CaseRepository>();
 builder.Services.AddScoped<ICaseCategoryRepository, CaseCategoryRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
