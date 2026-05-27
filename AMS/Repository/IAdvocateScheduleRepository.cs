@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 namespace AMS.Repository;
 
 public interface IAdvocateScheduleRepository
-{ // CRUD operations for Application entity
+{ 
+    // CRUD operations for Application entity
     Task<IEnumerable<AdvocateSchedule>> GetAllApplicationsAsync(CancellationToken cancellationToken);
     Task<AdvocateSchedule?> GetAdvocateByIdAsync(long id, CancellationToken cancellationToken);
     Task<AdvocateSchedule> AddAdvocateAsync(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken);
