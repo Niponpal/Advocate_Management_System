@@ -20,6 +20,7 @@ builder.Services.AddScoped<ICourtRepository, CourtRepository>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<IHearingRepository, HearingRepository>();
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<ILegalNoticeRepository, LegalNoticeRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
