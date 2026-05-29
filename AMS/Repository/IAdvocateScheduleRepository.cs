@@ -24,7 +24,7 @@ public class AdvocateScheduleRepository : IAdvocateScheduleRepository
 
     public async Task<AdvocateSchedule?> UpdateAdvocateAsync(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken)
     {
-        var data = await _context.advocateSchedules.FindAsync(advocateSchedule.Id, cancellationToken);
+        var data = await _context.AdvocateSchedules.FindAsync(advocateSchedule.Id, cancellationToken);
         if (data != null)
         {
             data.ScheduleDate = advocateSchedule.ScheduleDate;
@@ -41,17 +41,17 @@ public class AdvocateScheduleRepository : IAdvocateScheduleRepository
 
     async Task<AdvocateSchedule> IAdvocateScheduleRepository.AddAdvocateAsync(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken)
     {
-      var data = await _context.advocateSchedules.AddAsync(advocateSchedule, cancellationToken);
+      var data = await _context.AdvocateSchedules.AddAsync(advocateSchedule, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         return advocateSchedule;
     }
 
     async Task<AdvocateSchedule> IAdvocateScheduleRepository.DeleteAdvocateAsync(long id, CancellationToken cancellationToken)
     {
-        var data = await _context.advocateSchedules.FindAsync(id, cancellationToken);
+        var data = await _context.AdvocateSchedules.FindAsync(id, cancellationToken);
         if (data != null)
         {
-            _context.advocateSchedules.Remove(data);
+            _context.AdvocateSchedules.Remove(data);
             await _context.SaveChangesAsync(cancellationToken);
             return data;
         }
@@ -63,7 +63,7 @@ public class AdvocateScheduleRepository : IAdvocateScheduleRepository
 
     async Task<AdvocateSchedule?> IAdvocateScheduleRepository.GetAdvocateByIdAsync(long id, CancellationToken cancellationToken)
     {
-       var data = await _context.advocateSchedules.FindAsync(id, cancellationToken);
+       var data = await _context.AdvocateSchedules.FindAsync(id, cancellationToken);
         if (data != null)
         {
             return data;
@@ -76,7 +76,7 @@ public class AdvocateScheduleRepository : IAdvocateScheduleRepository
 
     async Task<IEnumerable<AdvocateSchedule>> IAdvocateScheduleRepository.GetAllApplicationsAsync(CancellationToken cancellationToken)
     {
-      var data = await _context.advocateSchedules.ToListAsync(cancellationToken);
+      var data = await _context.AdvocateSchedules.ToListAsync(cancellationToken);
         if (data != null)
         {
             return data;
