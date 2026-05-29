@@ -18,15 +18,15 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         }, new Role
         {
             Id = 2,
-            Name = "Seller",
-            NormalizedName = "Seller",
-            Description = "Default role assigned to all employees."
+            Name = "Admin",
+            NormalizedName = "ADMIN",
+            Description = "Default role assigned to all administrators."
         }, new Role
         {
             Id = 3,
-            Name = "Buyer",
-            NormalizedName = "Buyer",
-            Description = "Default role assigned to all customers."
+            Name = "Employee",
+            NormalizedName = "EMPLOYEE",
+            Description = "Default role assigned to all employees."
         }
 
         );
