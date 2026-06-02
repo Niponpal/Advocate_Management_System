@@ -1,6 +1,6 @@
-﻿using AMS.Repository;
+﻿using AMS.Models;
+using AMS.Repository;
 using Microsoft.AspNetCore.Mvc;
-
 namespace AMS.Controllers;
 
 public class AdvocateController : Controller
