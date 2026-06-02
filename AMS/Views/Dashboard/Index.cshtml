@@ -1,286 +1,203 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdvocatePro • Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
 
-    <style>
-        body { font-family: 'Segoe UI', system-ui, sans-serif; }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
-    </style>
-</head>
-<body class="bg-slate-50 text-slate-700">
+<div class="min-h-screen bg-slate-950 text-white p-8">
+    <div class="max-w-7xl mx-auto space-y-10">
 
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <div class="w-72 bg-white border-r border-slate-200 flex flex-col">
-            <div class="p-6 border-b flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-700 rounded-xl flex items-center justify-center text-white font-bold text-2xl">AP</div>
-                <div>
-                    <h1 class="text-2xl font-bold text-slate-800">AdvocatePro</h1>
-                    <p class="text-xs text-slate-500">Law Firm Management</p>
-                </div>
-            </div>
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 rounded-3xl p-10 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl"></div>
 
-            <nav class="flex-1 p-4 overflow-y-auto">
-                <ul class="space-y-1">
-                    <li><a href="#" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl font-medium"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-xl"><i class="fas fa-user-tie"></i> Advocates</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-xl"><i class="fas fa-briefcase"></i> Cases</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-xl"><i class="fas fa-users"></i> Clients</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-xl"><i class="fas fa-calendar"></i> Hearings</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-xl"><i class="fas fa-folder"></i> Documents</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-xl"><i class="fas fa-file-invoice"></i> Billing</a></li>
-                    <li><a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 rounded-xl"><i class="fas fa-chart-bar"></i> Reports</a></li>
-                </ul>
-            </nav>
-
-            <div class="p-4 border-t">
-                <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl">
-                    <img src="https://i.pravatar.cc/48?u=adv" class="w-10 h-10 rounded-full">
-                    <div>
-                        <p class="font-semibold">Adv. Rahim Khan</p>
-                        <p class="text-sm text-slate-500">Senior Advocate</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Navbar -->
-            <header class="bg-white border-b px-8 py-5 flex items-center justify-between">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
                 <div class="flex items-center gap-4">
-                    <h2 class="text-3xl font-bold text-slate-800">Dashboard Overview</h2>
+                    <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-3xl">⚖️</div>
+                    <div>
+                        <p class="text-emerald-400 text-sm font-medium tracking-widest">SENIOR ADVOCATE</p>
+                        <h1 class="text-5xl font-bold mt-1">Adv. Rahim Khan</h1>
+                        <p class="text-slate-400 mt-2">Managing Partner • Khan & Associates</p>
+                    </div>
                 </div>
 
-                <div class="flex items-center gap-6">
-                    <div class="relative">
-                        <input type="text" id="search"
-                               class="w-80 bg-slate-100 border border-transparent focus:border-blue-300 rounded-2xl py-3 px-5 text-sm focus:outline-none"
-                               placeholder="Search cases, advocates, clients...">
+                <div class="flex items-center gap-8">
+                    <div class="text-right">
+                        <p class="text-4xl font-semibold text-emerald-400">৳1.84Cr</p>
+                        <p class="text-slate-400 text-sm">Revenue This Year • <span class="text-emerald-500">+18%</span></p>
                     </div>
 
-                    <button class="relative p-3 hover:bg-slate-100 rounded-2xl">
-                        <i class="fas fa-bell text-xl"></i>
-                        <span class="absolute top-2 right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">7</span>
+                    <button onclick="newCase()"
+                            class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30">
+                        <i class="fas fa-plus"></i>
+                        New Case
                     </button>
+                </div>
+            </div>
+        </div>
 
-                    <div class="flex items-center gap-3">
-                        <div class="text-right">
-                            <p class="font-medium">Rahim Khan</p>
-                            <p class="text-xs text-emerald-600">Online</p>
-                        </div>
-                        <img src="https://i.pravatar.cc/48?u=rahim" class="w-10 h-10 rounded-2xl border-2 border-white shadow">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-emerald-500/50 transition-all group">
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm">Total Cases</p>
+                        <p class="text-5xl font-bold mt-4">248</p>
+                    </div>
+                    <div class="text-4xl text-emerald-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-briefcase"></i>
                     </div>
                 </div>
-            </header>
+                <div class="mt-6 text-emerald-500 text-sm flex items-center gap-2">
+                    <i class="fas fa-arrow-trend-up"></i>
+                    <span>+12 this month</span>
+                </div>
+            </div>
 
-            <!-- Dashboard Body -->
-            <div class="flex-1 overflow-auto p-8 space-y-8">
-
-                <!-- KPI Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white rounded-3xl p-6 shadow-sm card-hover">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-slate-500 text-sm">Total Advocates</p>
-                                <p class="text-4xl font-bold text-slate-800 mt-2">248</p>
-                            </div>
-                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl">
-                                👨‍⚖️
-                            </div>
-                        </div>
-                        <p class="text-emerald-600 text-sm mt-4 flex items-center gap-1">
-                            <i class="fas fa-arrow-up"></i> +12 this month
-                        </p>
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-amber-500/50 transition-all group">
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm">Active Cases</p>
+                        <p class="text-5xl font-bold mt-4">87</p>
                     </div>
-
-                    <div class="bg-white rounded-3xl p-6 shadow-sm card-hover">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-slate-500 text-sm">Active Cases</p>
-                                <p class="text-4xl font-bold text-slate-800 mt-2">184</p>
-                            </div>
-                            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl">
-                                📋
-                            </div>
-                        </div>
-                        <p class="text-emerald-600 text-sm mt-4 flex items-center gap-1">
-                            <i class="fas fa-arrow-up"></i> +8 this month
-                        </p>
-                    </div>
-
-                    <div class="bg-white rounded-3xl p-6 shadow-sm card-hover">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-slate-500 text-sm">Upcoming Hearings</p>
-                                <p class="text-4xl font-bold text-slate-800 mt-2">37</p>
-                            </div>
-                            <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-2xl">
-                                ⚖️
-                            </div>
-                        </div>
-                        <p class="text-red-600 text-sm mt-4 flex items-center gap-1">
-                            <i class="fas fa-arrow-down"></i> -3 from last week
-                        </p>
-                    </div>
-
-                    <div class="bg-white rounded-3xl p-6 shadow-sm card-hover">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-slate-500 text-sm">Monthly Revenue</p>
-                                <p class="text-4xl font-bold text-slate-800 mt-2">৳18.45L</p>
-                            </div>
-                            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl">
-                                💰
-                            </div>
-                        </div>
-                        <p class="text-emerald-600 text-sm mt-4 flex items-center gap-1">
-                            <i class="fas fa-arrow-up"></i> 14% growth
-                        </p>
+                    <div class="text-4xl text-amber-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-fire"></i>
                     </div>
                 </div>
+                <div class="mt-6 text-amber-500 text-sm flex items-center gap-2">
+                    <i class="fas fa-clock"></i>
+                    <span>4 hearings this week</span>
+                </div>
+            </div>
 
-                <!-- Charts & Tables -->
-                <div class="grid grid-cols-1 lg:grid-cols-7 gap-6">
-
-                    <!-- Recent Cases -->
-                    <div class="lg:col-span-4 bg-white rounded-3xl p-6 shadow-sm">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-semibold text-lg">Recent Cases</h3>
-                            <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">View All →</button>
-                        </div>
-
-                        <table class="w-full">
-                            <thead>
-                                <tr class="border-b text-left text-sm text-slate-500">
-                                    <th class="pb-4">Case ID</th>
-                                    <th class="pb-4">Client</th>
-                                    <th class="pb-4">Advocate</th>
-                                    <th class="pb-4">Type</th>
-                                    <th class="pb-4">Status</th>
-                                    <th class="pb-4 text-right">Next Hearing</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm">
-                                <tr class="border-b hover:bg-slate-50">
-                                    <td class="py-4 font-medium">#C-39482</td>
-                                    <td>Mr. Karim Hossain</td>
-                                    <td>Adv. Rahim Khan</td>
-                                    <td>Criminal</td>
-                                    <td><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs">Running</span></td>
-                                    <td class="text-right">12 Jun 2026</td>
-                                </tr>
-                                <tr class="border-b hover:bg-slate-50">
-                                    <td class="py-4 font-medium">#C-39481</td>
-                                    <td>ABC Corporation</td>
-                                    <td>Adv. Fatima Begum</td>
-                                    <td>Corporate</td>
-                                    <td><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">Pending</span></td>
-                                    <td class="text-right">15 Jun 2026</td>
-                                </tr>
-                                <tr class="hover:bg-slate-50">
-                                    <td class="py-4 font-medium">#C-39480</td>
-                                    <td>Mrs. Salma Akter</td>
-                                    <td>Adv. Rahim Khan</td>
-                                    <td>Family</td>
-                                    <td><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs">Hearing</span></td>
-                                    <td class="text-right">08 Jun 2026</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-sky-500/50 transition-all group">
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm">Total Clients</p>
+                        <p class="text-5xl font-bold mt-4">164</p>
                     </div>
-
-                    <!-- Charts -->
-                    <div class="lg:col-span-3 space-y-6">
-
-                        <!-- Case Status -->
-                        <div class="bg-white rounded-3xl p-6 shadow-sm">
-                            <h3 class="font-semibold mb-4">Case Status Distribution</h3>
-                            <canvas id="caseChart" height="160"></canvas>
-                        </div>
-
-                        <!-- Performance -->
-                        <div class="bg-white rounded-3xl p-6 shadow-sm">
-                            <h3 class="font-semibold mb-4">Top Advocates</h3>
-                            <canvas id="advocateChart" height="160"></canvas>
-                        </div>
+                    <div class="text-4xl text-sky-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-users"></i>
                     </div>
                 </div>
+                <div class="mt-6 text-sky-500 text-sm flex items-center gap-2">
+                    <i class="fas fa-user-plus"></i>
+                    <span>+8 new clients</span>
+                </div>
+            </div>
 
-                <!-- Upcoming Hearings -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm">
-                    <h3 class="font-semibold text-lg mb-5">Upcoming Hearings This Week</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="border rounded-2xl p-5 hover:border-blue-300 transition">
-                            <p class="text-sm text-slate-500">Tomorrow • 10:30 AM</p>
-                            <p class="font-medium mt-1">State vs. Mr. Karim Hossain</p>
-                            <p class="text-sm text-slate-500 mt-2">Dhaka Metropolitan Court • Room 12</p>
-                            <p class="text-xs mt-3 text-blue-600 font-medium">Adv. Rahim Khan</p>
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-violet-500/50 transition-all group relative">
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm">Win Rate</p>
+                        <p class="text-5xl font-bold mt-4">94%</p>
+                    </div>
+                    <div class="text-4xl text-violet-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                </div>
+                <div class="absolute bottom-8 right-8 bg-violet-500/10 text-violet-400 text-xs px-4 py-2 rounded-2xl">
+                    Outstanding
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- New Section: Case Status Breakdown -->
+            <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-3xl p-8">
+                <h3 class="text-2xl font-semibold mb-6">Case Status Breakdown</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="bg-slate-800 rounded-2xl p-6 text-center hover:bg-slate-700 transition-all">
+                        <div class="text-4xl mb-3">🟢</div>
+                        <p class="text-3xl font-bold text-emerald-400">87</p>
+                        <p class="text-slate-400 mt-1">Active</p>
+                    </div>
+                    <div class="bg-slate-800 rounded-2xl p-6 text-center hover:bg-slate-700 transition-all">
+                        <div class="text-4xl mb-3">🟡</div>
+                        <p class="text-3xl font-bold text-amber-400">42</p>
+                        <p class="text-slate-400 mt-1">Pending</p>
+                    </div>
+                    <div class="bg-slate-800 rounded-2xl p-6 text-center hover:bg-slate-700 transition-all">
+                        <div class="text-4xl mb-3">🔵</div>
+                        <p class="text-3xl font-bold text-blue-400">68</p>
+                        <p class="text-slate-400 mt-1">Under Review</p>
+                    </div>
+                    <div class="bg-slate-800 rounded-2xl p-6 text-center hover:bg-slate-700 transition-all">
+                        <div class="text-4xl mb-3">✅</div>
+                        <p class="text-3xl font-bold text-violet-400">51</p>
+                        <p class="text-slate-400 mt-1">Resolved</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Hearings -->
+            <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-3xl p-8">
+                <h3 class="text-2xl font-semibold mb-6 flex items-center gap-3">
+                    <i class="fas fa-calendar-alt"></i>
+                    Upcoming Hearings
+                </h3>
+                <div class="space-y-6">
+                    <div class="flex gap-5 bg-slate-800/60 p-5 rounded-2xl hover:bg-slate-700 transition-all">
+                        <div class="text-4xl">⚖️</div>
+                        <div class="flex-1">
+                            <p class="font-semibold">State vs Karim Ahmed</p>
+                            <p class="text-slate-400 text-sm">Criminal • Session Court, Dhaka</p>
+                            <p class="text-rose-400 text-sm mt-3 font-medium">Tomorrow • 10:30 AM</p>
                         </div>
-                        <div class="border rounded-2xl p-5 hover:border-blue-300 transition">
-                            <p class="text-sm text-slate-500">04 Jun 2026 • 02:00 PM</p>
-                            <p class="font-medium mt-1">ABC Ltd vs. Tax Authority</p>
-                            <p class="text-sm text-slate-500 mt-2">High Court Division</p>
-                            <p class="text-xs mt-3 text-blue-600 font-medium">Adv. Fatima Begum</p>
+                    </div>
+
+                    <div class="flex gap-5 bg-slate-800/60 p-5 rounded-2xl hover:bg-slate-700 transition-all">
+                        <div class="text-4xl">🏛️</div>
+                        <div class="flex-1">
+                            <p class="font-semibold">Rahman Family Property Dispute</p>
+                            <p class="text-slate-400 text-sm">Civil • High Court Division</p>
+                            <p class="text-slate-400 text-sm mt-3">June 04, 2026 • 02:00 PM</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Recent Cases -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-semibold">Recent Cases</h3>
+                <a href="#" class="text-emerald-400 hover:text-emerald-300 transition-colors">View All Cases →</a>
+            </div>
+
+            <table class="w-full">
+                <thead>
+                    <tr class="text-slate-400 text-sm border-b border-slate-700">
+                        <th class="pb-6 text-left">Case ID</th>
+                        <th class="pb-6 text-left">Client</th>
+                        <th class="pb-6 text-left">Matter</th>
+                        <th class="pb-6 text-left">Status</th>
+                        <th class="pb-6 text-left">Next Date</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 text-slate-300">
+                    <tr class="hover:bg-slate-800/50 transition">
+                        <td class="py-6 font-mono">#CP-7842</td>
+                        <td class="py-6">Mr. Tanvir Hassan</td>
+                        <td class="py-6">Land Acquisition Dispute</td>
+                        <td><span class="px-6 py-2 bg-emerald-500/20 text-emerald-400 rounded-2xl text-xs font-semibold">ACTIVE</span></td>
+                        <td class="py-6">08 June 2026</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/50 transition">
+                        <td class="py-6 font-mono">#CR-3921</td>
+                        <td class="py-6">Mrs. Nusrat Jahan</td>
+                        <td class="py-6">Divorce & Alimony</td>
+                        <td><span class="px-6 py-2 bg-amber-500/20 text-amber-400 rounded-2xl text-xs font-semibold">PENDING</span></td>
+                        <td class="py-6">12 June 2026</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
+</div>
 
-    <script>
-        // Tailwind Script
-        tailwind.config = {
-          content: [],
-          theme: { extend: {} }
-        }
-
-        // Case Status Chart
-        new Chart(document.getElementById('caseChart'), {
-          type: 'doughnut',
-          data: {
-            labels: ['Running', 'Settled', 'Pending', 'Dismissed'],
-            datasets: [{
-              data: [45, 30, 18, 7],
-              backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
-              borderWidth: 0
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'bottom' }
-            }
-          }
-        });
-
-        // Advocate Performance Chart
-        new Chart(document.getElementById('advocateChart'), {
-          type: 'bar',
-          data: {
-            labels: ['Rahim Khan', 'Fatima Begum', 'Sohail Ahmed', 'Nadia Islam'],
-            datasets: [{
-              label: 'Cases Won',
-              data: [42, 38, 29, 25],
-              backgroundColor: '#1e40af',
-              borderRadius: 8
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } }
-          }
-        });
-    </script>
-</body>
-</html>
+<script>
+    function newCase() {
+        alert("New Case form will open here");
+    }
+</script>
