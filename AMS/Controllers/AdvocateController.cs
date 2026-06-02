@@ -41,8 +41,7 @@ public class AdvocateController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(Advocate advocate, CancellationToken cancellationToken)
     {
-        if (ModelState.IsValid)
-        {
+      
             if (advocate.Id == 0)
             {
                 await _advocateRepository.AddAdvocateAsync(advocate, cancellationToken);
@@ -52,8 +51,8 @@ public class AdvocateController : Controller
                 await _advocateRepository.UpdateAdvocateAsync(advocate, cancellationToken);
             }
             return RedirectToAction(nameof(Index));
-        }
-        return View(advocate);
+        
+      
     }
 
     [HttpGet]
