@@ -1,1 +1,136 @@
-﻿
+﻿@model AMS.Models.Advocate
+@{
+    ViewData["Title"] = "Advocate Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-bold text-slate-800 dark:text-white tracking-tight">
+                Advocate Details
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400 mt-1">
+                View complete information of @Model.AdvocateName
+            </p>
+        </div>
+        
+        <div class="flex gap-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id" 
+               class="flex items-center gap-2 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-2xl font-medium transition-all active:scale-95">
+                <i class="fas fa-edit"></i>
+                Edit Advocate
+            </a>
+            
+            <a asp-action="Index" 
+               class="flex items-center gap-2 px-6 py-3 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 rounded-2xl font-medium transition">
+                ← Back to List
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Details Card -->
+    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow border border-slate-200 dark:border-slate-800 overflow-hidden">
+        
+        <!-- Profile Header -->
+        <div class="px-10 py-8 bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
+            <div class="flex items-center gap-6">
+                <div class="w-24 h-24 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center text-5xl font-bold border-4 border-white/30 shadow-inner">
+                    @Model.AdvocateName.Substring(0, 1)
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold">@Model.AdvocateName</h2>
+                    <p class="text-indigo-200 mt-1 text-lg">
+                        License No: <span class="font-mono">@Model.LicenseNumber</span>
+                    </p>
+                    @if (!string.IsNullOrEmpty(Model.Specialization))
+                    {
+                        <span class="inline-block mt-3 bg-white/20 text-white text-sm px-5 py-2 rounded-2xl">
+                            @Model.Specialization
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Details Content -->
+        <div class="p-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                
+                <!-- Contact Information -->
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                        <i class="fas fa-address-book text-indigo-600"></i> Contact Information
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-indigo-600">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">Email</p>
+                                <p class="text-slate-800 dark:text-white">@Model.Email</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-indigo-600">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">Phone</p>
+                                <p class="text-slate-800 dark:text-white">@Model.Phone</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-indigo-600">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">Address</p>
+                                <p class="text-slate-800 dark:text-white">@(string.IsNullOrEmpty(Model.Address) ? "Not provided" : Model.Address)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Information -->
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                        <i class="fas fa-briefcase text-indigo-600"></i> Professional Information
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-700">
+                            <span class="text-slate-500 dark:text-slate-400">License Number</span>
+                            <span class="font-mono font-medium text-slate-800 dark:text-white">@Model.LicenseNumber</span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-700">
+                            <span class="text-slate-500 dark:text-slate-400">Specialization</span>
+                            <span class="font-medium text-slate-800 dark:text-white">
+                                @(string.IsNullOrEmpty(Model.Specialization) ? "Not specified" : Model.Specialization)
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 border-b border-slate-200 dark:border-slate-700">
+                            <span class="text-slate-500 dark:text-slate-400">Experience</span>
+                            <span class="font-medium text-slate-800 dark:text-white">
+                                <strong>@Model.ExperienceYears</strong> Years
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="px-10 py-6 bg-slate-50 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-3">
+            <a asp-action="Index" 
+               class="px-6 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-2xl transition">
+                Back to Directory
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" 
+               class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-medium transition flex items-center gap-2">
+                <i class="fas fa-edit"></i> Edit This Advocate
+            </a>
+        </div>
+    </div>
+</div>
