@@ -1,5 +1,6 @@
 ﻿using AMS.BaseEntities;
-using AMS.Models;
+
+namespace AMS.Models;
 
 public class AdvocateSchedule : BaseEntity
 {

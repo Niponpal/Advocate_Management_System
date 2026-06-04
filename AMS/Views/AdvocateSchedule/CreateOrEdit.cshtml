@@ -1,0 +1,60 @@
+﻿@model AMS.Models.Ad
+@{
+    ViewData["Title"] = "Create Schedule";
+}
+
+<div class="min-h-screen bg-slate-950 text-white p-6 lg:p-8">
+    <div class="max-w-2xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex items-center gap-4 mb-8">
+            <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-3xl">📅</div>
+            <div>
+                <h1 class="text-4xl font-bold">Create New Schedule</h1>
+                <p class="text-slate-400">Add availability for Adv. Rahim Khan</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+            <form asp-action="Create" method="post" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Schedule Date -->
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2">Schedule Date</label>
+                        <input type="date" asp-for="ScheduleDate"
+                               class="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:border-emerald-500 focus:outline-none transition" />
+                    </div>
+
+                    <!-- Available Time -->
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-2">Available Time</label>
+                        <input type="text" asp-for="AvailableTime" placeholder="e.g. 10:00 AM - 11:30 AM"
+                               class="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:border-emerald-500 focus:outline-none transition" />
+                    </div>
+
+                </div>
+
+                <!-- Advocate (Hidden or Dropdown) -->
+                <div>
+                    <label class="block text-sm text-slate-400 mb-2">Advocate</label>
+                    <select asp-for="AdvocateId" class="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:border-emerald-500 focus:outline-none transition">
+                        <!-- Populate from controller -->
+                        <option value="">Select Advocate</option>
+                    </select>
+                </div>
+
+                <div class="flex gap-4 pt-6 border-t border-slate-700">
+                    <button type="submit"
+                            class="flex-1 bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl font-semibold transition text-lg">
+                        Create Schedule
+                    </button>
+                    <a asp-action="Index"
+                       class="flex-1 border border-slate-600 hover:bg-slate-800 py-4 rounded-2xl font-semibold text-center transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

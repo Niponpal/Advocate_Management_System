@@ -1,0 +1,126 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="min-h-screen bg-slate-950 text-white p-6 lg:p-8">
+    <div class="max-w-7xl mx-auto space-y-10">
+
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 rounded-3xl p-10 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl"></div>
+
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-4xl">⚖️</div>
+                    <div>
+                        <p class="text-emerald-400 text-sm font-medium tracking-widest">SENIOR ADVOCATE</p>
+                        <h1 class="text-5xl font-bold mt-1">Adv. Rahim Khan</h1>
+                        <p class="text-slate-400 mt-2">Managing Partner • Khan & Associates</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-8">
+                    <div class="text-right">
+                        <p class="text-4xl font-semibold text-emerald-400">৳1.84Cr</p>
+                        <p class="text-slate-400 text-sm">Revenue This Year • <span class="text-emerald-500">+18%</span></p>
+                    </div>
+                    <button onclick="newCase()"
+                            class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30">
+                        <i class="fas fa-plus"></i>
+                        New Case
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Your existing 4 stat cards remain the same -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-emerald-500/50 transition-all group">
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-slate-400 text-sm">Total Cases</p>
+                        <p class="text-5xl font-bold mt-4">248</p>
+                    </div>
+                    <div class="text-4xl text-emerald-500 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ... other 3 cards ... -->
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Case Status Breakdown -->
+            <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-3xl p-8">
+                <h3 class="text-2xl font-semibold mb-6">Case Status Breakdown</h3>
+                <!-- Your existing status cards -->
+            </div>
+
+            <!-- Advocate Schedule (New Section) -->
+            <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-3xl p-8">
+                <h3 class="text-2xl font-semibold mb-6 flex items-center gap-3">
+                    <i class="fas fa-calendar-check text-emerald-500"></i>
+                    My Schedule
+                </h3>
+
+                <div class="space-y-4 max-h-[420px] overflow-auto pr-2 custom-scroll">
+                    @* Example data - Replace with @foreach when passing model from controller *@
+                    <div class="flex gap-4 bg-slate-800/70 hover:bg-slate-700 p-5 rounded-2xl transition-all border border-slate-700">
+                        <div class="text-center min-w-[60px]">
+                            <p class="text-emerald-400 text-sm font-medium">JUN 05</p>
+                            <p class="text-3xl font-bold text-white">05</p>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-semibold">Hearing - State vs Karim Ahmed</p>
+                            <p class="text-slate-400 text-sm">Session Court, Dhaka • 10:30 AM - 11:30 AM</p>
+                            <div class="mt-2 inline-flex items-center gap-2 text-xs bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-xl">
+                                <i class="fas fa-clock"></i> Confirmed
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 bg-slate-800/70 hover:bg-slate-700 p-5 rounded-2xl transition-all border border-slate-700">
+                        <div class="text-center min-w-[60px]">
+                            <p class="text-emerald-400 text-sm font-medium">JUN 06</p>
+                            <p class="text-3xl font-bold text-white">06</p>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-semibold">Client Meeting - Rahman Family</p>
+                            <p class="text-slate-400 text-sm">Office • 02:00 PM - 03:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <a href="#" class="text-emerald-400 hover:text-emerald-300 text-sm font-medium flex items-center justify-center gap-2">
+                        View Full Schedule <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Cases -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <!-- Your existing recent cases table -->
+        </div>
+    </div>
+</div>
+
+<script>
+    function newCase() {
+        alert("New Case form will open here");
+    }
+</script>
+
+<style>
+    .custom-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .custom-scroll::-webkit-scrollbar-thumb {
+        background: #10b981;
+        border-radius: 20px;
+    }
+</style>
