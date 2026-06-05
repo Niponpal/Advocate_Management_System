@@ -12,16 +12,19 @@ public class AdvocateScheduleController : Controller
     {
         _advocateScheduleRepository = advocateScheduleRepository;
     }
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
     {
-        var data =await _advocateScheduleRepository.GetAllApplicationsAsync(cancellationToken);
-        if (data != null)
+        var schedules = await _advocateScheduleRepository.GetAllApplicationsAsync(cancellationToken);
+
+        // Better approach: Never return NotFound for list page, return empty list instead
+        if (schedules == null)
         {
-            return View(data);
+            schedules = new List<AdvocateSchedule>();
         }
-        return NotFound();
+
+        return View(schedules);
     }
-      [HttpGet]
+    [HttpGet]
         public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
         {
             if (id == 0)

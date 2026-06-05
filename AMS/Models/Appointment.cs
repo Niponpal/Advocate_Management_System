@@ -1,7 +1,7 @@
 ﻿using AMS.BaseEntities;
-using AMS.Models;
 
-public class Appointment :BaseEntity
+namespace AMS.Models;
+public class Appointment : BaseEntity
 {
 
     public DateTime AppointmentDate { get; set; }
