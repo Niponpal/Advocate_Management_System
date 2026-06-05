@@ -1,4 +1,5 @@
 ﻿using AMS.Data;
+using AMS.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Repository;
@@ -6,9 +7,9 @@ namespace AMS.Repository;
 public interface IAppointmentRepository
 {  // CRUD operations for Appointment entity
     Task<IEnumerable<Appointment>> GetAllAppointmentAsync(CancellationToken cancellationToken);
-    Task<Appointment?> GetAppointmentByIdAsync(long id, CancellationToken cancellationToken);
+    Task<Appointment> GetAppointmentByIdAsync(long id, CancellationToken cancellationToken);
     Task<Appointment> AddAppointmentAsync(Appointment appointment, CancellationToken cancellationToken);
-    Task<Appointment?> UpdateAppointmentAsync(Appointment appointment, CancellationToken cancellationToken);
+    Task<Appointment> UpdateAppointmentAsync(Appointment appointment, CancellationToken cancellationToken);
     Task<Appointment> DeleteAppointmentAsync(long id, CancellationToken cancellationToken);
 }
 
