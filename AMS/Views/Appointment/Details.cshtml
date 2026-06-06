@@ -1,0 +1,150 @@
+﻿@model AMS.Models.Appointment
+
+@{
+    ViewData["Title"] = "Appointment Details";
+}
+
+<div class="p-8 max-w-4xl mx-auto space-y-8">
+    <!-- Back Button + Header -->
+    <div class="flex items-center gap-4">
+        <a href="@Url.Action("Index")"
+           class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Appointments</span>
+        </a>
+    </div>
+
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <div>
+            <h1 class="text-4xl font-bold text-slate-800 dark:text-white">Appointment Details</h1>
+            <p class="text-slate-500 dark:text-slate-400 mt-1">#AP-@Model.Id</p>
+        </div>
+
+        <div class="flex gap-3">
+            <a href="@Url.Action("Edit", new { id = Model.Id })"
+               class="px-6 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 rounded-2xl flex items-center gap-2 transition">
+                <i class="fas fa-edit"></i>
+                Edit
+            </a>
+            <button onclick="deleteAppointment(@Model.Id)"
+                    class="px-6 py-3 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl flex items-center gap-2 transition">
+                <i class="fas fa-trash"></i>
+                Delete
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
+        <div class="p-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Left Column -->
+                <div class="space-y-8">
+                    <div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mb-1">APPOINTMENT DATE & TIME</p>
+                        <p class="text-3xl font-semibold text-slate-800 dark:text-white">
+                            @Model.AppointmentDate.ToString("dd MMMM yyyy")
+                        </p>
+                        <p class="text-2xl text-slate-600 dark:text-slate-300 mt-1">
+                            @Model.AppointmentDate.ToString("hh:mm tt")
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mb-2">CLIENT</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-sky-100 dark:bg-sky-500/20 rounded-2xl flex items-center justify-center text-3xl">👤</div>
+                            <div>
+                                <p class="text-2xl font-medium">@Model.Client?.ClientName</p>
+                                <p class="text-slate-500">Client ID: CL-@Model.ClientId</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mb-2">ADVOCATE</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-indigo-100 dark:bg-indigo-500/20 rounded-2xl flex items-center justify-center text-3xl">⚖️</div>
+                            <div>
+                                <p class="text-2xl font-medium">@Model.Advocate?.AdvocateName</p>
+                                <p class="text-slate-500">Advocate ID: ADV-@Model.AdvocateId</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-8">
+                    <div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mb-2">STATUS</p>
+                        @switch (Model.Status)
+                        {
+                            case "Scheduled":
+                                <span class="inline-block px-8 py-3 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-lg font-semibold rounded-2xl">Scheduled</span>
+                                break;
+                            case "Completed":
+                                <span class="inline-block px-8 py-3 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400 text-lg font-semibold rounded-2xl">Completed</span>
+                                break;
+                            case "Cancelled":
+                                <span class="inline-block px-8 py-3 bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 text-lg font-semibold rounded-2xl">Cancelled</span>
+                                break;
+                            case "Rescheduled":
+                                <span class="inline-block px-8 py-3 bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 text-lg font-semibold rounded-2xl">Rescheduled</span>
+                                break;
+                            default:
+                                <span class="inline-block px-8 py-3 bg-slate-100 dark:bg-slate-500/20 text-slate-700 dark:text-slate-400 text-lg font-semibold rounded-2xl">@Model.Status</span>
+                                break;
+                        }
+                    </div>
+
+                    <div>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mb-3">PURPOSE</p>
+                        <div class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 text-slate-700 dark:text-slate-300 leading-relaxed">
+                            @Model.Purpose
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Info -->
+        <div class="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-10 py-6 text-sm text-slate-500 dark:text-slate-400 flex justify-between">
+            @* <div>Created: @Model.CreatedDate?.ToString("dd MMM yyyy")</div>
+            <div>Last Updated: @Model.UpdatedDate?.ToString("dd MMM yyyy")</div> *@
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="flex gap-4 justify-center">
+        <button onclick="rescheduleAppointment(@Model.Id)"
+                class="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:border-amber-400 rounded-2xl flex items-center gap-3 transition">
+            <i class="fas fa-calendar-alt"></i>
+            Reschedule
+        </button>
+        <button onclick="markAsCompleted(@Model.Id)"
+                class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl flex items-center gap-3 transition">
+            <i class="fas fa-check"></i>
+            Mark as Completed
+        </button>
+    </div>
+</div>
+
+<script>
+    function deleteAppointment(id) {
+        if (confirm("Are you sure you want to delete this appointment?")) {
+            alert(`Appointment #${id} has been deleted.`);
+            window.location.href = '@Url.Action("Index")';
+        }
+    }
+
+    function rescheduleAppointment(id) {
+        alert(`Reschedule modal for Appointment #${id} will open here.`);
+    }
+
+    function markAsCompleted(id) {
+        if (confirm("Mark this appointment as Completed?")) {
+            alert("✅ Appointment marked as Completed!");
+            location.reload();
+        }
+    }
+</script>
