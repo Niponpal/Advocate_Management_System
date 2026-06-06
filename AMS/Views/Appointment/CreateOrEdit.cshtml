@@ -1,0 +1,104 @@
+﻿@model AMS.Models.Appointment
+
+@{
+    ViewData["Title"] = Model.Id == 0 ? "New Appointment" : "Edit Appointment";
+}
+
+<div class="p-8 max-w-2xl mx-auto">
+    <div class="flex items-center gap-4 mb-8">
+        <a href="@Url.Action("Index")" 
+           class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+            <i class="fas fa-arrow-left"></i> 
+            Back to Appointments
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-10">
+        <h1 class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
+            @(Model.Id == 0 ? "Create New Appointment" : "Edit Appointment")
+        </h1>
+        <p class="text-slate-500 dark:text-slate-400 mb-10">
+            @(Model.Id == 0 ? "Schedule a new meeting or court date" : $"#AP-{Model.Id}")
+        </p>
+
+        @using (Html.BeginForm("CreateOrEdit", "Appointment", FormMethod.Post, new { @class = "space-y-8" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="grid grid-cols-1 gap-8">
+                <!-- Appointment Date -->
+                <div>
+                    <label class="block text-slate-500 dark:text-slate-400 text-sm mb-3">
+                        Appointment Date & Time <span class="text-rose-500">*</span>
+                    </label>
+                    @Html.EditorFor(model => model.AppointmentDate, 
+                        new { htmlAttributes = new { 
+                            @class = "w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl py-4 px-6 text-slate-700 dark:text-white focus:border-emerald-500 focus:outline-none", 
+                            type = "datetime-local" 
+                        }})
+                    @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-rose-500 text-sm mt-1" })
+                </div>
+
+                <!-- Client -->
+                <div>
+                    <label class="block text-slate-500 dark:text-slate-400 text-sm mb-3">
+                        Client <span class="text-rose-500">*</span>
+                    </label>
+                    @Html.DropDownListFor(model => model.ClientId, ViewBag.Clients as SelectList, "Select Client",
+                        new { 
+                            @class = "w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl py-4 px-6 text-slate-700 dark:text-white focus:border-emerald-500 focus:outline-none" 
+                        })
+                    @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-rose-500 text-sm mt-1" })
+                </div>
+
+                <!-- Advocate -->
+                <div>
+                    <label class="block text-slate-500 dark:text-slate-400 text-sm mb-3">
+                        Advocate <span class="text-rose-500">*</span>
+                    </label>
+                    @Html.DropDownListFor(model => model.AdvocateId, ViewBag.Advocates as SelectList, "Select Advocate",
+                        new { 
+                            @class = "w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl py-4 px-6 text-slate-700 dark:text-white focus:border-emerald-500 focus:outline-none" 
+                        })
+                    @Html.ValidationMessageFor(model => model.AdvocateId, "", new { @class = "text-rose-500 text-sm mt-1" })
+                </div>
+
+                <!-- Purpose -->
+                <div>
+                    <label class="block text-slate-500 dark:text-slate-400 text-sm mb-3">
+                        Purpose <span class="text-rose-500">*</span>
+                    </label>
+                    @Html.TextAreaFor(model => model.Purpose, 
+                        new { 
+                            @class = "w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl py-4 px-6 text-slate-700 dark:text-white focus:border-emerald-500 focus:outline-none resize-y min-h-[120px]", 
+                            placeholder = "Enter appointment purpose..." 
+                        })
+                    @Html.ValidationMessageFor(model => model.Purpose, "", new { @class = "text-rose-500 text-sm mt-1" })
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label class="block text-slate-500 dark:text-slate-400 text-sm mb-3">Status</label>
+                    @Html.DropDownListFor(model => model.Status, 
+                        new SelectList(new[] { "Scheduled", "Rescheduled", "Completed", "Cancelled" }, Model.Status ?? "Scheduled"),
+                        new { 
+                            @class = "w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl py-4 px-6 text-slate-700 dark:text-white focus:border-emerald-500 focus:outline-none" 
+                        })
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-4 pt-8 border-t border-slate-200 dark:border-slate-700">
+                <a href="@Url.Action("Index")" 
+                   class="flex-1 text-center px-8 py-4 text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        class="flex-1 px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-2xl transition shadow-lg shadow-emerald-500/30">
+                    @(Model.Id == 0 ? "Create Appointment" : "Update Appointment")
+                </button>
+            </div>
+        }
+    </div>
+</div>
