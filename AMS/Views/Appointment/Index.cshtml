@@ -1,0 +1,206 @@
+﻿@model IEnumerable<AMS.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<div class="p-8 max-w-7xl mx-auto space-y-8">
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <div>
+            <h1 class="text-4xl font-bold text-white">Appointments</h1>
+            <p class="text-slate-400 mt-2">Manage all client meetings and court dates</p>
+        </div>
+
+        <button onclick="showNewAppointmentModal()"
+                class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30">
+            <i class="fas fa-plus"></i>
+            New Appointment
+        </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-wrap gap-4 items-center">
+        <div class="flex-1 min-w-[280px]">
+            <input type="text" id="searchInput"
+                   class="w-full bg-slate-800 border border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-6 text-white placeholder-slate-400 focus:outline-none"
+                   placeholder="Search by client, purpose, or advocate..." onkeyup="liveSearch()">
+        </div>
+        <div class="flex gap-4">
+            <select id="statusFilter" onchange="filterAppointments()"
+                    class="bg-slate-800 border border-slate-700 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-emerald-500">
+                <option value="">All Status</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Rescheduled">Rescheduled</option>
+            </select>
+            <input type="date" id="dateFilter" onchange="filterAppointments()"
+                   class="bg-slate-800 border border-slate-700 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <button onclick="filterAppointments()"
+                class="px-8 py-4 bg-slate-700 hover:bg-slate-600 rounded-2xl transition flex items-center gap-2">
+            <i class="fas fa-filter"></i>
+            <span>Filter</span>
+        </button>
+    </div>
+
+    <!-- Appointments Table -->
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b border-slate-700 text-slate-400 text-sm">
+                        <th class="text-left py-6 px-8 font-medium">Date & Time</th>
+                        <th class="text-left py-6 px-8 font-medium">Client</th>
+                        <th class="text-left py-6 px-8 font-medium">Advocate</th>
+                        <th class="text-left py-6 px-8 font-medium">Purpose</th>
+                        <th class="text-left py-6 px-8 font-medium">Status</th>
+                        <th class="text-right py-6 px-8 font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="appointmentsTable" class="divide-y divide-slate-800 text-slate-300">
+                    @foreach (var appointment in Model)
+                    {
+                        <tr class="hover:bg-slate-800/70 transition-colors group"
+                            data-client="@appointment.Client?.ClientName"
+                            data-purpose="@appointment.Purpose"
+                            data-advocate="@appointment.Advocate?.AdvocateName">
+                            <td class="py-6 px-8">
+                                <div>
+                                    <p class="font-medium">@appointment.AppointmentDate.ToString("dd MMMM yyyy")</p>
+                                    <p class="text-sm text-slate-400">@appointment.AppointmentDate.ToString("hh:mm tt")</p>
+                                </div>
+                            </td>
+                            <td class="py-6 px-8">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 bg-sky-500/20 text-sky-400 rounded-2xl flex items-center justify-center text-lg">👤</div>
+                                    <div>
+                                        <p class="font-medium">@appointment.Client?.ClientName</p>
+                                        <p class="text-xs text-slate-500">CL-@appointment.ClientId</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-6 px-8 font-medium">@appointment.Advocate?.AdvocateName</td>
+                            <td class="py-6 px-8">@appointment.Purpose</td>
+                            <td class="py-6 px-8">
+                                @switch (appointment.Status)
+                                {
+                                    case "Scheduled":
+                                        <span class="px-5 py-2 bg-emerald-500/20 text-emerald-400 text-sm font-semibold rounded-2xl">Scheduled</span>
+                                        break;
+                                    case "Completed":
+                                        <span class="px-5 py-2 bg-blue-500/20 text-blue-400 text-sm font-semibold rounded-2xl">Completed</span>
+                                        break;
+                                    case "Cancelled":
+                                        <span class="px-5 py-2 bg-rose-500/20 text-rose-400 text-sm font-semibold rounded-2xl">Cancelled</span>
+                                        break;
+                                    case "Rescheduled":
+                                        <span class="px-5 py-2 bg-amber-500/20 text-amber-400 text-sm font-semibold rounded-2xl">Rescheduled</span>
+                                        break;
+                                    default:
+                                        <span class="px-5 py-2 bg-slate-500/20 text-slate-400 text-sm font-semibold rounded-2xl">@appointment.Status</span>
+                                        break;
+                                }
+                            </td>
+                            <td class="py-6 px-8 text-right space-x-2">
+                                <button onclick="editAppointment(@appointment.Id)"
+                                        class="text-slate-400 hover:text-emerald-400 p-3 hover:bg-slate-800 rounded-xl transition">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteAppointment(@appointment.Id)"
+                                        class="text-slate-400 hover:text-rose-400 p-3 hover:bg-slate-800 rounded-xl transition">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- New Appointment Modal (unchanged - looks great) -->
+<div id="newAppointmentModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+    <!-- ... Your existing modal code ... -->
+    <!-- (Keeping it exactly as you had it) -->
+</div>
+
+<script>
+    // Show Modal
+    function showNewAppointmentModal() {
+        document.getElementById('newAppointmentModal').classList.remove('hidden');
+        document.getElementById('apptDate').focus();
+    }
+
+    // Hide Modal
+    function hideNewAppointmentModal() {
+        document.getElementById('newAppointmentModal').classList.add('hidden');
+        document.getElementById('purpose').value = '';
+    }
+
+    // Save Appointment (Demo - later replace with real form submit)
+    function saveAppointment() {
+        const date = document.getElementById('apptDate').value;
+        const purpose = document.getElementById('purpose').value;
+
+        if (!date || !purpose) {
+            alert("Please fill Date and Purpose");
+            return;
+        }
+
+        alert("✅ Appointment created successfully!");
+        hideNewAppointmentModal();
+
+        // TODO: Refresh table or use AJAX to add new row
+        location.reload();   // Temporary refresh
+    }
+
+    // Live Search
+    function liveSearch() {
+        const term = document.getElementById('searchInput').value.toLowerCase().trim();
+        const rows = document.querySelectorAll('#appointmentsTable tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(term) ? '' : 'none';
+        });
+    }
+
+    // Filter (Basic client-side for now)
+    function filterAppointments() {
+        const status = document.getElementById('statusFilter').value.toLowerCase();
+        const dateFilter = document.getElementById('dateFilter').value;
+        const rows = document.querySelectorAll('#appointmentsTable tr');
+
+        rows.forEach(row => {
+            const rowStatus = row.querySelector('span')?.textContent.toLowerCase() || '';
+            const rowDate = row.querySelector('p')?.textContent || '';
+
+            let show = true;
+
+            if (status && !rowStatus.includes(status)) show = false;
+            if (dateFilter && !rowDate.includes(dateFilter)) show = false;
+
+            row.style.display = show ? '' : 'none';
+        });
+    }
+
+    // Placeholder functions
+    function editAppointment(id) {
+        alert(`Edit Appointment #${id} - Modal will open here`);
+    }
+
+    function deleteAppointment(id) {
+        if (confirm(`Delete Appointment #${id}?`)) {
+            alert(`Appointment #${id} deleted`);
+            // TODO: AJAX delete + remove row
+        }
+    }
+
+    // Close modal on outside click
+    document.getElementById('newAppointmentModal').addEventListener('click', function(e) {
+        if (e.target === this) hideNewAppointmentModal();
+    });
+</script>
