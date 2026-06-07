@@ -1,4 +1,5 @@
 ﻿using AMS.BaseEntities;
+using AMS.Models;
 
 public class Hearing:BaseEntity
 {

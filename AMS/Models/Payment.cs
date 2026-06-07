@@ -1,4 +1,5 @@
 ﻿using AMS.BaseEntities;
+using AMS.Models;
 
 public class Payment :BaseEntity
 {
@@ -12,5 +13,5 @@ public class Payment :BaseEntity
     public Client? Client { get; set; }
 
     public long CaseId { get; set; }
-    public Case? Case { get; set; }
+    public Case Case { get; set; }
 }
