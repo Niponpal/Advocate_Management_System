@@ -1,0 +1,124 @@
+﻿@model AMS.Models.Case
+
+@{
+    ViewData["Title"] = "Create New Case";
+}
+
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 p-8 transition-colors">
+    <div class="max-w-3xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-white">Create New Case</h1>
+                <p class="text-slate-500 dark:text-slate-400 mt-1">Fill in the details below</p>
+            </div>
+            <a href="@Url.Action("Index")"
+               class="px-6 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Back to Cases
+            </a>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm">
+            <form asp-action="Create" method="post" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Case Number</label>
+                        <input asp-for="CaseNumber"
+                               class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors" />
+                        <span asp-validation-for="CaseNumber" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Case Title</label>
+                        <input asp-for="CaseTitle"
+                               class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors" />
+                        <span asp-validation-for="CaseTitle" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Case Type</label>
+                        <select asp-for="CaseType"
+                                class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="">Select Type</option>
+                            <option value="Criminal">Criminal</option>
+                            <option value="Civil">Civil</option>
+                            <option value="Family">Family</option>
+                            <option value="Property">Property</option>
+                            <option value="Commercial">Commercial</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Status</label>
+                        <select asp-for="Status"
+                                class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="Active">Active</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Under Review">Under Review</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2 md:col-span-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Description</label>
+                        <textarea asp-for="Description" rows="4"
+                                  class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-3xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors"></textarea>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Filing Date</label>
+                        <input asp-for="FilingDate" type="date"
+                               class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors" />
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Client</label>
+                        <select asp-for="ClientId"
+                                class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="">Select Client</option>
+                            @if (ViewBag.Clients != null)
+                            {
+                                foreach (var client in ViewBag.Clients)
+                                {
+                                    <option value="@client.Id">@client.ClientName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Advocate</label>
+                        <select asp-for="AdvocateId"
+                                class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="">Select Advocate</option>
+                            @if (ViewBag.Advocates != null)
+                            {
+                                foreach (var adv in ViewBag.Advocates)
+                                {
+                                    <option value="@adv.Id">@adv.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+                    <button type="submit"
+                            class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-semibold transition">
+                        Create Case
+                    </button>
+                    <a href="@Url.Action("Index")"
+                       class="px-8 py-4 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-2xl font-medium transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
