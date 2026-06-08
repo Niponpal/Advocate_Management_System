@@ -39,8 +39,7 @@ public class CaseCategoryController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(CaseCategory category, CancellationToken cancellationToken)
     {
-        if (ModelState.IsValid)
-        {
+      
             if (category.Id == 0)
             {
                 await _categoryRepository.AddCaseCategoryAsync(category, cancellationToken);
@@ -50,8 +49,7 @@ public class CaseCategoryController : Controller
                 await _categoryRepository.UpdateCaseCategoryAsync(category, cancellationToken);
             }
             return RedirectToAction(nameof(Index));
-        }
-        return View(category);
+      
     }
     [HttpPost]
     public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
