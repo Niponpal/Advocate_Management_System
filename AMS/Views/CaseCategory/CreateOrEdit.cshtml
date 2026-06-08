@@ -1,0 +1,85 @@
+﻿@model AMS.Models.CaseCategory
+
+@{
+    ViewData["Title"] = Model?.Id == 0 ? "Create New Category" : "Edit Category";
+}
+
+<div class="flex-1 overflow-auto bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 p-6 lg:p-8">
+    <div class="max-w-2xl mx-auto">
+
+        <!-- Page Header -->
+        <div class="mb-8">
+            <a asp-action="Index" class="inline-flex items-center text-emerald-600 dark:text-emerald-400 hover:underline mb-4">
+                ← Back to Categories
+            </a>
+            <h1 class="text-3xl font-bold text-slate-800 dark:text-white">
+                @if (Model?.Id == 0)
+                {
+                    <text>Create New Case Category</text>
+                }
+                else
+                {
+                    <text>Edit Case Category</text>
+                }
+            </h1>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm">
+
+            <form asp-action="CreateOrEdit" method="post" class="space-y-8">
+                @Html.AntiForgeryToken()
+
+                @if (Model?.Id != 0)
+                {
+                    <input type="hidden" asp-for="Id" />
+                }
+
+                <!-- Category Name -->
+                <div>
+                    <label asp-for="CategoryName" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"></label>
+                    <input asp-for="CategoryName"
+                           class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-5 text-base focus:outline-none transition"
+                           placeholder="Enter category name (e.g. Criminal, Civil, Family)" />
+                    <span asp-validation-for="CategoryName" class="text-rose-500 text-sm mt-1"></span>
+                </div>
+
+                <!-- Is Active -->
+                <div class="flex items-center gap-3">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input asp-for="IsActive" type="checkbox"
+                               class="sr-only peer">
+                        <div class="w-14 h-8 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 dark:peer-focus:ring-emerald-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-emerald-600"></div>
+                    </label>
+                    <div>
+                        <span class="text-slate-700 dark:text-slate-300 font-medium">Active Category</span>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">This category will be available for new cases</p>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+                    <button type="submit"
+                            class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-4 px-8 rounded-2xl transition-all shadow-lg shadow-emerald-500/30">
+                        @if (Model?.Id == 0)
+                        {
+                            <text>Create Category</text>
+                        }
+                        else
+                        {
+                            <text>Update Category</text>
+                        }
+                    </button>
+
+                    <a asp-action="Index"
+                       class="flex-1 text-center border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold py-4 px-8 rounded-2xl transition-all">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
