@@ -1,4 +1,5 @@
 ﻿using AMS.BaseEntities;
+using AMS.Models;
 
 public class Invoice:BaseEntity
 {
@@ -10,5 +11,4 @@ public class Invoice:BaseEntity
     public long ClientId { get; set; }
     public Client Client { get; set; }
 
-   
 }
