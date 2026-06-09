@@ -1,0 +1,84 @@
+﻿@model AMS.Models.Client
+
+@{
+    ViewData["Title"] = "New Client";
+}
+
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 p-8">
+    <div class="max-w-3xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-slate-800 dark:text-white">New Client</h1>
+                <p class="text-slate-500 dark:text-slate-400">Add a new client to the system</p>
+            </div>
+            <a asp-action="Index"
+               class="px-6 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded-2xl flex items-center gap-3 transition">
+                <i class="fas fa-arrow-left"></i>
+                Back to Clients
+            </a>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-10">
+            <form asp-action="CreateOrEdit" method="post">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Client Full Name</label>
+                        <input asp-for="ClientName"
+                               class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition"
+                               placeholder="Enter full name" required />
+                        <span asp-validation-for="ClientName" class="text-rose-500 text-sm"></span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Email Address</label>
+                        <input asp-for="Email" type="email"
+                               class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition"
+                               placeholder="client@example.com" required />
+                        <span asp-validation-for="Email" class="text-rose-500 text-sm"></span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Phone Number</label>
+                        <input asp-for="Phone"
+                               class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition"
+                               placeholder="+880 1XXX-XXXXXX" required />
+                        <span asp-validation-for="Phone" class="text-rose-500 text-sm"></span>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Full Address</label>
+                        <textarea asp-for="Address" rows="3"
+                                  class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition"
+                                  placeholder="House, Road, Area, City..."></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">NID Number</label>
+                        <input asp-for="NIDNumber"
+                               class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition"
+                               placeholder="1234567890123" />
+                    </div>
+
+                </div>
+
+                <div class="mt-10 flex gap-4">
+                    <button type="submit"
+                            class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-2xl transition shadow-lg shadow-emerald-500/30">
+                        <i class="fas fa-save"></i> Save Client
+                    </button>
+                    <a asp-action="Index"
+                       class="px-8 py-4 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 font-semibold rounded-2xl transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
