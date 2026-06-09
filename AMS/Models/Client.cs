@@ -1,9 +1,9 @@
 ﻿using AMS.BaseEntities;
-using AMS.Models;
 
-public class Client:BaseEntity
+namespace AMS.Models;
+
+public class Client : BaseEntity
 {
-
     public string ClientName { get; set; }
     public string Email { get; set; }
     public string Phone { get; set; }
