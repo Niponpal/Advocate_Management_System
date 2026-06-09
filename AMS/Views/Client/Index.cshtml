@@ -1,0 +1,142 @@
+﻿@model IEnumerable<AMS.Models.Client>
+
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-4xl font-bold text-slate-800 dark:text-white">Clients</h1>
+                <p class="text-slate-500 dark:text-slate-400 mt-1">Manage all your clients and their cases</p>
+            </div>
+
+            <a asp-action="Create"
+               class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 shadow-lg shadow-emerald-500/30">
+                <i class="fas fa-plus"></i>
+                New Client
+            </a>
+        </div>
+
+        <!-- Search & Filters -->
+        <div class="flex flex-col lg:flex-row gap-4">
+            <div class="flex-1">
+                <div class="relative">
+                    <input type="text" id="searchInput"
+                           class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-5 text-sm focus:outline-none transition"
+                           placeholder="Search by name, email, phone or NID..." onkeyup="filterTable()">
+                    <i class="fas fa-search absolute right-5 top-4 text-slate-400"></i>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <select id="filterStatus" onchange="filterTable()"
+                        class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-4 text-sm focus:outline-none focus:border-emerald-500">
+                    <option value="">All Clients</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+
+                <button onclick="location.reload()"
+                        class="px-6 py-4 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded-2xl transition">
+                    <i class="fas fa-sync"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Clients Table -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full" id="clientsTable">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-sm">
+                            <th class="px-8 py-6 text-left font-medium">Client Name</th>
+                            <th class="px-8 py-6 text-left font-medium">Contact</th>
+                            <th class="px-8 py-6 text-left font-medium">NID Number</th>
+                            <th class="px-8 py-6 text-left font-medium">Total Cases</th>
+                            <th class="px-8 py-6 text-left font-medium">Status</th>
+                            <th class="px-8 py-6 text-right font-medium">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700 text-slate-700 dark:text-slate-300">
+                        @foreach (var client in Model)
+                        {
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition group">
+                                <td class="px-8 py-6">
+                                    <div class="font-semibold">@client.ClientName</div>
+                                </td>
+                                <td class="px-8 py-6">
+                                    <div>@client.Email</div>
+                                    <div class="text-sm text-slate-500">@client.Phone</div>
+                                </td>
+                                <td class="px-8 py-6 font-mono text-sm">@client.NIDNumber</td>
+                                <td class="px-8 py-6">
+                                    <span class="inline-flex items-center px-4 py-1.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 rounded-2xl text-sm font-medium">
+                                        @client.Cases?.Count ?? 0 Cases
+                                    </span>
+                                </td>
+                                <td class="px-8 py-6">
+                                    <span class="px-5 py-2 bg-emerald-500/20 text-emerald-500 rounded-2xl text-xs font-semibold">
+                                        Active
+                                    </span>
+                                </td>
+                                <td class="px-8 py-6 text-right">
+                                    <div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition">
+                                        <a asp-action="Details" asp-route-id="@client.Id"
+                                           class="p-3 text-slate-400 hover:text-sky-500 transition">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@client.Id"
+                                           class="p-3 text-slate-400 hover:text-amber-500 transition">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button onclick="deleteClient(@client.Id)"
+                                                class="p-3 text-slate-400 hover:text-rose-500 transition">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-between items-center text-sm">
+            <p class="text-slate-500 dark:text-slate-400">
+                Showing @Model.Count() clients
+            </p>
+            <!-- Add proper pagination later with PagedList or Skip/Take -->
+            <div class="flex gap-2">
+                <button class="px-5 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">Previous</button>
+                <button class="px-5 py-3 bg-emerald-600 text-white rounded-2xl">1</button>
+                <button class="px-5 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteClient(id) {
+        if (confirm('Are you sure you want to delete this client?')) {
+            // TODO: Implement delete with AJAX or form post
+            alert(`Client #${id} deleted (implement backend delete)`);
+            location.reload();
+        }
+    }
+
+    // Simple client-side search filter
+    function filterTable() {
+        const searchText = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#clientsTable tbody tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchText) ? '' : 'none';
+        });
+    }
+</script>
