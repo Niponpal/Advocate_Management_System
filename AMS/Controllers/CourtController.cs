@@ -22,19 +22,23 @@ public class CourtController : Controller
         return NotFound();
     }
     [HttpGet]
-    public async Task<IActionResult>CreateOrEdit(long id, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateOrEdit(long? id, CancellationToken cancellationToken)
     {
         if (id == null)
         {
             return View(new Court());
         }
-        var data = await _courtRepository.GetCourtByIdAsync(id, cancellationToken);
+
+        var data = await _courtRepository.GetCourtByIdAsync(id.Value, cancellationToken);
+
         if (data != null)
         {
             return View(data);
         }
+
         return NotFound();
     }
+
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(Court court, CancellationToken cancellationToken)
     {
@@ -47,8 +51,8 @@ public class CourtController : Controller
                 await _courtRepository.UpdateCourtAsync(court, cancellationToken);
             }
             return RedirectToAction(nameof(Index));
-
     }
+
     [HttpPost]
     public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
     {
