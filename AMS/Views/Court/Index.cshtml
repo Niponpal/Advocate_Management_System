@@ -3,98 +3,104 @@
     ViewData["Title"] = "Courts";
 }
 
-<div class="max-w-7xl mx-auto space-y-8">
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-            <h1 class="text-4xl font-bold text-white">Courts</h1>
-            <p class="text-slate-400 mt-1">Manage all courts and their jurisdictions</p>
-        </div>
-        <button onclick="showCreateModal()"
-                class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30">
-            <i class="fas fa-plus"></i> Add New Court
-        </button>
-    </div>
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 p-8 transition-colors">
+    <div class="max-w-7xl mx-auto space-y-8">
 
-    <!-- Filters -->
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 flex flex-col md:flex-row gap-4">
-        <div class="flex-1">
-            <input type="text" id="searchInput" onkeyup="filterTable()"
-                   class="w-full bg-slate-800 border border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-6 text-white placeholder-slate-400 focus:outline-none"
-                   placeholder="Search by court name or location...">
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-white">Courts</h1>
+                <p class="text-slate-500 dark:text-slate-400 mt-1">Manage all courts and their jurisdictions</p>
+            </div>
+            <button onclick="showCreateModal()"
+                    class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30 text-white">
+                <i class="fas fa-plus"></i> Add New Court
+            </button>
         </div>
-        <div>
-            <select id="typeFilter" onchange="filterTable()"
-                    class="bg-slate-800 border border-slate-700 rounded-2xl py-4 px-6 text-white focus:outline-none focus:border-emerald-500">
-                <option value="">All Types</option>
-                <option value="High Court">High Court</option>
-                <option value="Session Court">Session Court</option>
-                <option value="District Court">District Court</option>
-                <option value="Magistrate Court">Magistrate Court</option>
-            </select>
-        </div>
-    </div>
 
-    <!-- Table -->
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-        <table class="w-full" id="courtsTable">
-            <thead>
-                <tr class="border-b border-slate-700 text-slate-400 text-sm">
-                    <th class="text-left py-6 px-8 font-medium">Court Name</th>
-                    <th class="text-left py-6 px-8 font-medium">Court Type</th>
-                    <th class="text-left py-6 px-8 font-medium">Location</th>
-                    <th class="text-left py-6 px-8 font-medium">Total Hearings</th>
-                    <th class="text-right py-6 px-8 font-medium">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800 text-slate-300">
-                @if (Model != null && Model.Any())
-                {
-                    @foreach (var court in Model)
+        <!-- Filters -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-6 flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+                <input type="text" id="searchInput" onkeyup="filterTable()"
+                       class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-6 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none transition-colors"
+                       placeholder="Search by court name or location...">
+            </div>
+            <div>
+                <select id="typeFilter" onchange="filterTable()"
+                        class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl py-4 px-6 text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                    <option value="">All Types</option>
+                    <option value="High Court">High Court</option>
+                    <option value="Session Court">Session Court</option>
+                    <option value="District Court">District Court</option>
+                    <option value="Magistrate Court">Magistrate Court</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl overflow-hidden">
+            <table class="w-full" id="courtsTable">
+                <thead>
+                    <tr class="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-sm">
+                        <th class="text-left py-6 px-8 font-medium">Court Name</th>
+                        <th class="text-left py-6 px-8 font-medium">Court Type</th>
+                        <th class="text-left py-6 px-8 font-medium">Location</th>
+                        <th class="text-left py-6 px-8 font-medium">Total Hearings</th>
+                        <th class="text-right py-6 px-8 font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                    @if (Model != null && Model.Any())
                     {
-                        <tr class="hover:bg-slate-800/70 transition-all group">
-                            <td class="py-6 px-8 font-medium">@court.CourtName</td>
-                            <td class="py-6 px-8">
-                                <span class="px-5 py-2 text-xs font-semibold rounded-2xl
-                                            @(court.CourtType == "High Court" ? "bg-violet-500/20 text-violet-400" :
-                                                                            court.CourtType == "Session Court" ? "bg-amber-500/20 text-amber-400" : "bg-sky-500/20 text-sky-400")">
-                            @court.CourtType
-                        </span>
-                    </td>
-                    <td class="py-6 px-8">@court.Location</td>
-                    <td class="py-6 px-8">
-                        <span class="text-emerald-400 font-semibold">@(court.Hearings?.Count ?? 0)</span>
-                    </td>
-                    <td class="py-6 px-8 text-right">
-                        <div class="flex justify-end gap-3 opacity-70 group-hover:opacity-100 transition-all">
-                            <button onclick="viewHearings(@court.Id)" class="p-3 hover:bg-slate-700 rounded-xl text-sky-400">
-                                <i class="fas fa-calendar-alt"></i>
-                            </button>
-                            <button onclick="editCourt(@court.Id)" class="p-3 hover:bg-slate-700 rounded-xl text-amber-400">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteCourt(@court.Id)" class="p-3 hover:bg-slate-700 rounded-xl text-rose-400">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                                }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="5" class="py-20 text-center text-slate-400">
-                            <i class="fas fa-gavel text-5xl mb-4 opacity-30"></i>
-                            <p class="text-xl">No courts found</p>
+                        @foreach (var court in Model)
+                        {
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/70 transition-all group">
+                                <td class="py-6 px-8 font-medium">@court.CourtName</td>
+                                <td class="py-6 px-8">
+                                    <span class="px-5 py-2 text-xs font-semibold rounded-2xl
+                                                        @(court.CourtType == "High Court" ? "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-400" :
+                                                                                            court.CourtType == "Session Court" ? "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400" :
+                                                                                            "bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400")">
+                                @court.CourtType
+                            </span>
+                        </td>
+                        <td class="py-6 px-8">@court.Location</td>
+                        <td class="py-6 px-8">
+                            <span class="text-emerald-600 dark:text-emerald-400 font-semibold">@(court.Hearings?.Count ?? 0)</span>
+                        </td>
+                        <td class="py-6 px-8 text-right">
+                            <div class="flex justify-end gap-3 opacity-70 group-hover:opacity-100 transition-all">
+                                <button onclick="viewHearings(@court.Id)"
+                                        class="p-3 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl text-sky-600 dark:text-sky-400">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </button>
+                                <button onclick="editCourt(@court.Id)"
+                                        class="p-3 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl text-amber-600 dark:text-amber-400">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteCourt(@court.Id)"
+                                        class="p-3 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl text-rose-600 dark:text-rose-400">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
-                }
-            </tbody>
-        </table>
+                                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="py-20 text-center text-slate-400">
+                                <i class="fas fa-gavel text-5xl mb-4 opacity-30"></i>
+                                <p class="text-xl">No courts found</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-
 
 <script>
     function showCreateModal() {
@@ -108,15 +114,12 @@
         try {
             const response = await fetch(`/Court/CreateOrEdit/${id}`);
             if (!response.ok) throw new Error();
-
             const court = await response.json();
-
             document.getElementById('modalTitle').textContent = 'Edit Court';
             document.getElementById('courtId').value = court.id;
             document.getElementById('courtName').value = court.courtName || '';
             document.getElementById('courtType').value = court.courtType || '';
             document.getElementById('location').value = court.location || '';
-
             document.getElementById('courtModal').classList.remove('hidden');
         } catch (e) {
             alert("Failed to load court details");
@@ -130,14 +133,12 @@
             courtType: document.getElementById('courtType').value,
             location: document.getElementById('location').value
         };
-
         try {
             const response = await fetch('/Court/CreateOrEdit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
-
             if (response.ok) {
                 alert("Court saved successfully!");
                 hideModal();
@@ -169,16 +170,13 @@
         const search = document.getElementById('searchInput').value.toLowerCase();
         const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
         const rows = document.querySelectorAll('#courtsTable tbody tr');
-
         rows.forEach(row => {
             if (row.cells.length < 3) return;
             const name = row.cells[0].textContent.toLowerCase();
             const typeCell = row.cells[1].textContent.toLowerCase();
             const location = row.cells[2].textContent.toLowerCase();
-
             const matchSearch = name.includes(search) || location.includes(search);
             const matchType = !typeFilter || typeCell.includes(typeFilter);
-
             row.style.display = (matchSearch && matchType) ? '' : 'none';
         });
     }
