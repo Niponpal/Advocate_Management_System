@@ -1,0 +1,155 @@
+﻿
+
+@{
+    ViewData["Title"] = "Documents";
+}
+
+<div class="min-h-screen bg-slate-950 text-white p-6 lg:p-8">
+    <div class="max-w-7xl mx-auto space-y-10">
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight">Documents</h1>
+                <p class="text-slate-400 mt-1">Manage all case-related documents</p>
+            </div>
+
+            <button onclick="uploadNewDocument()" 
+                    class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 shadow-lg shadow-emerald-500/30">
+                <i class="fas fa-upload"></i>
+                Upload New Document
+            </button>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-wrap gap-4 items-center">
+            <div class="flex-1 min-w-[200px]">
+                <input type="text" id="searchInput"
+                       class="w-full bg-slate-800 border border-slate-700 rounded-2xl py-3 px-5 focus:outline-none focus:border-emerald-500 text-white placeholder-slate-400"
+                       placeholder="Search documents..." onkeyup="filterDocuments()">
+            </div>
+            
+            <select id="typeFilter" onchange="filterDocuments()"
+                    class="bg-slate-800 border border-slate-700 rounded-2xl py-3 px-5 focus:outline-none focus:border-emerald-500 text-white">
+                <option value="">All Types</option>
+                <option value="Petition">Petition</option>
+                <option value="Judgment">Judgment</option>
+                <option value="Affidavit">Affidavit</option>
+                <option value="Evidence">Evidence</option>
+                <option value="Contract">Contract</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <button onclick="filterDocuments()" 
+                    class="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-2xl transition">
+                <i class="fas fa-filter"></i> Filter
+            </button>
+        </div>
+
+        <!-- Documents Table -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+            <div class="p-8">
+                <h3 class="text-2xl font-semibold mb-6">All Documents</h3>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-slate-400 text-sm border-b border-slate-700">
+                            <th class="px-8 py-5 text-left">Document Title</th>
+                            <th class="px-8 py-5 text-left">Case ID</th>
+                            <th class="px-8 py-5 text-left">Type</th>
+                            <th class="px-8 py-5 text-left">Uploaded On</th>
+                            <th class="px-8 py-5 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="documentsTable" class="divide-y divide-slate-800 text-slate-300">
+                        <!-- Populated by JavaScript or @foreach -->
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var doc in Model)
+                            {
+                                <tr class="hover:bg-slate-800/70 transition-all">
+                                    <td class="px-8 py-6">
+                                        <div class="font-medium">@doc.DocumentTitle</div>
+                                    </td>
+                                    <td class="px-8 py-6 font-mono text-emerald-400">#@doc.CaseId</td>
+                                    <td class="px-8 py-6">
+                                        <span class="px-4 py-1.5 bg-slate-800 text-xs font-medium rounded-2xl">
+                                            @doc.DocumentType
+                                        </span>
+                                    </td>
+                                    <td class="px-8 py-6 text-sm text-slate-400">
+                                        @doc.UploadDate.ToString("dd MMM yyyy")
+                                    </td>
+                                    <td class="px-8 py-6 text-right">
+                                        <div class="flex justify-end gap-3">
+                                            <a href="@doc.FilePath" target="_blank"
+                                               class="text-emerald-400 hover:text-emerald-300 transition">
+                                                <i class="fas fa-download"></i>
+                                            </a>
+                                            <button onclick="viewDocument('@doc.FilePath')" 
+                                                    class="text-sky-400 hover:text-sky-300 transition">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button onclick="deleteDocument(@doc.CaseId)" 
+                                                    class="text-rose-400 hover:text-rose-300 transition">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="px-8 py-16 text-center text-slate-400">
+                                    <div class="text-6xl mb-4">📁</div>
+                                    <p class="text-lg">No documents found</p>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function uploadNewDocument() {
+        alert("Upload Document modal will open here.\nYou can integrate with a proper form or modal.");
+        // TODO: Open modal for file upload
+    }
+
+    function viewDocument(filePath) {
+        window.open(filePath, '_blank');
+    }
+
+    function deleteDocument(caseId) {
+        if (confirm("Are you sure you want to delete this document?")) {
+            alert("Document deleted (demo).");
+            // TODO: Implement delete with AJAX
+        }
+    }
+
+    function filterDocuments() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const type = document.getElementById('typeFilter').value.toLowerCase();
+        
+        const rows = document.querySelectorAll('#documentsTable tr');
+        
+        rows.forEach(row => {
+            if (row.cells.length < 2) return; // Skip empty row
+            
+            const title = row.cells[0].textContent.toLowerCase();
+            const docType = row.cells[2].textContent.toLowerCase();
+            
+            const matchesSearch = title.includes(search);
+            const matchesType = !type || docType.includes(type);
+            
+            row.style.display = (matchesSearch && matchesType) ? '' : 'none';
+        });
+    }
+</script>
