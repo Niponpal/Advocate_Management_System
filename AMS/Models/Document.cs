@@ -1,6 +1,8 @@
-﻿namespace AMS.Models
+﻿using AMS.BaseEntities;
+
+namespace AMS.Models
 {
-    public class Document
+    public class Document:BaseEntity
     {
         public string DocumentTitle { get; set; }
         public string FilePath { get; set; }

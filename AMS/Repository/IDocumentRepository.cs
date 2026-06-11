@@ -1,14 +1,16 @@
 ﻿using AMS.Data;
+using AMS.Models;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace AMS.Repository;
 
 public interface IDocumentRepository
 {
     Task<IEnumerable<Document>> GetAllDocumentsAsync(CancellationToken cancellationToken);
-    Task<Document?> GetDocumentByIdAsync(long id, CancellationToken cancellationToken);
+    Task<Document> GetDocumentByIdAsync(long id, CancellationToken cancellationToken);
     Task<Document> AddDocumentAsync(Document document, CancellationToken cancellationToken);
-    Task<Document?> UpdateDocumentAsync(Document document, CancellationToken cancellationToken);
+    Task<Document> UpdateDocumentAsync(Document document, CancellationToken cancellationToken);
     Task<Document> DeleteDocumentAsync(long id, CancellationToken cancellationToken);
 }
 
@@ -58,7 +60,7 @@ public class DocumentRepository : IDocumentRepository
         throw new KeyNotFoundException("Document not found");
     }
 
-    public async Task<Document?> UpdateDocumentAsync(Document document, CancellationToken cancellationToken)
+    public async Task<Document> UpdateDocumentAsync(Document document, CancellationToken cancellationToken)
     {
        var data = await _context.documents.FindAsync(document.Id, cancellationToken);
         if (data != null)
@@ -73,4 +75,6 @@ public class DocumentRepository : IDocumentRepository
         }
         throw new KeyNotFoundException("Document not found");
     }
+
+   
 }
