@@ -3,33 +3,40 @@
     ViewData["Title"] = "Documents";
 }
 
-<div class="min-h-screen bg-slate-950 text-white p-6 lg:p-8">
+<div class="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-300 p-6 lg:p-8">
     <div class="max-w-7xl mx-auto space-y-10">
-
         <!-- Header -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
             <div>
                 <h1 class="text-4xl font-bold tracking-tight">Documents</h1>
-                <p class="text-slate-400 mt-1">Manage all case-related documents</p>
+                <p class="text-slate-500 dark:text-slate-400 mt-1">Manage all case-related documents</p>
             </div>
 
-            <button onclick="uploadNewDocument()" 
-                    class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 shadow-lg shadow-emerald-500/30">
-                <i class="fas fa-upload"></i>
-                Upload New Document
-            </button>
+            <div class="flex items-center gap-4">
+                <!-- Theme Toggle -->
+                <button id="themeToggle"
+                        class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                    <i id="themeIcon" class="fas fa-moon text-xl"></i>
+                </button>
+
+                <button onclick="uploadNewDocument()"
+                        class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 shadow-lg shadow-emerald-500/30">
+                    <i class="fas fa-upload"></i>
+                    Upload New Document
+                </button>
+            </div>
         </div>
 
         <!-- Filters -->
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-wrap gap-4 items-center">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 flex flex-wrap gap-4 items-center">
             <div class="flex-1 min-w-[200px]">
                 <input type="text" id="searchInput"
-                       class="w-full bg-slate-800 border border-slate-700 rounded-2xl py-3 px-5 focus:outline-none focus:border-emerald-500 text-white placeholder-slate-400"
+                       class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl py-3 px-5 focus:outline-none focus:border-emerald-500 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400"
                        placeholder="Search documents..." onkeyup="filterDocuments()">
             </div>
-            
+
             <select id="typeFilter" onchange="filterDocuments()"
-                    class="bg-slate-800 border border-slate-700 rounded-2xl py-3 px-5 focus:outline-none focus:border-emerald-500 text-white">
+                    class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl py-3 px-5 focus:outline-none focus:border-emerald-500 text-slate-900 dark:text-white">
                 <option value="">All Types</option>
                 <option value="Petition">Petition</option>
                 <option value="Judgment">Judgment</option>
@@ -38,23 +45,21 @@
                 <option value="Contract">Contract</option>
                 <option value="Other">Other</option>
             </select>
-
-            <button onclick="filterDocuments()" 
-                    class="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-2xl transition">
+            <button onclick="filterDocuments()"
+                    class="px-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-2xl transition">
                 <i class="fas fa-filter"></i> Filter
             </button>
         </div>
 
         <!-- Documents Table -->
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
             <div class="p-8">
                 <h3 class="text-2xl font-semibold mb-6">All Documents</h3>
             </div>
-
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="text-slate-400 text-sm border-b border-slate-700">
+                        <tr class="text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-700">
                             <th class="px-8 py-5 text-left">Document Title</th>
                             <th class="px-8 py-5 text-left">Case ID</th>
                             <th class="px-8 py-5 text-left">Type</th>
@@ -62,37 +67,36 @@
                             <th class="px-8 py-5 text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="documentsTable" class="divide-y divide-slate-800 text-slate-300">
-                        <!-- Populated by JavaScript or @foreach -->
+                    <tbody id="documentsTable" class="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                         @if (Model != null && Model.Any())
                         {
                             @foreach (var doc in Model)
                             {
-                                <tr class="hover:bg-slate-800/70 transition-all">
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/70 transition-all">
                                     <td class="px-8 py-6">
                                         <div class="font-medium">@doc.DocumentTitle</div>
                                     </td>
-                                    <td class="px-8 py-6 font-mono text-emerald-400">#@doc.CaseId</td>
+                                    <td class="px-8 py-6 font-mono text-emerald-600 dark:text-emerald-400">#@doc.CaseId</td>
                                     <td class="px-8 py-6">
-                                        <span class="px-4 py-1.5 bg-slate-800 text-xs font-medium rounded-2xl">
+                                        <span class="px-4 py-1.5 bg-slate-100 dark:bg-slate-800 text-xs font-medium rounded-2xl">
                                             @doc.DocumentType
                                         </span>
                                     </td>
-                                    <td class="px-8 py-6 text-sm text-slate-400">
+                                    <td class="px-8 py-6 text-sm text-slate-500 dark:text-slate-400">
                                         @doc.UploadDate.ToString("dd MMM yyyy")
                                     </td>
                                     <td class="px-8 py-6 text-right">
                                         <div class="flex justify-end gap-3">
                                             <a href="@doc.FilePath" target="_blank"
-                                               class="text-emerald-400 hover:text-emerald-300 transition">
+                                               class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 transition">
                                                 <i class="fas fa-download"></i>
                                             </a>
-                                            <button onclick="viewDocument('@doc.FilePath')" 
-                                                    class="text-sky-400 hover:text-sky-300 transition">
+                                            <button onclick="viewDocument('@doc.FilePath')"
+                                                    class="text-sky-600 dark:text-sky-400 hover:text-sky-500 dark:hover:text-sky-300 transition">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button onclick="deleteDocument(@doc.CaseId)" 
-                                                    class="text-rose-400 hover:text-rose-300 transition">
+                                            <button onclick="deleteDocument(@doc.CaseId)"
+                                                    class="text-rose-600 dark:text-rose-400 hover:text-rose-500 dark:hover:text-rose-300 transition">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -103,7 +107,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="5" class="px-8 py-16 text-center text-slate-400">
+                                <td colspan="5" class="px-8 py-16 text-center text-slate-500 dark:text-slate-400">
                                     <div class="text-6xl mb-4">📁</div>
                                     <p class="text-lg">No documents found</p>
                                 </td>
@@ -117,9 +121,34 @@
 </div>
 
 <script>
+    // Theme Toggle Functionality
+    function initTheme() {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        // Load saved preference or respect system preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
+
+    // Existing functions
     function uploadNewDocument() {
         alert("Upload Document modal will open here.\nYou can integrate with a proper form or modal.");
-        // TODO: Open modal for file upload
     }
 
     function viewDocument(filePath) {
@@ -136,19 +165,24 @@
     function filterDocuments() {
         const search = document.getElementById('searchInput').value.toLowerCase();
         const type = document.getElementById('typeFilter').value.toLowerCase();
-        
+
         const rows = document.querySelectorAll('#documentsTable tr');
-        
+
         rows.forEach(row => {
-            if (row.cells.length < 2) return; // Skip empty row
-            
+            if (row.cells.length < 2) return;
+
             const title = row.cells[0].textContent.toLowerCase();
             const docType = row.cells[2].textContent.toLowerCase();
-            
+
             const matchesSearch = title.includes(search);
             const matchesType = !type || docType.includes(type);
-            
+
             row.style.display = (matchesSearch && matchesType) ? '' : 'none';
         });
     }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+        initTheme();
+    });
 </script>
