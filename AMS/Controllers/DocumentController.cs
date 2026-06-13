@@ -22,19 +22,23 @@ public class DocumentController : Controller
         }
         return NotFound();
     }
+ 
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
-        if (id == null)
+        if (id == 0)
         {
             return View(new Document());
         }
+
         var data = await documentRepository.GetDocumentByIdAsync(id, cancellationToken);
-        if (data != null)
+
+        if (data == null)
         {
-            return View(data);
+            return NotFound();
         }
-        return NotFound();
+
+        return View(data);
     }
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(Document document, CancellationToken cancellationToken)

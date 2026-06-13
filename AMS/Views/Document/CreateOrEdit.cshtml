@@ -1,0 +1,126 @@
+﻿@model AMS.Models.Document
+@using System.IO
+
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Create Document" : "Edit Document";
+}
+
+<div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-white tracking-tight">
+                @if (Model.Id == 0)
+                {
+                    <text>Create New Document</text>
+                }
+                else
+                {
+                    <text>Edit Document</text>
+                }
+            </h1>
+            <p class="text-slate-400 mt-1">Upload and manage case-related documents</p>
+        </div>
+        <a asp-action="Index"
+           class="flex items-center gap-3 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-2xl transition-all font-medium">
+            <i class="fas fa-arrow-left"></i>
+            Back to Documents
+        </a>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl">
+        <form asp-action="CreateOrEdit" enctype="multipart/form-data" class="space-y-8">
+            <div asp-validation-summary="ModelOnly" class="text-rose-400 text-sm"></div>
+
+            @if (Model.Id != 0)
+            {
+                <input type="hidden" asp-for="Id" />
+            }
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Document Title -->
+                <div class="md:col-span-2">
+                    <label asp-for="DocumentTitle" class="block text-sm font-medium text-slate-400 mb-2"></label>
+                    <input asp-for="DocumentTitle"
+                           class="w-full bg-slate-800 border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-2xl px-5 py-4 text-white placeholder-slate-500 transition-all"
+                           placeholder="e.g., FIR Copy - State vs Karim Ahmed" />
+                    <span asp-validation-for="DocumentTitle" class="text-rose-400 text-sm mt-1"></span>
+                </div>
+
+                <!-- Document Type -->
+                <div>
+                    <label asp-for="DocumentType" class="block text-sm font-medium text-slate-400 mb-2"></label>
+                    <select asp-for="DocumentType"
+                            class="w-full bg-slate-800 border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-2xl px-5 py-4 text-white transition-all">
+                        <option value="">-- Select Document Type --</option>
+                        <option value="PDF">PDF Document</option>
+                        <option value="Word">Word / DOCX</option>
+                        <option value="Image">Image / Scan</option>
+                        <option value="Contract">Contract / Agreement</option>
+                        <option value="Judgment">Judgment / Order</option>
+                        <option value="Evidence">Evidence</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <span asp-validation-for="DocumentType" class="text-rose-400 text-sm mt-1"></span>
+                </div>
+
+                <!-- Case -->
+                <div>
+                    <label asp-for="CaseId" class="block text-sm font-medium text-slate-400 mb-2"></label>
+                    <select asp-for="CaseId" asp-items="ViewBag.Cases"
+                            class="w-full bg-slate-800 border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-2xl px-5 py-4 text-white transition-all">
+                        <option value="">-- Select Related Case --</option>
+                    </select>
+                    <span asp-validation-for="CaseId" class="text-rose-400 text-sm mt-1"></span>
+                </div>
+
+                <!-- File Upload -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-400 mb-3">Document File</label>
+                    <div class="border-2 border-dashed border-slate-700 hover:border-emerald-500 rounded-3xl p-10 text-center transition-all cursor-pointer"
+                         onclick="document.getElementById('fileInput').click()">
+                        <input type="file" name="file" id="fileInput" class="hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                        <i class="fas fa-cloud-upload-alt text-6xl text-slate-500 mb-4"></i>
+                        <p class="text-white font-medium text-lg">Click to upload or drag & drop</p>
+                        <p class="text-slate-400 text-sm mt-2">PDF, DOCX, JPG, PNG (Max 15 MB)</p>
+                    </div>
+
+                    <span asp-validation-for="FilePath" class="text-rose-400 text-sm mt-1"></span>
+                </div>
+
+                <!-- Upload Date -->
+                <div>
+                    <label asp-for="UploadDate" class="block text-sm font-medium text-slate-400 mb-2"></label>
+                    <input asp-for="UploadDate" readonly
+                           class="w-full bg-slate-800 border border-slate-700 rounded-2xl px-5 py-4 text-slate-400" />
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-4 pt-8 border-t border-slate-800">
+                <button type="submit"
+                        class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold text-lg shadow-lg shadow-emerald-500/30 flex items-center justify-center gap-3">
+                    <i class="fas fa-save"></i>
+                    @(Model.Id == 0 ? "Create Document" : "Update Document")
+                </button>
+                <a asp-action="Index"
+                   class="flex-1 py-4 bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all rounded-2xl font-semibold text-lg text-center">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function() {
+            if (this.files.length > 0) {
+                console.log('Selected file:', this.files[0].name);
+            }
+        });
+    </script>
+}
