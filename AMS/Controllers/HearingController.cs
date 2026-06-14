@@ -1,4 +1,5 @@
-﻿using AMS.Repository;
+﻿using AMS.Models.Auth;
+using AMS.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
