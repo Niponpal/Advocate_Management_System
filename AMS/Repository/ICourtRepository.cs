@@ -7,9 +7,9 @@ namespace AMS.Repository;
 public interface ICourtRepository
 {
     Task<IEnumerable<Court>> GetAllCourtAsync(CancellationToken cancellationToken);
-    Task<Court?> GetCourtByIdAsync(long id, CancellationToken cancellationToken);
+    Task<Court> GetCourtByIdAsync(long id, CancellationToken cancellationToken);
     Task<Court> AddCourtAsync(Court court, CancellationToken cancellationToken);
-    Task<Court?> UpdateCourtAsync(Court court, CancellationToken cancellationToken);
+    Task<Court> UpdateCourtAsync(Court court, CancellationToken cancellationToken);
     Task<Court> DeleteCourtAsync(long id, CancellationToken cancellationToken);
 }
 
@@ -27,13 +27,13 @@ public class CourtRepository : ICourtRepository
         return data;
     }
 
-    public async Task<Court?> GetCourtByIdAsync(long id, CancellationToken cancellationToken)
+    public async Task<Court> GetCourtByIdAsync(long id, CancellationToken cancellationToken)
     {
        var data = await _context.courts.FindAsync(id, cancellationToken);
         return data;
     }
 
-    public async Task<Court?> UpdateCourtAsync(Court court, CancellationToken cancellationToken)
+    public async Task<Court> UpdateCourtAsync(Court court, CancellationToken cancellationToken)
     {
         var data = await _context.courts.FindAsync(court.Id, cancellationToken);
         if (data != null)

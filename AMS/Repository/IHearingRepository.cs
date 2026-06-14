@@ -1,4 +1,5 @@
 ﻿using AMS.Data;
+using AMS.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Repository;
