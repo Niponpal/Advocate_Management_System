@@ -1,5 +1,4 @@
 ﻿using AMS.BaseEntities;
-using AMS.Models.Auth;
 
 namespace AMS.Models;
 

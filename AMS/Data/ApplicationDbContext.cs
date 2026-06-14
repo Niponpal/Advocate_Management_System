@@ -1,6 +1,5 @@
 ﻿using AMS.Auth_IdentityModel;
 using AMS.Models;
-using AMS.Models.Auth;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
