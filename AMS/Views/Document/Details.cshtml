@@ -1,0 +1,127 @@
+﻿@model AMS.Models.Document
+@using System.IO
+
+@{
+    ViewData["Title"] = "Document Details";
+}
+
+<div class="max-w-4xl mx-auto p-4">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Document Details
+            </h1>
+            <p class="text-slate-600 dark:text-slate-400 mt-1">
+                #@Model.Id - @Model.DocumentTitle
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <a asp-action="CreateOrEdit" asp-route-id="@Model.Id"
+               class="flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl transition-all font-medium">
+                <i class="fas fa-edit"></i>
+                Edit Document
+            </a>
+            <a asp-action="Index"
+               class="flex items-center gap-2 px-6 py-3 bg-slate-200 hover:bg-slate-300
+                      dark:bg-slate-800 dark:hover:bg-slate-700
+                      text-slate-700 dark:text-slate-300 rounded-2xl transition-all font-medium">
+                <i class="fas fa-arrow-left"></i>
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800
+                rounded-3xl p-8 shadow-xl">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Left Column -->
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Document Title</h3>
+                    <p class="text-lg font-semibold text-gray-900 dark:text-white">@Model.DocumentTitle</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Document Type</h3>
+                    <p class="inline-flex px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-2xl text-sm font-medium">
+                        @Model.DocumentType
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Related Case</h3>
+                    <p class="text-gray-900 dark:text-white">
+                        @if (Model.Case != null)
+                        {
+                            @Model.Case.CaseTitle
+                        }
+                        else
+                        {
+                            <span class="text-slate-400">No case linked</span>
+                        }
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Upload Date</h3>
+                    <p class="text-gray-900 dark:text-white">@Model.UploadDate.ToString("dd MMMM yyyy hh:mm tt")</p>
+                </div>
+            </div>
+
+            <!-- Right Column - File -->
+            <div>
+                <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">Attached File</h3>
+
+                @if (!string.IsNullOrEmpty(Model.FilePath))
+                {
+                    <div class="border border-slate-200 dark:border-slate-700 rounded-3xl p-6 bg-slate-50 dark:bg-slate-800/50">
+                        <div class="flex items-center gap-4">
+                            <i class="fas fa-file-alt text-4xl text-emerald-500"></i>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-medium text-gray-900 dark:text-white truncate">
+                                    @System.IO.Path.GetFileName(Model.FilePath)
+                                </p>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">@Model.DocumentType Document</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <a href="@Model.FilePath" target="_blank"
+                               class="block w-full text-center py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-semibold transition-all flex items-center justify-center gap-2">
+                                <i class="fas fa-download"></i>
+                                Download File
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="border border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-12 text-center">
+                        <i class="fas fa-file-excel text-5xl text-slate-300 dark:text-slate-600"></i>
+                        <p class="mt-4 text-slate-500 dark:text-slate-400">No file attached</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
+                <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Description</h3>
+                <p class="text-gray-700 dark:text-slate-300 whitespace-pre-wrap">@Model.Description</p>
+            </div>
+        }
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-4 mt-8">
+        <a asp-action="CreateOrEdit" asp-route-id="@Model.Id"
+           class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-semibold text-center transition-all">
+            Edit Document
+        </a>
+        <a asp-action="Index"
+           class="flex-1 py-4 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl font-semibold text-center transition-all">
+            Back to Documents
+        </a>
+    </div>
+</div>
