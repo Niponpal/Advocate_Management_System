@@ -1,4 +1,4 @@
-﻿using AMS.Models.Auth;
+﻿using AMS.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

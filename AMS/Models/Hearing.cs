@@ -1,6 +1,6 @@
 ﻿using AMS.BaseEntities;
 
-namespace AMS.Models.Auth;
+namespace AMS.Models;
 
 public class Hearing: BaseEntity
 {
