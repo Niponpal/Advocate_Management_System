@@ -1,0 +1,161 @@
+﻿@model IEnumerable<AMS.Models.Hearing>
+
+@{
+    ViewData["Title"] = "Hearings";
+}
+
+<div class="p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-4xl font-bold text-slate-800 dark:text-white">Hearings</h1>
+                <p class="text-slate-500 dark:text-slate-400 mt-1">Manage all court hearings</p>
+            </div>
+
+            <a href="@Url.Action("Create", "Hearing")"
+               class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl flex items-center gap-3 font-semibold transition-all shadow-lg shadow-emerald-500/30">
+                <i class="fas fa-plus"></i>
+                New Hearing
+            </a>
+        </div>
+
+        <!-- Filters & Search -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 flex flex-wrap gap-4 items-center">
+            <div class="flex-1 min-w-[280px]">
+                <input type="text" id="searchInput"
+                       class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl py-3 px-5 focus:outline-none focus:border-indigo-500"
+                       placeholder="Search by case, client, or remarks...">
+            </div>
+
+            <div>
+                <select id="statusFilter"
+                        class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl py-3 px-5 focus:outline-none">
+                    <option value="">All Status</option>
+                    <option value="Upcoming">Upcoming</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Postponed">Postponed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <button onclick="filterTable()"
+                    class="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-medium transition">
+                <i class="fas fa-filter"></i> Filter
+            </button>
+        </div>
+
+        <!-- Hearings Table -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full" id="hearingTable">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+                            <th class="px-6 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Hearing Date</th>
+                            <th class="px-6 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Case</th>
+                            <th class="px-6 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Court</th>
+                            <th class="px-6 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Status</th>
+                            <th class="px-6 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Remarks</th>
+                            <th class="px-6 py-5 text-center text-sm font-medium text-slate-500 dark:text-slate-400">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700 text-slate-700 dark:text-slate-300">
+                        @foreach (var hearing in Model)
+                        {
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                                <td class="px-6 py-5">
+                                    <div class="font-medium">
+                                        @hearing.HearingDate.ToString("dd MMM yyyy")
+                                    </div>
+                                    <div class="text-sm text-slate-500 dark:text-slate-400">
+                                        @hearing.HearingDate.ToString("hh:mm tt")
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5">
+                                    <div class="font-semibold">@(hearing.Case?.CaseNumber ?? "N/A")</div>
+                                    <div class="text-sm text-slate-500">@(hearing.Case?.CaseTitle ?? "")</div>
+                                </td>
+                                <td class="px-6 py-5">
+                                    @(hearing.Court?.CourtName ?? "N/A")
+                                </td>
+                                <td class="px-6 py-5">
+                                    @{
+                                        string statusClass = hearing.HearingStatus?.ToLower() switch
+                                        {
+                                            "completed" => "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400",
+                                            "upcoming" => "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400",
+                                            "postponed" => "bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-400",
+                                            _ => "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                                        };
+                                    }
+                                    <span class="px-4 py-1.5 text-xs font-semibold rounded-2xl @statusClass">
+                                        @hearing.HearingStatus
+                                    </span>
+                                </td>
+                                <td class="px-6 py-5 text-sm max-w-xs truncate">
+                                    @hearing.Remarks
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    <div class="flex justify-center gap-3">
+                                        <a href="@Url.Action("Details", "Hearing", new { id = hearing.Id })"
+                                           class="text-indigo-600 hover:text-indigo-500">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Edit", "Hearing", new { id = hearing.Id })"
+                                           class="text-amber-600 hover:text-amber-500">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button onclick="deleteHearing(@hearing.Id)"
+                                                class="text-rose-600 hover:text-rose-500">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        @if (!Model.Any())
+        {
+            <div class="text-center py-20">
+                <div class="text-6xl mb-4">⚖️</div>
+                <h3 class="text-xl font-semibold text-slate-400">No hearings found</h3>
+                <p class="text-slate-500 mt-2">Create your first hearing schedule</p>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function filterTable() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const statusFilter = document.getElementById('statusFilter').value.toLowerCase();
+        const rows = document.querySelectorAll('#hearingTable tbody tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            const statusCell = row.querySelector('span');
+            const statusText = statusCell ? statusCell.textContent.toLowerCase() : '';
+
+            const matchesSearch = text.includes(searchTerm);
+            const matchesStatus = !statusFilter || statusText === statusFilter;
+
+            row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
+        });
+    }
+
+    function deleteHearing(id) {
+        if (confirm('Are you sure you want to delete this hearing?')) {
+            // Add your delete logic (AJAX or form submit)
+            window.location.href = `@Url.Action("Delete", "Hearing")/${id}`;
+        }
+    }
+
+    // Auto-filter on input
+    document.getElementById('searchInput').addEventListener('keyup', filterTable);
+</script>
