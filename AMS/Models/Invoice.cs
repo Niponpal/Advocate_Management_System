@@ -1,7 +1,8 @@
 ﻿using AMS.BaseEntities;
-using AMS.Models;
 
-public class Invoice:BaseEntity
+namespace AMS.Models;
+
+public class Invoice: BaseEntity
 {
     public string? InvoiceNumber { get; set; }
     public decimal TotalAmount { get; set; }
