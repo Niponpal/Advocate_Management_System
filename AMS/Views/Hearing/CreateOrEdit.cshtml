@@ -1,0 +1,89 @@
+﻿@model AMS.Models.Hearing
+
+@{
+    ViewData["Title"] = "New Hearing";
+}
+
+<div class="p-8 min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300">
+    <div class="max-w-3xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex items-center gap-4 mb-8">
+            <a href="@Url.Action("Index", "Hearing")"
+               class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white transition">
+                <i class="fas fa-arrow-left text-2xl"></i>
+            </a>
+            <div>
+                <h1 class="text-4xl font-bold text-slate-800 dark:text-white">New Hearing</h1>
+                <p class="text-slate-500 dark:text-slate-400">Schedule a new court hearing</p>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8">
+            <form asp-action="Create" method="post" class="space-y-8">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Hearing Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Hearing Date & Time</label>
+                        <input asp-for="HearingDate" type="datetime-local"
+                               class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl px-5 py-4 text-slate-800 dark:text-white focus:outline-none transition">
+                        <span asp-validation-for="HearingDate" class="text-rose-500 dark:text-rose-400 text-sm mt-1 block"></span>
+                    </div>
+
+                    <!-- Court -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Court</label>
+                        <select asp-for="CourtId"
+                                class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl px-5 py-4 text-slate-800 dark:text-white focus:outline-none">
+                            <option value="">-- Select Court --</option>
+                        </select>
+                        <span asp-validation-for="CourtId" class="text-rose-500 dark:text-rose-400 text-sm mt-1 block"></span>
+                    </div>
+                </div>
+
+                <!-- Case -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Case</label>
+                    <select asp-for="CaseId"
+                            class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl px-5 py-4 text-slate-800 dark:text-white focus:outline-none">
+                        <option value="">-- Select Case --</option>
+                    </select>
+                    <span asp-validation-for="CaseId" class="text-rose-500 dark:text-rose-400 text-sm mt-1 block"></span>
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Hearing Status</label>
+                    <select asp-for="HearingStatus"
+                            class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl px-5 py-4 text-slate-800 dark:text-white focus:outline-none">
+                        <option value="">-- Select Status --</option>
+                        <option value="Upcoming">Upcoming</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Postponed">Postponed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <!-- Remarks -->
+                <div>
+                    <label class="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Remarks / Notes</label>
+                    <textarea asp-for="Remarks" rows="5"
+                              class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-3xl px-5 py-4 text-slate-800 dark:text-white focus:outline-none resize-y"></textarea>
+                </div>
+
+                <div class="flex gap-4 pt-6">
+                    <button type="submit"
+                            class="flex-1 bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl font-semibold text-lg text-white transition-all shadow-lg shadow-emerald-500/30">
+                        <i class="fas fa-save"></i> Save Hearing
+                    </button>
+
+                    <a href="@Url.Action("Index", "Hearing")"
+                       class="flex-1 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 py-4 rounded-2xl font-semibold text-lg text-center transition text-slate-800 dark:text-white">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
