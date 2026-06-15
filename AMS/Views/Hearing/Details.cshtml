@@ -1,0 +1,119 @@
+﻿@model AMS.Models.Hearing
+
+@{
+    ViewData["Title"] = "Hearing Details";
+}
+
+<div class="p-8 min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300">
+    <div class="max-w-4xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-4">
+                <a href="@Url.Action("Index", "Hearing")"
+                   class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white transition">
+                    <i class="fas fa-arrow-left text-2xl"></i>
+                </a>
+                <div>
+                    <h1 class="text-4xl font-bold text-slate-800 dark:text-white">Hearing Details</h1>
+                    <p class="text-slate-500 dark:text-slate-400">Case Hearing Information</p>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="@Url.Action("Edit", "Hearing", new { id = Model.Id })"
+                   class="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl flex items-center gap-2 font-medium transition">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <a href="@Url.Action("Index", "Hearing")"
+                   class="px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-white rounded-2xl font-medium transition">
+                    Back to List
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
+
+            <!-- Status Banner -->
+            <div class="px-8 py-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <span class="text-3xl">⚖️</span>
+                    <div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Hearing ID</p>
+                        <p class="font-mono text-lg font-semibold text-slate-800 dark:text-white">#H-@Model.Id</p>
+                    </div>
+                </div>
+
+                @{
+                    string statusClass = Model.HearingStatus?.ToLower() switch
+                    {
+                        "completed" => "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400",
+                        "upcoming" => "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400",
+                        "postponed" => "bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-400",
+                        "cancelled" => "bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-400",
+                        _ => "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
+                    };
+                }
+                <span class="px-6 py-2.5 text-sm font-semibold rounded-2xl @statusClass">
+                    @Model.HearingStatus
+                </span>
+            </div>
+
+            <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Left Column -->
+                <div class="space-y-8">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Hearing Date & Time</label>
+                        <p class="text-2xl font-semibold text-slate-800 dark:text-white">
+                            @Model.HearingDate.ToString("dd MMMM yyyy")
+                        </p>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg">
+                            @Model.HearingDate.ToString("dddd, hh:mm tt")
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Court</label>
+                        <p class="text-xl font-medium text-slate-800 dark:text-white">
+                            @(Model.Court?.CourtName ?? "Not Assigned")
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Case</label>
+                        <p class="text-xl font-medium text-slate-800 dark:text-white">
+                            @(Model.Case?.CaseNumber ?? "N/A")
+                        </p>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            @(Model.Case?.CaseTitle ?? "")
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">Remarks / Notes</label>
+                    <div class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-6 min-h-[180px] text-slate-700 dark:text-slate-300">
+                        @if (string.IsNullOrWhiteSpace(Model.Remarks))
+                        {
+                            <p class="text-slate-400 italic">No remarks added yet.</p>
+                        }
+                        else
+                        {
+                            <p class="whitespace-pre-wrap">@Model.Remarks</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 px-8 py-6 flex justify-end gap-4">
+                <a href="@Url.Action("Edit", "Hearing", new { id = Model.Id })"
+                   class="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl flex items-center gap-2 font-semibold transition">
+                    <i class="fas fa-edit"></i> Edit Hearing
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
