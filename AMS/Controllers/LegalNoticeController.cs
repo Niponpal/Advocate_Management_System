@@ -1,6 +1,6 @@
-﻿using AMS.Repository;
+﻿using AMS.Models;
+using AMS.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace AMS.Controllers;
 
@@ -17,4 +17,30 @@ public class LegalNoticeController : Controller
         var data = await _legalNoticeRepository.GetAllLegalNoticeAsync(cancellationToken);
         return View();
     }
+    [HttpGet]
+    public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
+    {
+        var notice = await _legalNoticeRepository.GetLegalNoticeByIdAsync(id, cancellationToken);
+
+        if (notice != null)
+        {
+            return View(notice);
+        }
+
+        return NotFound();
+    }
+    [HttpPost]
+    public async Task<IActionResult> CreateOrEdit(LegalNotice legalNotice, CancellationToken cancellationToken)
+    {
+        if (legalNotice.Id == 0)
+        {
+            await _legalNoticeRepository.AddLegalNoticeAsync(legalNotice,cancellationToken );
+        }
+        else
+        {
+            await _legalNoticeRepository.UpdateLegalNoticeAsync(legalNotice, cancellationToken);
+        }
+        return RedirectToAction("Index");
+    }
+   
 }
