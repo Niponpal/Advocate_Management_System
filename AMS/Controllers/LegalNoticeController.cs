@@ -42,5 +42,20 @@ public class LegalNoticeController : Controller
         }
         return RedirectToAction("Index");
     }
-   
+    [HttpGet]
+    public async Task<IActionResult> Details(long id, CancellationToken cancellationToken)
+    {
+        var data = await _legalNoticeRepository.GetLegalNoticeByIdAsync(id, cancellationToken);
+        if (data != null)
+        {
+            return View(data);
+        }
+        return NotFound();
+    }
+    [HttpPost]
+    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+    {
+        await _legalNoticeRepository.DeleteLegalNoticeAsync(id, cancellationToken);
+        return RedirectToAction(nameof(Index));
+    }
 }
