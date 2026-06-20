@@ -20,6 +20,11 @@ public class LegalNoticeController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
+        if (id == 0)
+        {
+            return View(new LegalNotice());
+        }
+
         var notice = await _legalNoticeRepository.GetLegalNoticeByIdAsync(id, cancellationToken);
 
         if (notice != null)
