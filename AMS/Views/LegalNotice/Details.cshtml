@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Legal Notice Details";
+}
+
+<div class="min-h-screen bg-slate-950 text-slate-300 p-8">
+    <div class="max-w-6xl mx-auto">
+
+        <!-- Breadcrumb & Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-4">
+                <a href="/LegalNotices"
+                   class="flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+                <h1 class="text-3xl font-bold text-white">Legal Notice Details</h1>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="editNotice()"
+                        class="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-2xl flex items-center gap-2 transition-all">
+                    <i class="fas fa-edit"></i> Edit Notice
+                </button>
+
+                <button onclick="printNotice()"
+                        class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-2xl flex items-center gap-2 font-semibold transition-all">
+                    <i class="fas fa-print"></i> Print / Download PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+
+            <!-- Notice Header -->
+            <div class="px-10 py-8 bg-gradient-to-r from-slate-800 to-slate-900 border-b border-slate-700">
+                <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                    <div>
+                        <span class="inline-flex items-center px-5 py-2 bg-emerald-500/10 text-emerald-400 text-sm font-semibold rounded-2xl">
+                            <i class="fas fa-file-contract mr-2"></i> LEGAL NOTICE
+                        </span>
+                        <h2 id="noticeTitle" class="text-4xl font-bold text-white mt-4 leading-tight">
+                            <!-- Bound from Model -->
+                        </h2>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-slate-400 text-sm">Notice Date</p>
+                        <p id="noticeDate" class="text-2xl font-semibold text-white"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+                    <!-- Main Details -->
+                    <div class="lg:col-span-8 space-y-10">
+                        <div>
+                            <h3 class="uppercase text-slate-400 text-sm font-medium mb-4 tracking-wider">Description</h3>
+                            <div id="description" class="prose prose-invert text-slate-200 text-[17px] leading-relaxed">
+                                <!-- Dynamic Content -->
+                            </div>
+                        </div>
+
+                        <!-- Notice Metadata -->
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-slate-800 rounded-2xl p-6">
+                                <p class="text-slate-400 text-sm">Notice ID</p>
+                                <p id="noticeId" class="font-mono text-xl text-white mt-1">#LN-00000</p>
+                            </div>
+                            <div class="bg-slate-800 rounded-2xl p-6">
+                                <p class="text-slate-400 text-sm">Status</p>
+                                <span class="inline-flex px-5 py-2 bg-emerald-500/10 text-emerald-400 rounded-2xl text-sm font-medium mt-1">
+                                    <i class="fas fa-circle-dot mr-2"></i> Active
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Client Sidebar -->
+                    <div class="lg:col-span-4">
+                        <div class="bg-slate-800 border border-slate-700 rounded-3xl p-7 sticky top-8">
+                            <h3 class="flex items-center gap-3 text-slate-400 text-sm font-medium mb-6">
+                                <i class="fas fa-user-tie"></i> CLIENT DETAILS
+                            </h3>
+
+                            <div class="flex items-center gap-4 mb-8">
+                                <div class="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center text-4xl">👤</div>
+                                <div>
+                                    <p id="clientName" class="text-2xl font-semibold text-white"></p>
+                                    <p id="clientIdDisplay" class="text-emerald-500 font-mono"></p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-5 text-sm">
+                                <div class="flex justify-between border-b border-slate-700 pb-4">
+                                    <span class="text-slate-400">Client ID</span>
+                                    <span id="clientId" class="text-white font-medium"></span>
+                                </div>
+                                <div class="flex justify-between border-b border-slate-700 pb-4">
+                                    <span class="text-slate-400">Contact</span>
+                                    <span id="contact" class="text-white">Mr. Karim Rahman</span>
+                                </div>
+                                <div class="flex justify-between border-b border-slate-700 pb-4">
+                                    <span class="text-slate-400">Email</span>
+                                    <span id="email" class="text-white">client@company.com</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Phone</span>
+                                    <span id="phone" class="text-white">+880 17XXXXXXXX</span>
+                                </div>
+                            </div>
+
+                            <button onclick="viewClient()"
+                                    class="mt-8 w-full py-4 bg-slate-700 hover:bg-slate-600 rounded-2xl text-sm font-medium transition">
+                                View Complete Client Profile →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="border-t border-slate-700 bg-slate-950 px-10 py-6 flex items-center justify-between">
+                <div class="text-slate-400 text-sm">
+                    Created: <span id="createdDate">20 June 2026</span>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="sendToClient()"
+                            class="px-8 py-3 border border-slate-600 hover:border-emerald-500 rounded-2xl flex items-center gap-2 transition">
+                        <i class="fas fa-paper-plane"></i> Send to Client
+                    </button>
+                    <button onclick="archiveNotice()"
+                            class="px-8 py-3 border border-slate-600 hover:border-slate-400 rounded-2xl flex items-center gap-2 transition">
+                        <i class="fas fa-archive"></i> Archive
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sample data (In real app, use @Model binding)
+    const notice = {
+        id: 482,
+        noticeTitle: "Contract Renewal & Outstanding Payment Reminder",
+        description: "This is to formally inform you that the retainer agreement between Khan & Associates and your company is due for renewal on 15th July 2026. Please clear the outstanding professional fees amounting to ৳ 2,45,000 at the earliest.",
+        noticeDate: "2026-06-20",
+        clientId: 145,
+        clientName: "ABC Corporation Ltd."
+    };
+
+    function loadDetails() {
+        document.getElementById('noticeTitle').textContent = notice.noticeTitle;
+        document.getElementById('description').innerHTML = `<p>${notice.description}</p>`;
+        document.getElementById('noticeDate').textContent = new Date(notice.noticeDate).toLocaleDateString('en-GB', {
+            day: 'numeric', month: 'long', year: 'numeric'
+        });
+        document.getElementById('noticeId').textContent = `#LN-00${notice.id}`;
+        document.getElementById('clientName').textContent = notice.clientName;
+        document.getElementById('clientId').textContent = notice.clientId;
+        document.getElementById('clientIdDisplay').textContent = `Client #${notice.clientId}`;
+    }
+
+    // Action Buttons
+    function editNotice() { alert("Edit Notice Modal / Page will open here"); }
+    function printNotice() { window.print(); }
+    function sendToClient() { alert("Legal Notice sent to client via Email & SMS."); }
+    function archiveNotice() { alert("Notice archived successfully."); }
+    function viewClient() { alert("Redirecting to Client Profile..."); }
+
+    // Initialize
+    window.onload = loadDetails;
+</script>
