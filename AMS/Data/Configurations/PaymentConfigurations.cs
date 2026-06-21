@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AMS.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Data.Configurations;
 
