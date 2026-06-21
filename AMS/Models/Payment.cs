@@ -1,9 +1,7 @@
-﻿using AMS.BaseEntities;
-using AMS.Models;
+﻿namespace AMS.Models;
 
-public class Payment :BaseEntity
+public class Payment
 {
-
     public decimal Amount { get; set; }
     public DateTime PaymentDate { get; set; }
     public string? PaymentMethod { get; set; }
