@@ -12,9 +12,9 @@ public class PaymentController : Controller
     {
         _paymentRepository = paymentRepository;
     }
-    public IActionResult Index(CancellationToken cancellationToken)
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var payments = _paymentRepository.GetAllPaymentsAsync(cancellationToken);
+        var payments = await _paymentRepository.GetAllPaymentsAsync(cancellationToken);
         if (payments != null)
         {
             return View(payments);
@@ -22,17 +22,7 @@ public class PaymentController : Controller
         }
         return NotFound();
     }
-    [HttpGet]
-
-    public async Task<IActionResult> Details(long id, CancellationToken cancellationToken)
-    {
-        var payment = await _paymentRepository.GetPaymentByIdAsync(id, cancellationToken);
-        if (payment != null)
-        {
-            return View(payment);
-        }
-        return NotFound();
-    }
+  
     [HttpGet]
 
     public  async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
@@ -73,5 +63,16 @@ public class PaymentController : Controller
     {
         await _paymentRepository.DeletePaymentAsync(id, cancellationToken);
         return RedirectToAction(nameof(Index));
+    }
+    [HttpGet]
+
+    public async Task<IActionResult> Details(long id, CancellationToken cancellationToken)
+    {
+        var payment = await _paymentRepository.GetPaymentByIdAsync(id, cancellationToken);
+        if (payment != null)
+        {
+            return View(payment);
+        }
+        return NotFound();
     }
 }
