@@ -1,6 +1,8 @@
-﻿namespace AMS.Models;
+﻿using AMS.BaseEntities;
 
-public class TaskManagement
+namespace AMS.Models;
+
+public class TaskManagement: BaseEntity
 {
     public string TaskTitle { get; set; }
     public string Description { get; set; }
