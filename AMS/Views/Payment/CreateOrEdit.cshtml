@@ -1,0 +1,96 @@
+﻿@model AMS.Models.Payment
+@{
+    ViewData["Title"] = "Create Payment";
+}
+
+<div class="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white p-6 md:p-8 transition-colors">
+    <div class="max-w-2xl mx-auto">
+        <div class="flex items-center gap-3 mb-8">
+            <a asp-action="Index" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-4xl font-bold">New Payment</h1>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8">
+            <form asp-action="Create" method="post" class="space-y-6">
+                @Html.AntiForgeryToken()
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Amount -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Amount (৳)</label>
+                        <input asp-for="Amount" type="number" step="0.01"
+                               class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors" />
+                        <span asp-validation-for="Amount" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+
+                    <!-- Payment Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Payment Date</label>
+                        <input asp-for="PaymentDate" type="datetime-local"
+                               class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors" />
+                        <span asp-validation-for="PaymentDate" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Payment Method</label>
+                        <select asp-for="PaymentMethod" class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="">Select Method</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Mobile Banking">Mobile Banking</option>
+                            <option value="Cheque">Cheque</option>
+                            <option value="Card">Card</option>
+                        </select>
+                    </div>
+
+                    <!-- Payment Status -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Status</label>
+                        <select asp-for="PaymentStatus" class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="">Select Status</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Failed">Failed</option>
+                        </select>
+                    </div>
+
+                    <!-- Client -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Client</label>
+                        <select asp-for="ClientId" class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="">Select Client</option>
+                            @* Populate from ViewBag or use EditorFor with dropdown in controller *@
+                        </select>
+                    </div>
+
+                    <!-- Case -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Case</label>
+                        <select asp-for="CaseId" class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="">Select Case</option>
+                            @* Populate dynamically *@
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 pt-6">
+                    <button type="submit"
+                            class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-4 rounded-2xl transition">
+                        Save Payment
+                    </button>
+                    <a asp-action="Index"
+                       class="flex-1 text-center border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold py-4 rounded-2xl transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
