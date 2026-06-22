@@ -1,9 +1,7 @@
-﻿using AMS.BaseEntities;
-using AMS.Models;
+﻿namespace AMS.Models;
 
-public class TaskManagement:BaseEntity
+public class TaskManagement
 {
-
     public string TaskTitle { get; set; }
     public string Description { get; set; }
     public DateTime DueDate { get; set; }
