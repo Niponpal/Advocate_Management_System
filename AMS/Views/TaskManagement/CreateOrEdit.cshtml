@@ -1,0 +1,102 @@
+﻿@model AMS.Models.TaskManagement
+
+@{
+    ViewData["Title"] = Model.Id > 0 ? "Edit Task" : "Create New Task";
+}
+
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 p-8 transition-colors">
+    <div class="max-w-2xl mx-auto">
+
+        <!-- Header -->
+        <div class="mb-10">
+            <a href="@Url.Action("Index")"
+               class="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 mb-4 transition">
+                <i class="fas fa-arrow-left"></i> Back to Tasks
+            </a>
+            <h1 class="text-4xl font-bold text-slate-800 dark:text-white">
+                @(Model.Id > 0 ? "Edit Task" : "Create New Task")
+            </h1>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-10 shadow-xl">
+            <form asp-action="CreateOrEdit" method="post" class="space-y-8">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+
+                <!-- Task Title -->
+                <div>
+                    <label asp-for="TaskTitle" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-3"></label>
+                    <input asp-for="TaskTitle"
+                           class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-6 text-base focus:outline-none transition-colors"
+                           placeholder="Enter task title" />
+                    <span asp-validation-for="TaskTitle" class="text-rose-500 text-sm mt-2"></span>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label asp-for="Description" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-3"></label>
+                    <textarea asp-for="Description" rows="5"
+                              class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-3xl py-4 px-6 text-base focus:outline-none transition-colors resize-y"></textarea>
+                    <span asp-validation-for="Description" class="text-rose-500 text-sm mt-2"></span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Due Date -->
+                    <div>
+                        <label asp-for="DueDate" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-3"></label>
+                        <input asp-for="DueDate" type="date"
+                               class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-6 focus:outline-none transition-colors" />
+                        <span asp-validation-for="DueDate" class="text-rose-500 text-sm mt-2"></span>
+                    </div>
+
+                    <!-- Status -->
+                    <div>
+                        <label asp-for="Status" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-3"></label>
+                        <select asp-for="Status"
+                                class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-6 focus:outline-none transition-colors">
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Overdue">Overdue</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-rose-500 text-sm mt-2"></span>
+                    </div>
+                </div>
+
+                <!-- Advocate -->
+                <div>
+                    <label asp-for="AdvocateId" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-3"></label>
+                    <select asp-for="AdvocateId"
+                            class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-6 focus:outline-none transition-colors">
+                        <option value="">Select Advocate</option>
+                        <!-- Populate from ViewBag or SelectList in controller -->
+                        @if (ViewBag.Advocates != null)
+                        {
+                            foreach (var advocate in (IEnumerable<dynamic>)ViewBag.Advocates)
+                            {
+                                <option value="@advocate.Id">@advocate.Name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="AdvocateId" class="text-rose-500 text-sm mt-2"></span>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+                    <a href="@Url.Action("Index")"
+                       class="flex-1 text-center py-4 border border-slate-300 dark:border-slate-700 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition font-medium">
+                        Cancel
+                    </a>
+                    <button type="submit"
+                            class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-semibold transition shadow-lg shadow-emerald-500/30">
+                        @(Model.Id > 0 ? "Update Task" : "Create Task")
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
