@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "Payment Details";
+}
+
+<div class="flex-1 overflow-auto p-6 lg:p-8 bg-slate-950 text-white">
+    <div class="max-w-4xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-4">
+                <a href="@Url.Action("Index", "Payments")"
+                   class="flex items-center gap-2 text-slate-400 hover:text-slate-300 transition">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Payments</span>
+                </a>
+                <h1 class="text-3xl font-bold">Payment Details</h1>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="@Url.Action("Edit", "Payments", new { id = Model.Id })"
+                   class="px-5 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl flex items-center gap-2 transition">
+                    <i class="fas fa-edit"></i>
+                    Edit Payment
+                </a>
+                <button onclick="deletePayment(@Model.Id)"
+                        class="px-5 py-3 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-2xl flex items-center gap-2 transition">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Main Payment Info -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Amount Card -->
+                <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-slate-400 text-sm">Payment Amount</p>
+                            <p class="text-6xl font-bold text-emerald-400 mt-3">৳@Model.Amount.ToString("N2")</p>
+                        </div>
+                        <div class="text-5xl text-emerald-500">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Information -->
+                <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                    <h3 class="text-xl font-semibold mb-6 flex items-center gap-3">
+                        <i class="fas fa-info-circle"></i>
+                        Payment Information
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-slate-400 text-sm">Payment Date</p>
+                            <p class="text-2xl font-medium mt-2">@Model.PaymentDate.ToString("dd MMMM yyyy")</p>
+                            <p class="text-slate-400 text-sm">@Model.PaymentDate.ToString("hh:mm tt")</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Payment Method</p>
+                            <p class="text-2xl font-medium mt-2">@(Model.PaymentMethod ?? "Not Specified")</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Payment Status</p>
+                            <span class="inline-flex px-6 py-3 text-lg font-semibold rounded-2xl mt-2
+                                @(Model.PaymentStatus?.ToLower() == "completed" || Model.PaymentStatus?.ToLower() == "paid"
+                                                                      ? "bg-emerald-500/20 text-emerald-400"
+                                                                      : Model.PaymentStatus?.ToLower() == "pending"
+                                                                          ? "bg-amber-500/20 text-amber-400"
+                                                                          : "bg-slate-500/20 text-slate-400")">
+                                @Model.PaymentStatus
+                            </span>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Case ID</p>
+                            <a href="@Url.Action("Details", "Cases", new { id = Model.CaseId })"
+                               class="text-2xl font-medium mt-2 text-sky-400 hover:text-sky-300 hover:underline">
+                                #CASE-@Model.CaseId
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Case -->
+                <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                    <h3 class="text-xl font-semibold mb-6">Related Case</h3>
+                    @if (Model.Case != null)
+                    {
+                        <div class="flex gap-5 bg-slate-800/60 p-6 rounded-2xl">
+                            <div class="text-4xl">⚖️</div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-lg">@Model.Case.Title</p>
+                                <p class="text-slate-400">@Model.Case.CaseType • @Model.Case.CourtName</p>
+                                <div class="mt-4 flex items-center gap-4">
+                                    <span class="px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-2xl text-sm">
+                                        @Model.Case.Status
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-slate-400">No case information available.</p>
+                    }
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+
+                <!-- Client Information -->
+                <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                    <h3 class="text-xl font-semibold mb-6 flex items-center gap-3">
+                        <i class="fas fa-user-tie"></i>
+                        Client
+                    </h3>
+                    @if (Model.Client != null)
+                    {
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center text-3xl">
+                                👤
+                            </div>
+                            <div>
+                                <p class="font-semibold text-xl">@Model.Client.FullName</p>
+                                <p class="text-slate-400">@Model.Client.Email</p>
+                                <p class="text-slate-400">@Model.Client.Phone</p>
+                            </div>
+                        </div>
+                        <a href="@Url.Action("Details", "Clients", new { id = Model.ClientId })"
+                           class="block mt-6 text-center py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl transition">
+                            View Client Profile →
+                        </a>
+                    }
+                </div>
+
+                <!-- Payment Summary -->
+                <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8">
+                    <h3 class="text-lg font-semibold mb-5">Payment Summary</h3>
+                    <div class="space-y-4 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Amount Paid</span>
+                            <span class="font-semibold text-emerald-400">৳@Model.Amount.ToString("N2")</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Date</span>
+                            <span>@Model.PaymentDate.ToString("dd MMM yyyy")</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Method</span>
+                            <span>@Model.PaymentMethod</span>
+                        </div>
+                        <div class="pt-4 border-t border-slate-700">
+                            <span class="text-emerald-400 font-medium">Payment successfully recorded</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function deletePayment(id) {
+        if (confirm("Are you sure you want to delete this payment?")) {
+            // Add your delete logic here (form submit or fetch)
+            alert("Payment #" + id + " deleted successfully.");
+            window.location.href = '@Url.Action("Index", "Payments")';
+        }
+    }
+</script>
