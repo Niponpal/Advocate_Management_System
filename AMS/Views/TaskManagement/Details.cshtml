@@ -1,0 +1,165 @@
+﻿@model AMS.Models.TaskManagement
+
+@{
+    ViewData["Title"] = "Task Details";
+}
+
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 p-8 transition-colors">
+    <div class="max-w-3xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex justify-between items-start mb-10">
+            <div>
+                <a href="@Url.Action("Index")"
+                   class="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 mb-4 transition">
+                    <i class="fas fa-arrow-left"></i> Back to All Tasks
+                </a>
+                <h1 class="text-4xl font-bold text-slate-800 dark:text-white">Task Details</h1>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="@Url.Action("CreateOrEdit", new { id = Model.Id })"
+                   class="px-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-2xl flex items-center gap-2 transition">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <button onclick="deleteTask(@Model.Id)"
+                        class="px-6 py-3 bg-rose-100 dark:bg-rose-950 hover:bg-rose-200 dark:hover:bg-rose-900 text-rose-600 dark:text-rose-400 border border-rose-300 dark:border-rose-800 rounded-2xl flex items-center gap-2 transition">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
+
+            <!-- Status Banner -->
+            <div class="px-10 py-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+                <div class="flex items-center gap-4">
+                    <span class="text-2xl">
+                        @if (Model.Status == "Completed")
+                        {
+                            <text>✅</text>
+                        }
+                        else if (Model.Status == "Overdue")
+                        {
+
+                            <text>⚠️</text>
+                        }
+                        else
+                        {
+
+                            <text>📋</text>
+                        }
+                    </span>
+                    <div>
+                        <p class="font-semibold text-lg text-slate-800 dark:text-white">@Model.TaskTitle</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Task ID: #TM-@Model.Id</p>
+                    </div>
+                </div>
+
+                <div>
+                    @switch (Model.Status?.ToLower())
+                    {
+                        case "completed":
+                            <span class="px-6 py-2.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 rounded-2xl text-sm font-semibold">COMPLETED</span>
+                            break;
+                        case "in progress":
+                            <span class="px-6 py-2.5 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400 rounded-2xl text-sm font-semibold">IN PROGRESS</span>
+                            break;
+                        case "pending":
+                            <span class="px-6 py-2.5 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 rounded-2xl text-sm font-semibold">PENDING</span>
+                            break;
+                        case "overdue":
+                            <span class="px-6 py-2.5 bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-400 rounded-2xl text-sm font-semibold">OVERDUE</span>
+                            break;
+                        default:
+                            <span class="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-2xl text-sm font-semibold">@Model.Status</span>
+                            break;
+                    }
+                </div>
+            </div>
+
+            <div class="p-10 space-y-10">
+                <!-- Description -->
+                <div>
+                    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">DESCRIPTION</h3>
+                    <p class="text-slate-700 dark:text-slate-300 leading-relaxed text-lg">
+                        @Model.Description
+                    </p>
+                </div>
+
+                <!-- Details Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">DUE DATE</h3>
+                        <p class="text-2xl font-semibold text-slate-800 dark:text-white">
+                            @Model.DueDate.ToString("dd MMMM yyyy")
+                        </p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                            @Model.DueDate.ToString("dddd")
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">ASSIGNED TO</h3>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold">
+                                @Model.Advocate?.AdvocateName?.Substring(0, 1) ?? "A"
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg">@Model.Advocate?.AdvocateName</p>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">Advocate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="pt-8 border-t border-slate-200 dark:border-slate-700">
+                    <div class="flex justify-between text-sm">
+                        <div class="text-slate-500 dark:text-slate-400">
+                            Created: <span class="text-slate-700 dark:text-slate-300">@Model.?.ToString("dd MMM yyyy")</span>
+                        </div>
+                        <div class="text-slate-500 dark:text-slate-400">
+                            Last Updated: <span class="text-slate-700 dark:text-slate-300">@Model.?.ToString("dd MMM yyyy")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-8 flex gap-4 justify-center">
+            @if (Model.Status != "Completed")
+            {
+                <button onclick="markAsCompleted(@Model.Id)"
+                        class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-semibold flex items-center gap-3 transition">
+                    <i class="fas fa-check-circle"></i> Mark as Completed
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function deleteTask(id) {
+            if (confirm("Are you sure you want to delete this task?")) {
+                // In real app: AJAX call to delete
+                alert("Task deleted successfully!");
+                window.location.href = '@Url.Action("Index")';
+            }
+        }
+
+        function markAsCompleted(id) {
+            if (confirm("Mark this task as completed?")) {
+                // In real app: AJAX call
+                alert("✅ Task marked as completed!");
+                location.reload();
+            }
+        }
+
+        // Theme init
+        window.onload = initTheme;
+    </script>
+}

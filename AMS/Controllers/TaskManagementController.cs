@@ -22,16 +22,7 @@ public class TaskManagementController : Controller
         }
         return NotFound();
     }
-    [HttpGet]
-    public async Task<IActionResult> Details(long id, CancellationToken cancellationToken)
-    {
-        var task = await _taskManagementRepository.GetTaskByIdAsync(id, cancellationToken);
-        if (task != null)
-        {
-            return View(task);
-        }
-        return NotFound();
-    }
+    
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
@@ -71,5 +62,16 @@ public class TaskManagementController : Controller
     {
         await _taskManagementRepository.DeleteTaskAsync(id, cancellationToken);
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Details(long id, CancellationToken cancellationToken)
+    {
+        var task = await _taskManagementRepository.GetTaskByIdAsync(id, cancellationToken);
+        if (task != null)
+        {
+            return View(task);
+        }
+        return NotFound();
     }
 }
