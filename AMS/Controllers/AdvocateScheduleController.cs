@@ -7,10 +7,13 @@ namespace AMS.Controllers;
 public class AdvocateScheduleController : Controller
 {
     private readonly IAdvocateScheduleRepository _advocateScheduleRepository;
-    
-    public AdvocateScheduleController(IAdvocateScheduleRepository advocateScheduleRepository)
+    private readonly IAdvocateRepository _advocateRepository;
+
+
+    public AdvocateScheduleController(IAdvocateScheduleRepository advocateScheduleRepository, IAdvocateRepository advocateRepository)
     {
         _advocateScheduleRepository = advocateScheduleRepository;
+        _advocateRepository = advocateRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
     {

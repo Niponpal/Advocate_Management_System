@@ -1,5 +1,6 @@
 ﻿using AMS.Data;
 using AMS.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 namespace AMS.Repository;
 
@@ -11,6 +12,8 @@ public interface IAdvocateRepository
     Task<Advocate> AddAdvocateAsync(Advocate advocate, CancellationToken cancellationToken);
     Task<Advocate?> UpdateAdvocateAsync(Advocate advocate, CancellationToken cancellationToken);
     Task<Advocate> DeleteAdvocateAsync(long id, CancellationToken cancellationToken);
+
+    IEnumerable<SelectListItem> Dropdown();
 
     //Task<bool> IsAlreadyAppliedAsync(long jobId, long userId, CancellationToken cancellationToken);
     //Task<List<Job>> GetAppliedJobsByUserAsync(long userId, CancellationToken cancellationToken);
@@ -44,6 +47,18 @@ public class AdvocateRepository : IAdvocateRepository
             throw new Exception("Advocate not found");
         }
     }
+
+    public IEnumerable<SelectListItem> Dropdown()
+    {
+      
+        var data = _context.advocates.Select(x => new SelectListItem
+        {
+            Text = x.AdvocateName,
+            Value = x.Id.ToString()
+        }).ToList();
+        return data;
+    }
+    
 
     public async Task<Advocate?> GetAdvocateByIdAsync(long id, CancellationToken cancellationToken)
     {
