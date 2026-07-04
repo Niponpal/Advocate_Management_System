@@ -1,223 +1,118 @@
-﻿@{
-    ViewData["Title"] = "Dashboard";
+﻿@model IEnumerable<AMS.Models.AdvocateSchedule>
+@{
+    ViewData["Title"] = "Advocate Schedules";
 }
 
-<div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 p-6 lg:p-10">
-    <div class="max-w-7xl mx-auto space-y-12">
+<div class="p-6 lg:p-10">
+    <div class="max-w-7xl mx-auto space-y-10">
 
-        <!-- Professional Hero Section -->
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-10 lg:p-12 relative overflow-hidden shadow-sm">
-            <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl"></div>
-
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10">
-                <div class="flex items-center gap-6">
-                    <div class="w-20 h-20 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-3xl flex items-center justify-center text-5xl shadow-inner text-white">
-                        ⚖️
-                    </div>
-                    <div>
-                        <p class="uppercase text-emerald-600 dark:text-emerald-400 text-sm font-semibold tracking-[2px]">Senior Advocate</p>
-                        <h1 class="text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mt-1">Adv. Rahim Khan</h1>
-                        <p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">Managing Partner, Khan & Associates</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-10">
-                    <div class="text-right">
-                        <p class="text-5xl font-semibold text-emerald-600 dark:text-emerald-400">৳1.84Cr</p>
-                        <p class="text-slate-500 dark:text-slate-400 flex items-center gap-2 justify-end">
-                            Revenue This Year
-                            <span class="text-emerald-600 dark:text-emerald-500 font-medium flex items-center gap-1">
-                                <i class="fas fa-arrow-trend-up"></i> +18%
-                            </span>
-                        </p>
-                    </div>
-                    <button onclick="newCase()"
-                            class="px-10 py-5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold rounded-3xl flex items-center gap-3 text-lg transition-all duration-200 shadow-lg shadow-emerald-500/30 hover:shadow-xl">
-                        <i class="fas fa-plus"></i>
-                        New Case
-                    </button>
-                </div>
+        <!-- Header -->
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+            <div>
+                <h1 class="text-4xl font-bold text-slate-900 dark:text-white">Advocate Schedules</h1>
+                <p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">
+                    Manage all advocate availability and court schedules
+                </p>
             </div>
+
+            <a asp-action="CreateOrEdit"
+               class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold rounded-3xl flex items-center gap-3 text-lg transition-all shadow-lg shadow-emerald-500/30 hover:shadow-xl">
+                <i class="fas fa-plus"></i>
+                Add New Schedule
+            </a>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 hover:border-emerald-200 dark:hover:border-emerald-600 transition-all group">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Cases</p>
-                        <p class="text-5xl font-bold text-slate-900 dark:text-white mt-4">248</p>
-                    </div>
-                    <div class="text-5xl text-emerald-500 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                </div>
-                <div class="mt-6 text-emerald-600 dark:text-emerald-400 text-sm flex items-center gap-2">
-                    <i class="fas fa-arrow-trend-up"></i>
-                    <span>+12 this month</span>
+        <!-- Main Table Card -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-sm overflow-hidden">
+
+            <div class="px-8 py-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800">
+                <h2 class="text-xl font-semibold text-slate-900 dark:text-white">All Schedules</h2>
+                <div class="text-sm text-slate-500 dark:text-slate-400">
+                    Total Records: <span class="font-medium text-slate-700 dark:text-slate-300">@Model.Count()</span>
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 hover:border-amber-200 dark:hover:border-amber-600 transition-all group">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Active Cases</p>
-                        <p class="text-5xl font-bold text-slate-900 dark:text-white mt-4">87</p>
-                    </div>
-                    <div class="text-5xl text-amber-500 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                </div>
-                <div class="mt-6 text-amber-600 dark:text-amber-400 text-sm flex items-center gap-2">
-                    <i class="fas fa-clock"></i>
-                    <span>4 hearings this week</span>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 hover:border-sky-200 dark:hover:border-sky-600 transition-all group">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Clients</p>
-                        <p class="text-5xl font-bold text-slate-900 dark:text-white mt-4">164</p>
-                    </div>
-                    <div class="text-5xl text-sky-500 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-users"></i>
-                    </div>
-                </div>
-                <div class="mt-6 text-sky-600 dark:text-sky-400 text-sm flex items-center gap-2">
-                    <i class="fas fa-user-plus"></i>
-                    <span>+8 new clients</span>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 hover:border-violet-200 dark:hover:border-violet-600 transition-all group relative">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Win Rate</p>
-                        <p class="text-5xl font-bold text-slate-900 dark:text-white mt-4">94%</p>
-                    </div>
-                    <div class="text-5xl text-violet-500 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                </div>
-                <div class="absolute bottom-8 right-8 bg-violet-100 dark:bg-violet-900 text-violet-700 dark:text-violet-300 text-xs px-5 py-2 rounded-2xl font-medium">
-                    Outstanding
-                </div>
-            </div>
-        </div>
-
-        <!-- Two Column Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-            <!-- Case Status Breakdown -->
-            <div class="lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 lg:p-10">
-                <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mb-8 flex items-center gap-3">
-                    <i class="fas fa-chart-pie text-emerald-600"></i>
-                    Case Status Breakdown
-                </h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl p-6 text-center hover:shadow-md transition">
-                        <div class="text-5xl mb-4">🟢</div>
-                        <p class="text-4xl font-bold text-emerald-600 dark:text-emerald-400">87</p>
-                        <p class="text-slate-500 dark:text-slate-400 mt-1">Active</p>
-                    </div>
-                    <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl p-6 text-center hover:shadow-md transition">
-                        <div class="text-5xl mb-4">🟡</div>
-                        <p class="text-4xl font-bold text-amber-600 dark:text-amber-400">42</p>
-                        <p class="text-slate-500 dark:text-slate-400 mt-1">Pending</p>
-                    </div>
-                    <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl p-6 text-center hover:shadow-md transition">
-                        <div class="text-5xl mb-4">🔵</div>
-                        <p class="text-4xl font-bold text-sky-600 dark:text-sky-400">68</p>
-                        <p class="text-slate-500 dark:text-slate-400 mt-1">Under Review</p>
-                    </div>
-                    <div class="bg-slate-50 dark:bg-slate-800 rounded-3xl p-6 text-center hover:shadow-md transition">
-                        <div class="text-5xl mb-4">✅</div>
-                        <p class="text-4xl font-bold text-violet-600 dark:text-violet-400">51</p>
-                        <p class="text-slate-500 dark:text-slate-400 mt-1">Resolved</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Advocate Schedule -->
-            <div class="lg:col-span-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 lg:p-10">
-                <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mb-8 flex items-center gap-3">
-                    <i class="fas fa-calendar-check text-emerald-600"></i>
-                    My Schedule
-                </h3>
-
-                <div class="space-y-5 max-h-[380px] overflow-auto pr-2 custom-scroll">
-                    @if (ViewBag.Schedules != null && ((IEnumerable<AMS.Models.AdvocateSchedule>)ViewBag.Schedules).Any())
-                    {
-                        @foreach (var item in (IEnumerable<AMS.Models.AdvocateSchedule>)ViewBag.Schedules)
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50 dark:bg-slate-800">
+                        <tr>
+                            <th class="px-8 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400 w-12">#</th>
+                            <th class="px-8 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Advocate</th>
+                            <th class="px-8 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Schedule Date</th>
+                            <th class="px-8 py-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">Available Time</th>
+                            <th class="px-8 py-5 text-center text-sm font-medium text-slate-500 dark:text-slate-400">Status</th>
+                            <th class="px-8 py-5 text-center text-sm font-medium text-slate-500 dark:text-slate-400">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                        @if (Model.Any())
                         {
-                            <div class="flex gap-5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 p-6 rounded-3xl transition-all">
-                                <div class="text-center min-w-[65px]">
-                                    <p class="text-emerald-600 dark:text-emerald-400 text-sm font-medium">
-                                        @item.ScheduleDate.ToString("MMM")
-                                    </p>
-                                    <p class="text-4xl font-bold text-slate-900 dark:text-white">@item.ScheduleDate.Day</p>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-semibold text-slate-900 dark:text-white">
-                                        @item.Advocate?.AdvocateName
-                                    </p>
-                                    <p class="text-slate-500 dark:text-slate-400 text-sm">@item.AvailableTime</p>
-                                    <span class="inline-block mt-3 text-xs bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 px-4 py-1.5 rounded-2xl">
-                                        Confirmed
-                                    </span>
-                                </div>
-                            </div>
+                            int serial = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors group">
+                                    <td class="px-8 py-6 text-slate-500 dark:text-slate-400 font-medium">
+                                        @serial
+                                    </td>
+                                    <td class="px-8 py-6">
+                                        <div class="font-semibold text-slate-900 dark:text-white">
+                                            @item.Advocate?.AdvocateName
+                                        </div>
+                                    </td>
+                                    <td class="px-8 py-6">
+                                        <div class="text-slate-900 dark:text-white font-medium">
+                                            @item.ScheduleDate.ToString("dd MMMM yyyy")
+                                        </div>
+                                        <div class="text-sm text-slate-500 dark:text-slate-400">
+                                            @item.ScheduleDate.ToString("dddd")
+                                        </div>
+                                    </td>
+                                    <td class="px-8 py-6">
+                                        <span class="inline-flex items-center px-5 py-2 bg-emerald-100 dark:bg-emerald-900/70 text-emerald-700 dark:text-emerald-300 rounded-2xl text-sm font-medium">
+                                            @item.AvailableTime
+                                        </span>
+                                    </td>
+                                    <td class="px-8 py-6 text-center">
+                                        <span class="inline-block px-6 py-2 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs font-semibold rounded-2xl">
+                                            Confirmed
+                                        </span>
+                                    </td>
+                                    <td class="px-8 py-6">
+                                        <div class="flex justify-center gap-3">
+                                            <a asp-action="CreateOrEdit" asp-route-id="@item.Id"
+                                               class="p-3 hover:bg-amber-100 dark:hover:bg-amber-900 text-amber-600 dark:text-amber-400 rounded-2xl transition-all hover:scale-110">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a asp-action="Details" asp-route-id="@item.Id"
+                                               class="p-3 hover:bg-sky-100 dark:hover:bg-sky-900 text-sky-600 dark:text-sky-400 rounded-2xl transition-all hover:scale-110">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id"
+                                               class="p-3 hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400 rounded-2xl transition-all hover:scale-110"
+                                               onclick="return confirm('Are you sure you want to delete this schedule?')">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                serial++;
+                            }
                         }
-                    }
-                    else
-                    {
-                        <div class="text-center py-16 text-slate-400 dark:text-slate-500">
-                            <i class="fas fa-calendar-times text-5xl mb-4"></i>
-                            <p class="text-lg">No upcoming schedules found</p>
-                        </div>
-                    }
-                </div>
-
-                <div class="mt-6 text-center">
-                    <a asp-controller="AdvocateSchedule" asp-action="Index"
-                       class="text-emerald-600 dark:text-emerald-400 hover:underline font-medium flex items-center justify-center gap-2">
-                        View Full Schedule <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-24">
+                                    <div class="flex flex-col items-center justify-center">
+                                        <i class="fas fa-calendar-times text-7xl text-slate-300 dark:text-slate-600 mb-6"></i>
+                                        <p class="text-2xl font-medium text-slate-500 dark:text-slate-400">No schedules found</p>
+                                        <p class="text-slate-400 mt-3 max-w-xs">Get started by adding your first advocate schedule</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <!-- Recent Cases -->
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-8 lg:p-10">
-            <div class="flex justify-between items-center mb-8">
-                <h3 class="text-2xl font-semibold text-slate-900 dark:text-white">Recent Cases</h3>
-                <a href="#" class="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-2 font-medium">
-                    View All Cases <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <!-- You can add a table here later -->
-            <p class="text-slate-400 dark:text-slate-500 text-center py-12">Recent cases table will be added soon...</p>
-        </div>
-
     </div>
 </div>
-
-<script>
-    function newCase() {
-        alert("New Case form will open here");
-        // window.location.href = '/Cases/Create';
-    }
-</script>
-
-<style>
-    .custom-scroll::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .custom-scroll::-webkit-scrollbar-thumb {
-        background: #10b981;
-        border-radius: 20px;
-    }
-</style>
