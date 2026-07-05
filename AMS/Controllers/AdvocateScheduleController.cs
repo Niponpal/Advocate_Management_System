@@ -30,6 +30,7 @@ public class AdvocateScheduleController : Controller
     [HttpGet]
         public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
         {
+        ViewData["AdvocateId"] = _advocateRepository.Dropdown();
             if (id == 0)
             {
                 return View(new AdvocateSchedule());
@@ -47,6 +48,7 @@ public class AdvocateScheduleController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken)
     {
+        ViewData["AdvocateId"] = _advocateRepository.Dropdown();
         if (ModelState.IsValid)
         {
             if (advocateSchedule.Id == 0)
