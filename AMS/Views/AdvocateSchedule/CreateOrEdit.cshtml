@@ -55,11 +55,14 @@
                         Advocate
                     </label>
                     <select asp-for="AdvocateId"
-                            class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none transition">
+                            asp-items="@(ViewData["AdvocateId"] as IEnumerable<SelectListItem>)"
+                            class="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4">
                         <option value="">-- Select Advocate --</option>
-                        <!-- Populate advocates from controller using ViewBag or SelectList -->
                     </select>
                 </div>
+
+                
+              
 
                 <div class="flex gap-4 pt-8 border-t border-slate-200 dark:border-slate-700">
                     <button type="submit"

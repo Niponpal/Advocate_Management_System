@@ -49,19 +49,18 @@ public class AdvocateScheduleController : Controller
     public async Task<IActionResult> CreateOrEdit(AdvocateSchedule advocateSchedule, CancellationToken cancellationToken)
     {
         ViewData["AdvocateId"] = _advocateRepository.Dropdown();
-        if (ModelState.IsValid)
-        {
+       
             if (advocateSchedule.Id == 0)
             {
                 await _advocateScheduleRepository.AddAdvocateAsync(advocateSchedule, cancellationToken);
-            }
+            return RedirectToAction(nameof(Index));
+        }
             else
             {
                 await _advocateScheduleRepository.UpdateAdvocateAsync(advocateSchedule, cancellationToken);
-            }
             return RedirectToAction(nameof(Index));
         }
-        return View(advocateSchedule);
+     
     }
     [HttpPost]
     public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
