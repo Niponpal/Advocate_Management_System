@@ -78,10 +78,16 @@
                                            class="p-3 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors">
                                             <i class="fas fa-edit text-amber-500"></i>
                                         </a>
-                                        <button onclick="deleteCategory(@item.Id, '@Html.Raw(item.CategoryName)')"
-                                                class="p-3 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors">
-                                            <i class="fas fa-trash text-rose-500"></i>
-                                        </button>
+                                        <form asp-action="Delete" asp-route-id="@item.Id" method="post"
+                                              onsubmit="return confirm('Are you sure you want to delete this category?');"
+                                              class="inline">
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="p-3 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors">
+                                                <i class="fas fa-trash text-rose-500"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
