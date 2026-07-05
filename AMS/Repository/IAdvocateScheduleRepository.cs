@@ -1,6 +1,7 @@
 ﻿using AMS.Data;
 using AMS.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace AMS.Repository;
 
@@ -64,7 +65,9 @@ public class AdvocateScheduleRepository : IAdvocateScheduleRepository
 
     async Task<AdvocateSchedule?> IAdvocateScheduleRepository.GetAdvocateByIdAsync(long id, CancellationToken cancellationToken)
     {
-       var data = await _context.AdvocateSchedules.FindAsync(id, cancellationToken);
+       var data = await _context.AdvocateSchedules
+        .Include(x => x.Advocate)
+        .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         if (data != null)
         {
             return data;
@@ -77,7 +80,11 @@ public class AdvocateScheduleRepository : IAdvocateScheduleRepository
 
     async Task<IEnumerable<AdvocateSchedule>> IAdvocateScheduleRepository.GetAllApplicationsAsync(CancellationToken cancellationToken)
     {
-      var data = await _context.AdvocateSchedules.ToListAsync(cancellationToken);
+
+
+    var data = await _context.AdvocateSchedules
+    .Include(x => x.Advocate)
+    .ToListAsync(cancellationToken);
         if (data != null)
         {
             return data;
