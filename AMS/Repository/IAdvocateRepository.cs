@@ -12,11 +12,8 @@ public interface IAdvocateRepository
     Task<Advocate> AddAdvocateAsync(Advocate advocate, CancellationToken cancellationToken);
     Task<Advocate?> UpdateAdvocateAsync(Advocate advocate, CancellationToken cancellationToken);
     Task<Advocate> DeleteAdvocateAsync(long id, CancellationToken cancellationToken);
-
     IEnumerable<SelectListItem> Dropdown();
 
-    //Task<bool> IsAlreadyAppliedAsync(long jobId, long userId, CancellationToken cancellationToken);
-    //Task<List<Job>> GetAppliedJobsByUserAsync(long userId, CancellationToken cancellationToken);
 }
 
 public class AdvocateRepository : IAdvocateRepository

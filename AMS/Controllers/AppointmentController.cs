@@ -7,10 +7,12 @@ namespace AMS.Controllers;
 public class AppointmentController : Controller
 {
     private readonly IAppointmentRepository _appointmentRepository;
+    private readonly IAdvocateRepository _advocateRepository;
 
-    public AppointmentController(IAppointmentRepository appointmentRepository)
+    public AppointmentController(IAppointmentRepository appointmentRepository, IAdvocateRepository advocateRepository)
     {
         _appointmentRepository = appointmentRepository;
+        _advocateRepository = advocateRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -34,6 +36,7 @@ public class AppointmentController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
+        ViewData["AdvocateId"] = _advocateRepository.Dropdown();
         if (id == 0)
         {
             return View(new Appointment());
@@ -51,6 +54,7 @@ public class AppointmentController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(Appointment appointment, CancellationToken cancellationToken)
     {
+        ViewData["AdvocateId"] = _advocateRepository.Dropdown();
         if (ModelState.IsValid)
         {
             if (appointment.Id == 0)
