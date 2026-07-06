@@ -12,11 +12,12 @@
             <p class="text-slate-500 dark:text-slate-400 mt-2">Manage all client meetings and court dates</p>
         </div>
 
-        <button onclick="showNewAppointmentModal()"
-                class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30">
+        <a asp-action="CreateOrEdit"
+           asp-controller="Appointment"
+           class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30">
             <i class="fas fa-plus"></i>
             New Appointment
-        </button>
+        </a>
     </div>
 
     <!-- Filters -->
@@ -122,7 +123,7 @@
 </div>
 
 <!-- New Appointment Modal -->
-<div id="newAppointmentModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+@* <div id="newAppointmentModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl w-full max-w-lg mx-4 overflow-hidden">
         <!-- Modal Header -->
         <div class="px-8 py-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
@@ -188,7 +189,7 @@
             </button>
         </div>
     </div>
-</div>
+</div> *@
 
 <script>
     // All your previous JavaScript functions (showNewAppointmentModal, hideNewAppointmentModal, saveAppointment, liveSearch, filterAppointments, etc.)
