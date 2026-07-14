@@ -8,11 +8,13 @@ public class AppointmentController : Controller
 {
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IAdvocateRepository _advocateRepository;
+    private readonly IClientRepository _clientRepository;
 
-    public AppointmentController(IAppointmentRepository appointmentRepository, IAdvocateRepository advocateRepository)
+    public AppointmentController(IAppointmentRepository appointmentRepository, IAdvocateRepository advocateRepository,IClientRepository clientRepository)
     {
         _appointmentRepository = appointmentRepository;
         _advocateRepository = advocateRepository;
+        _clientRepository = clientRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -37,6 +39,7 @@ public class AppointmentController : Controller
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
         ViewData["AdvocateId"] = _advocateRepository.Dropdown();
+        ViewData["ClientId"] = _clientRepository.Dropdown();
         if (id == 0)
         {
             return View(new Appointment());
@@ -55,6 +58,7 @@ public class AppointmentController : Controller
     public async Task<IActionResult> CreateOrEdit(Appointment appointment, CancellationToken cancellationToken)
     {
         ViewData["AdvocateId"] = _advocateRepository.Dropdown();
+        ViewData["ClientId"] = _clientRepository.Dropdown();
         if (ModelState.IsValid)
         {
             if (appointment.Id == 0)
