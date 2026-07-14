@@ -1,5 +1,6 @@
 ﻿using AMS.Data;
 using AMS.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Repository;
@@ -11,6 +12,7 @@ public interface IClientRepository
     Task<Client> AddClientAsync(Client client, CancellationToken cancellationToken);
     Task<Client?> UpdateClientAsync(Client client, CancellationToken cancellationToken);
     Task<Client> DeleteClientAsync(long id, CancellationToken cancellationToken);
+    IEnumerable<SelectListItem> Dropdown();
 }
 
 public class ClientRepository : IClientRepository
@@ -78,5 +80,15 @@ public class ClientRepository : IClientRepository
     public async Task<IEnumerable<Client>> GetAllApplicationsAsync(CancellationToken cancellationToken)
     {
        return await _context.clients.ToListAsync(cancellationToken);
+    }
+
+    public IEnumerable<SelectListItem> Dropdown()
+    {
+        var data = _context.clients.Select(x => new SelectListItem
+        {
+            Text = x.ClientName,
+            Value = x.Id.ToString()
+        }).ToList();
+        return data;
     }
 }
