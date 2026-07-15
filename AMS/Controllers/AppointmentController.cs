@@ -59,19 +59,18 @@ public class AppointmentController : Controller
     {
         ViewData["AdvocateId"] = _advocateRepository.Dropdown();
         ViewData["ClientId"] = _clientRepository.Dropdown();
-        if (ModelState.IsValid)
-        {
+      
             if (appointment.Id == 0)
             {
                 await _appointmentRepository.AddAppointmentAsync(appointment, cancellationToken);
+               return RedirectToAction(nameof(Index));
             }
             else
             {
                 await _appointmentRepository.UpdateAppointmentAsync(appointment, cancellationToken);
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
-        }
-        return View(appointment);
+           
     }
     [HttpPost]
     public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
