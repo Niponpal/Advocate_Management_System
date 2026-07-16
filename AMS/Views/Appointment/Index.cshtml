@@ -105,10 +105,13 @@
                                 }
                             </td>
                             <td class="py-6 px-8 text-right space-x-2">
-                                <button onclick="editAppointment(@appointment.Id)"
-                                        class="text-slate-400 hover:text-emerald-500 p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition">
+                                <a asp-action="CreateOrEdit"
+                                   asp-controller="Appointment"
+                                   asp-route-id="@appointment.Id"
+                                   class="inline-block text-slate-400 hover:text-emerald-500 p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition">
                                     <i class="fas fa-edit"></i>
-                                </button>
+                                </a>
+
                                 <button onclick="deleteAppointment(@appointment.Id)"
                                         class="text-slate-400 hover:text-rose-500 p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition">
                                     <i class="fas fa-trash"></i>
