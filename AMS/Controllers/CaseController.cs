@@ -8,6 +8,7 @@ public class CaseController : Controller
 {
     private readonly ICaseRepository _caseRepository;
 
+
     public CaseController(ICaseRepository caseRepository)
     {
         _caseRepository = caseRepository;

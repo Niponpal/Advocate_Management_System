@@ -14,11 +14,12 @@
                 <p class="text-slate-500 dark:text-slate-400 mt-2">Manage and track all your legal cases</p>
             </div>
 
-            <button onclick="newCase()"
-                    class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white transition-all rounded-2xl font-semibold flex items-center gap-3 shadow-lg shadow-emerald-500/30">
+            <a asp-controller="Case"
+               asp-action="CreateOrEdit"
+               class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white transition-all rounded-2xl font-semibold flex items-center gap-3 shadow-lg shadow-emerald-500/30">
                 <i class="fas fa-plus"></i>
                 New Case
-            </button>
+            </a>
         </div>
 
         <!-- Filters & Search -->
