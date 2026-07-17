@@ -7,13 +7,15 @@ namespace AMS.Controllers;
 public class CaseController : Controller
 {
     private readonly ICaseRepository _caseRepository;
-    private readonly IClientRepository _clientRepository;   
+    private readonly IClientRepository _clientRepository;  
+    private readonly IAdvocateRepository _advocateRepository;
 
 
-    public CaseController(ICaseRepository caseRepository, IClientRepository clientRepository)
+    public CaseController(ICaseRepository caseRepository, IClientRepository clientRepository, IAdvocateRepository advocateRepository)
     {
         _caseRepository = caseRepository;
         _clientRepository = clientRepository;
+        _advocateRepository = advocateRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -29,6 +31,7 @@ public class CaseController : Controller
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
         ViewData["ClientId"] = _clientRepository.Dropdown();
+        ViewData["AdvocateId"] = _clientRepository.Dropdown();
         if (id == 0)
         {
             return View();
@@ -45,7 +48,8 @@ public class CaseController : Controller
     {
        
             ViewData["ClientId"] = _clientRepository.Dropdown();
-            if (caseData.Id == 0)
+            ViewData["AdvocateId"] = _advocateRepository.Dropdown();
+        if (caseData.Id == 0)
             {
                 await _caseRepository.AddCaseAsync(caseData, cancellationToken);
             return RedirectToAction(nameof(Index));
