@@ -43,20 +43,20 @@ public class CaseController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(Case caseData, CancellationToken cancellationToken)
     {
-        if (ModelState.IsValid)
-        {
+       
             ViewData["ClientId"] = _clientRepository.Dropdown();
             if (caseData.Id == 0)
             {
                 await _caseRepository.AddCaseAsync(caseData, cancellationToken);
-            }
+            return RedirectToAction(nameof(Index));
+        }
             else
             {
                 await _caseRepository.UpdateCaseAsync(caseData, cancellationToken);
-            }
             return RedirectToAction(nameof(Index));
         }
-        return View(caseData);
+          
+      
     }
     [HttpPost]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
