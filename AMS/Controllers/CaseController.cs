@@ -31,7 +31,7 @@ public class CaseController : Controller
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
         ViewData["ClientId"] = _clientRepository.Dropdown();
-        ViewData["AdvocateId"] = _clientRepository.Dropdown();
+        ViewData["AdvocateId"] = _advocateRepository.Dropdown();
         if (id == 0)
         {
             return View();
@@ -52,13 +52,13 @@ public class CaseController : Controller
         if (caseData.Id == 0)
             {
                 await _caseRepository.AddCaseAsync(caseData, cancellationToken);
-            return RedirectToAction(nameof(Index));
+             return RedirectToAction(nameof(Index));
         }
             else
             {
                 await _caseRepository.UpdateCaseAsync(caseData, cancellationToken);
-            return RedirectToAction(nameof(Index));
-        }
+              return RedirectToAction(nameof(Index));
+              }
           
       
     }
