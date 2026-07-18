@@ -52,8 +52,8 @@ public class CaseController : Controller
         if (caseData.Id == 0)
             {
                 await _caseRepository.AddCaseAsync(caseData, cancellationToken);
-             return RedirectToAction(nameof(Index));
-        }
+                return RedirectToAction(nameof(Index));
+             }
             else
             {
                 await _caseRepository.UpdateCaseAsync(caseData, cancellationToken);
