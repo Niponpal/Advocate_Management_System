@@ -85,7 +85,20 @@
                         </select>
                     </div>
 
+
                     <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">
+                            Client
+                        </label>
+
+                        <select asp-for="AdvocateId"
+                                asp-items="@(ViewData["AdvocateId"] as IEnumerable<SelectListItem>)"
+                                class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="">Select Advocate </option>
+                        </select>
+                    </div>
+
+                    @* <div class="space-y-2">
                         <label class="block text-sm font-medium text-slate-600 dark:text-slate-400">Advocate</label>
                         <select asp-for="AdvocateId"
                                 class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
@@ -98,7 +111,7 @@
                                 }
                             }
                         </select>
-                    </div>
+                    </div> *@
                 </div>
 
                 <div class="flex gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
