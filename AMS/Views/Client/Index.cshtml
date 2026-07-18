@@ -14,7 +14,7 @@
                 <p class="text-slate-500 dark:text-slate-400 mt-1">Manage all your clients and their cases</p>
             </div>
 
-            <a asp-action="Create"
+            <a asp-action="CreateOrEdit"
                class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 shadow-lg shadow-emerald-500/30">
                 <i class="fas fa-plus"></i>
                 New Client
@@ -88,7 +88,7 @@
                                            class="p-3 text-slate-400 hover:text-sky-500 transition">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a asp-action="Edit" asp-route-id="@client.Id"
+                                        <a asp-action="CreateOrEdit" asp-route-id="@client.Id"
                                            class="p-3 text-slate-400 hover:text-amber-500 transition">
                                             <i class="fas fa-edit"></i>
                                         </a>
