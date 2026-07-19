@@ -7,10 +7,11 @@ namespace AMS.Controllers;
 public class DocumentController : Controller
 {
     private readonly IDocumentRepository  documentRepository;
-
-    public DocumentController(IDocumentRepository _documentRepository)
+    private readonly ICaseRepository caseRepository;
+    public DocumentController(IDocumentRepository _documentRepository, ICaseRepository _caseRepository)
     {
         documentRepository = _documentRepository;
+        caseRepository = _caseRepository;
     }
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
@@ -26,6 +27,8 @@ public class DocumentController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
+        ViewData["CaseId"] = caseRepository.Dropdown();
+
         if (id == 0)
         {
             return View(new Document());
@@ -43,7 +46,8 @@ public class DocumentController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(Document document, CancellationToken cancellationToken)
     {
-            if (document.Id == 0)
+        ViewData["CaseId"] = caseRepository.Dropdown();
+        if (document.Id == 0)
             {
                 await documentRepository.AddDocumentAsync(document, cancellationToken);
             }
