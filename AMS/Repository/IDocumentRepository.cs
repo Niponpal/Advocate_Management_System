@@ -24,7 +24,8 @@ public class DocumentRepository : IDocumentRepository
 
     public async Task<IEnumerable<Document>> GetAllDocumentsAsync(CancellationToken cancellationToken)
     {
-        return await _context.documents.ToListAsync(cancellationToken);
+        var data = await _context.documents.ToListAsync(cancellationToken);
+         return data;
     }
 
     public async Task<Document?> GetDocumentByIdAsync(long id, CancellationToken cancellationToken)
