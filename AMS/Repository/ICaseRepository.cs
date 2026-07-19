@@ -1,5 +1,6 @@
 ﻿using AMS.Data;
 using AMS.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Repository;
@@ -11,6 +12,7 @@ public interface ICaseRepository
     Task<Case> AddCaseAsync(Case cases, CancellationToken cancellationToken);
     Task<Case?> UpdateCaseAsync(Case cases, CancellationToken cancellationToken);
     Task<Case> DeleteCaseAsync (long id, CancellationToken cancellationToken);
+    IEnumerable<SelectListItem> Dropdown();
 }
 
 public class CaseRepository : ICaseRepository
@@ -84,5 +86,15 @@ public class CaseRepository : ICaseRepository
        {
            throw new Exception("Case not found");
        }
+    }
+
+    public IEnumerable<SelectListItem> Dropdown()
+    {
+        var data = _context.cases.Select(x => new SelectListItem
+        {
+            Text = x.CaseNumber,
+            Value = x.Id.ToString()
+        }).ToList();
+        return data;
     }
 }

@@ -11,6 +11,7 @@ public interface ICaseCategoryRepository
     Task<CaseCategory> AddCaseCategoryAsync(CaseCategory cases, CancellationToken cancellationToken);
     Task<CaseCategory?> UpdateCaseCategoryAsync(CaseCategory cases, CancellationToken cancellationToken);
     Task<CaseCategory> DeleteCaseCategoryAsync(long id, CancellationToken cancellationToken);
+
 }
 
 public class CaseCategoryRepository: ICaseCategoryRepository
