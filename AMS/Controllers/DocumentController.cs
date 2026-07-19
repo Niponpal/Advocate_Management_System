@@ -26,6 +26,7 @@ public class DocumentController : Controller
  
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
+    
     {
         ViewData["CaseId"] = caseRepository.Dropdown();
 
