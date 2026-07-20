@@ -14,7 +14,7 @@
                 <p class="text-slate-500 dark:text-slate-400 mt-1">Manage all court hearings</p>
             </div>
 
-            <a href="@Url.Action("Create", "Hearing")"
+            <a href="@Url.Action("CreateOrEdit", "Hearing")"
                class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl flex items-center gap-3 font-semibold transition-all shadow-lg shadow-emerald-500/30">
                 <i class="fas fa-plus"></i>
                 New Hearing
@@ -102,7 +102,7 @@
                                            class="text-indigo-600 hover:text-indigo-500">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="@Url.Action("Edit", "Hearing", new { id = hearing.Id })"
+                                        <a href="@Url.Action("CreateOrEdit", "Hearing", new { id = hearing.Id })"
                                            class="text-amber-600 hover:text-amber-500">
                                             <i class="fas fa-edit"></i>
                                         </a>
