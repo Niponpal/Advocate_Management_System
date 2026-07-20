@@ -47,20 +47,19 @@ public class CaseController : Controller
     public async Task<IActionResult> CreateOrEdit(Case caseData, CancellationToken cancellationToken)
     {
        
-            ViewData["ClientId"] = _clientRepository.Dropdown();
-            ViewData["AdvocateId"] = _advocateRepository.Dropdown();
-        if (caseData.Id == 0)
+       ViewData["ClientId"] = _clientRepository.Dropdown();
+       ViewData["AdvocateId"] = _advocateRepository.Dropdown();
+          if (caseData.Id == 0)
             {
                 await _caseRepository.AddCaseAsync(caseData, cancellationToken);
                 return RedirectToAction(nameof(Index));
              }
-            else
+          else
             {
                 await _caseRepository.UpdateCaseAsync(caseData, cancellationToken);
               return RedirectToAction(nameof(Index));
-              }
-          
-      
+             }
+         
     }
     [HttpPost]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
