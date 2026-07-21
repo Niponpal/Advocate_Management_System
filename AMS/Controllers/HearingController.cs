@@ -8,11 +8,13 @@ public class HearingController : Controller
 {
     private readonly IHearingRepository hearingRepository;
     private readonly ICaseRepository caseRepository;
+    private readonly ICourtRepository courtRepository;
 
-    public HearingController(IHearingRepository _hearingRepository, ICaseRepository _caseRepository)
+    public HearingController(IHearingRepository _hearingRepository, ICaseRepository _caseRepository,ICourtRepository _courtRepository)
     {
         hearingRepository = _hearingRepository;
         caseRepository = _caseRepository;
+        courtRepository = _courtRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -27,6 +29,7 @@ public class HearingController : Controller
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
         ViewData["CaseId"] = caseRepository.Dropdown();
+        ViewData["CourtId"] = courtRepository.Dropdown();
         if (id == 0)
         {
             return View(new Hearing());
@@ -42,6 +45,7 @@ public class HearingController : Controller
     public async Task<IActionResult> CreateOrEdit(Hearing hearing, CancellationToken cancellationToken)
     {
         ViewData["CaseId"] = caseRepository.Dropdown();
+        ViewData["CourtId"] = courtRepository.Dropdown();
         if (hearing.Id == 0)
             {
                 await hearingRepository.AddHearingAsync(hearing, cancellationToken);
