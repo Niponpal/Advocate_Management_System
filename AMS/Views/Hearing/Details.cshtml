@@ -21,7 +21,7 @@
             </div>
 
             <div class="flex gap-3">
-                <a href="@Url.Action("Edit", "Hearing", new { id = Model.Id })"
+                <a href="@Url.Action("CreateOrEdit", "Hearing", new { id = Model.Id })"
                    class="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl flex items-center gap-2 font-medium transition">
                     <i class="fas fa-edit"></i> Edit
                 </a>
@@ -109,7 +109,7 @@
 
             <!-- Footer Actions -->
             <div class="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 px-8 py-6 flex justify-end gap-4">
-                <a href="@Url.Action("Edit", "Hearing", new { id = Model.Id })"
+                <a href="@Url.Action("CreateOrEdit", "Hearing", new { id = Model.Id })"
                    class="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl flex items-center gap-2 font-semibold transition">
                     <i class="fas fa-edit"></i> Edit Hearing
                 </a>
