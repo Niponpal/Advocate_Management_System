@@ -1,5 +1,6 @@
 ﻿using AMS.Data;
 using AMS.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Repository;
@@ -11,6 +12,7 @@ public interface ICourtRepository
     Task<Court> AddCourtAsync(Court court, CancellationToken cancellationToken);
     Task<Court> UpdateCourtAsync(Court court, CancellationToken cancellationToken);
     Task<Court> DeleteCourtAsync(long id, CancellationToken cancellationToken);
+    IEnumerable<SelectListItem> Dropdown();
 }
 
 public class CourtRepository : ICourtRepository
@@ -19,6 +21,16 @@ public class CourtRepository : ICourtRepository
     public CourtRepository(ApplicationDbContext context)
     {
         _context = context;
+    }
+
+    public IEnumerable<SelectListItem> Dropdown()
+    {
+        var data = _context.courts.Select(x => new SelectListItem
+        {
+            Text = x.CourtName,
+            Value = x.Id.ToString()
+        }).ToList();
+        return data;
     }
 
     public async Task<IEnumerable<Court>> GetAllCourtAsync(CancellationToken cancellationToken)
