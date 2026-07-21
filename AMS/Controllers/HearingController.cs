@@ -7,10 +7,12 @@ namespace AMS.Controllers;
 public class HearingController : Controller
 {
     private readonly IHearingRepository hearingRepository;
+    private readonly ICaseRepository caseRepository;
 
-    public HearingController(IHearingRepository _hearingRepository)
+    public HearingController(IHearingRepository _hearingRepository, ICaseRepository _caseRepository)
     {
         hearingRepository = _hearingRepository;
+        caseRepository = _caseRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -24,6 +26,7 @@ public class HearingController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
+        ViewData["CaseId"] = caseRepository.Dropdown();
         if (id == 0)
         {
             return View(new Hearing());
@@ -38,7 +41,8 @@ public class HearingController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(Hearing hearing, CancellationToken cancellationToken)
     {
-            if (hearing.Id == 0)
+        ViewData["CaseId"] = caseRepository.Dropdown();
+        if (hearing.Id == 0)
             {
                 await hearingRepository.AddHearingAsync(hearing, cancellationToken);
             }
