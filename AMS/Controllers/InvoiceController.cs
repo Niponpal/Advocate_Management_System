@@ -46,12 +46,14 @@ public class InvoiceController : Controller
         if (invoice.Id == 0)
             {
                 await _invoiceRepository.AddInvoiceAsync(invoice, cancellationToken);
-            }
+            return RedirectToAction(nameof(Index));
+        }
             else
             {
                 await _invoiceRepository.UpdateInvoiceAsync(invoice, cancellationToken);
-            }
             return RedirectToAction(nameof(Index));
+        }
+           
     }
     [HttpPost]
     public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
