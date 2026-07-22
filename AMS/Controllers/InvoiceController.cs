@@ -7,10 +7,12 @@ namespace AMS.Controllers;
 public class InvoiceController : Controller
 {
     private readonly IInvoiceRepository _invoiceRepository;
+    private readonly IClientRepository _clientRepository;
 
-    public InvoiceController(IInvoiceRepository invoiceRepository)
+    public InvoiceController(IInvoiceRepository invoiceRepository, IClientRepository clientRepository)
     {
         _invoiceRepository = invoiceRepository;
+        _clientRepository = clientRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -25,6 +27,7 @@ public class InvoiceController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
+        ViewData["ClientId"] = _clientRepository.Dropdown();
         if (id == 0)
         {
             return View(new Invoice());
@@ -39,7 +42,8 @@ public class InvoiceController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(Invoice invoice, CancellationToken cancellationToken)
     {
-            if (invoice.Id == 0)
+        ViewData["ClientId"] = _clientRepository.Dropdown();
+        if (invoice.Id == 0)
             {
                 await _invoiceRepository.AddInvoiceAsync(invoice, cancellationToken);
             }
