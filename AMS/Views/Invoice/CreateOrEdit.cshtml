@@ -30,7 +30,7 @@
         </div>
 
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm">
-            <form asp-action="@(isEdit ? "Edit" : "Create")" method="post" class="space-y-8">
+            <form asp-action="@(isEdit ? "Edit" : "CreateOrEdit")" method="post" class="space-y-8">
                 @if (isEdit)
                 {
                     <input type="hidden" asp-for="Id" />
@@ -59,6 +59,7 @@
                 <div>
                     <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Client</label>
                     <select asp-for="ClientId"
+                            asp-items="@(ViewData["ClientId"] as IEnumerable<SelectListItem>)"
                             class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl py-4 px-5 focus:outline-none focus:border-emerald-500 text-slate-900 dark:text-white">
                         <option value="">-- Select Client --</option>
                         <!-- Populated from Controller via ViewBag.Clients -->
