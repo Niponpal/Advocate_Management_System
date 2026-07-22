@@ -49,12 +49,14 @@ public class HearingController : Controller
         if (hearing.Id == 0)
             {
                 await hearingRepository.AddHearingAsync(hearing, cancellationToken);
-            }
+             return RedirectToAction(nameof(Index));
+        }
             else
             {
                 await hearingRepository.UpdateHearingAsync(hearing, cancellationToken);
-            }
             return RedirectToAction(nameof(Index));
+        }
+          
     }
     [HttpPost]
     public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
