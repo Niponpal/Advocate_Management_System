@@ -17,7 +17,12 @@ public class LegalNoticeController : Controller
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var data = await _legalNoticeRepository.GetAllLegalNoticeAsync(cancellationToken);
+        if (data != null)
+        {
+            return View(data);
+        }
         return View();
+
     }
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
@@ -44,12 +49,14 @@ public class LegalNoticeController : Controller
         if (legalNotice.Id == 0)
         {
             await _legalNoticeRepository.AddLegalNoticeAsync(legalNotice,cancellationToken );
+            return RedirectToAction("Index");
         }
         else
         {
             await _legalNoticeRepository.UpdateLegalNoticeAsync(legalNotice, cancellationToken);
+            return RedirectToAction("Index");
         }
-        return RedirectToAction("Index");
+       
     }
     [HttpGet]
     public async Task<IActionResult> Details(long id, CancellationToken cancellationToken)
