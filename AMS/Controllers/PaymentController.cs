@@ -7,10 +7,12 @@ namespace AMS.Controllers;
 public class PaymentController : Controller
 {
     private readonly IPaymentRepository _paymentRepository;
+    private readonly IClientRepository _clientRepository;
 
-    public PaymentController(IPaymentRepository paymentRepository)
+    public PaymentController(IPaymentRepository paymentRepository, IClientRepository clientRepository)
     {
         _paymentRepository = paymentRepository;
+        _clientRepository = clientRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -27,6 +29,8 @@ public class PaymentController : Controller
 
     public  async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
+        ViewData["ClientId"] = _clientRepository.Dropdown();
+
         if (id == 0)
         {
             return View(new Payment());
@@ -44,19 +48,21 @@ public class PaymentController : Controller
      [HttpPost]
      public async Task<IActionResult> CreateOrEdit(Payment payment, CancellationToken cancellationToken)
     {
-        if (ModelState.IsValid)
-        {
+        ViewData["ClientId"] = _clientRepository.Dropdown();
+      
             if (payment.Id == 0)
             {
                 await _paymentRepository.AddPaymentAsync(payment, cancellationToken);
-            }
+            return RedirectToAction(nameof(Index));
+        }
             else
             {
                 await _paymentRepository.UpdatePaymentAsync(payment, cancellationToken);
-            }
             return RedirectToAction(nameof(Index));
         }
-        return View(payment);
+           
+        
+        
     }
     [HttpPost]
     public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
