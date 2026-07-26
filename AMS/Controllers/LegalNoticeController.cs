@@ -7,10 +7,12 @@ namespace AMS.Controllers;
 public class LegalNoticeController : Controller
 {
     private readonly ILegalNoticeRepository _legalNoticeRepository;
+    private readonly IClientRepository _clientRepository;
 
-    public LegalNoticeController(ILegalNoticeRepository legalNoticeRepository)
+    public LegalNoticeController(ILegalNoticeRepository legalNoticeRepository, IClientRepository clientRepository)
     {
         _legalNoticeRepository = legalNoticeRepository;
+        _clientRepository = clientRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -20,6 +22,7 @@ public class LegalNoticeController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
+        ViewData["ClientId"] = _clientRepository.Dropdown();
         if (id == 0)
         {
             return View(new LegalNotice());
@@ -37,6 +40,7 @@ public class LegalNoticeController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrEdit(LegalNotice legalNotice, CancellationToken cancellationToken)
     {
+        ViewData["ClientId"] = _clientRepository.Dropdown();
         if (legalNotice.Id == 0)
         {
             await _legalNoticeRepository.AddLegalNoticeAsync(legalNotice,cancellationToken );
