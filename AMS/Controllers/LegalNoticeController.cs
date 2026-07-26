@@ -17,7 +17,12 @@ public class LegalNoticeController : Controller
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var data = await _legalNoticeRepository.GetAllLegalNoticeAsync(cancellationToken);
+        if (data != null)
+        {
+            return View(data);
+        }
         return View();
+
     }
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
