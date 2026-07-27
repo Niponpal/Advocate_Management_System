@@ -8,11 +8,13 @@ public class PaymentController : Controller
 {
     private readonly IPaymentRepository _paymentRepository;
     private readonly IClientRepository _clientRepository;
+   private readonly ICaseRepository _caseRepository;
 
-    public PaymentController(IPaymentRepository paymentRepository, IClientRepository clientRepository)
+    public PaymentController(IPaymentRepository paymentRepository, IClientRepository clientRepository, ICaseRepository caseRepository)
     {
         _paymentRepository = paymentRepository;
         _clientRepository = clientRepository;
+        _caseRepository = caseRepository;
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
@@ -30,6 +32,7 @@ public class PaymentController : Controller
     public  async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
         ViewData["ClientId"] = _clientRepository.Dropdown();
+        ViewData["CaseId"] = _caseRepository.Dropdown();
 
         if (id == 0)
         {
