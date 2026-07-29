@@ -7,10 +7,12 @@ namespace AMS.Controllers;
 public class TaskManagementController : Controller
 {
     private readonly ITaskManagementRepository _taskManagementRepository;
+    private readonly IAdvocateRepository _advocateRepository;
 
-    public TaskManagementController(ITaskManagementRepository taskManagementRepository)
+    public TaskManagementController(ITaskManagementRepository taskManagementRepository, IAdvocateRepository advocateRepository)
     {
         _taskManagementRepository = taskManagementRepository;
+       _advocateRepository = advocateRepository;
     }
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
@@ -26,6 +28,7 @@ public class TaskManagementController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
+        ViewData["AdvocateId"] = _advocateRepository.Dropdown();
         if (id == 0)
         {
             return View(new TaskManagement());
@@ -43,6 +46,7 @@ public class TaskManagementController : Controller
      [HttpPost]
      public async Task<IActionResult> CreateOrEdit(TaskManagement taskManagement, CancellationToken cancellationToken)
     {
+        ViewData["AdvocateId"] = _advocateRepository.Dropdown();
         if (ModelState.IsValid)
         {
             if (taskManagement.Id == 0)
