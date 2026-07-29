@@ -52,19 +52,17 @@ public class PaymentController : Controller
      public async Task<IActionResult> CreateOrEdit(Payment payment, CancellationToken cancellationToken)
     {
         ViewData["ClientId"] = _clientRepository.Dropdown();
-      
-            if (payment.Id == 0)
+        ViewData["CaseId"] = _caseRepository.Dropdown();
+        if (payment.Id == 0)
             {
                 await _paymentRepository.AddPaymentAsync(payment, cancellationToken);
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
         }
             else
             {
                 await _paymentRepository.UpdatePaymentAsync(payment, cancellationToken);
-            return RedirectToAction(nameof(Index));
-        }
-           
-        
+               return RedirectToAction(nameof(Index));
+            }   
         
     }
     [HttpPost]

@@ -13,7 +13,7 @@
         </div>
 
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8">
-            <form asp-action="Create" method="post" class="space-y-6">
+            <form asp-action="CreateOrEdit" method="post" class="space-y-6">
                 @Html.AntiForgeryToken()
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -71,7 +71,9 @@
                     <!-- Case -->
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">Case</label>
-                        <select asp-for="CaseId" class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
+                        <select asp-for="CaseId"
+                                asp-items="@(ViewData["CaseId"] as IEnumerable<SelectListItem>)"
+                        class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-colors">
                             <option value="">Select Case</option>
                             @* Populate dynamically *@
                         </select>
