@@ -13,11 +13,18 @@
                 <h1 class="text-4xl font-bold text-slate-800 dark:text-white">Task Management</h1>
                 <p class="text-slate-500 dark:text-slate-400 mt-2">Manage all assigned tasks efficiently</p>
             </div>
-            <button onclick="newTask()"
-                    class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30">
+            <a asp-controller="TaskManagement"
+               asp-action="CreateOrEdit"
+               class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30">
                 <i class="fas fa-plus"></i>
                 New Task
-            </button>
+            </a>
+
+            <script>
+                function newTask() {
+                    alert("New Task button clicked!");
+                }
+            </script>
         </div>
 
         <!-- Filters -->
