@@ -67,6 +67,7 @@
                 <div>
                     <label asp-for="AdvocateId" class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-3"></label>
                     <select asp-for="AdvocateId"
+                            asp-items="@(ViewData["AdvocateId"] as IEnumerable<SelectListItem>)"
                             class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-emerald-500 rounded-2xl py-4 px-6 focus:outline-none transition-colors">
                         <option value="">Select Advocate</option>
                         <!-- Populate from ViewBag or SelectList in controller -->

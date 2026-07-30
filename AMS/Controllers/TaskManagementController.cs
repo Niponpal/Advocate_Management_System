@@ -46,20 +46,19 @@ public class TaskManagementController : Controller
      [HttpPost]
      public async Task<IActionResult> CreateOrEdit(TaskManagement taskManagement, CancellationToken cancellationToken)
     {
-        ViewData["AdvocateId"] = _advocateRepository.Dropdown();
-        if (ModelState.IsValid)
-        {
+            ViewData["AdvocateId"] = _advocateRepository.Dropdown();
+ 
             if (taskManagement.Id == 0)
             {
                 await _taskManagementRepository.AddTaskAsync(taskManagement, cancellationToken);
-            }
+            return RedirectToAction(nameof(Index));
+             }
             else
             {
                 await _taskManagementRepository.UpdateTaskAsync(taskManagement, cancellationToken);
-            }
             return RedirectToAction(nameof(Index));
-        }
-        return View(taskManagement);
+             }
+          
     }
      [HttpPost]
      public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
