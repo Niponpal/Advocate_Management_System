@@ -63,8 +63,27 @@
                         <th class="w-24"></th>
                     </tr>
                 </thead>
-                <tbody id="taskTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
-                    <!-- JS দিয়ে পপুলেট হবে -->
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="py-4 px-6">@item.TaskTitle</td>
+                            <td class="py-4 px-6">@item.Advocate?.AdvocateName</td>
+                            <td class="py-4 px-6">@item.Description</td>
+                            <td class="py-4 px-6">@item.DueDate.ToString("dd-MM-yyyy")</td>
+                            <td class="py-4 px-6">@item.Status</td>
+                            <td class="py-4 px-6">
+                                <a asp-action="CreateOrEdit"
+                                   asp-route-id="@item.Id"
+                                   class="text-blue-600">Edit</a>
+
+                                <form asp-action="Delete" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" class="text-red-600">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
