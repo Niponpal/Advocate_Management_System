@@ -54,7 +54,7 @@ public class AppointmentRepository : IAppointmentRepository
     }
     public async Task<IEnumerable<Appointment>> GetAllAppointmentAsync(CancellationToken cancellationToken)
     {
-        var data = await _context.appointments.ToListAsync(cancellationToken);
+        var data = await _context.appointments.Include(a => a.Advocate).ToListAsync(cancellationToken);
         if (data != null)
         {
             return data;
