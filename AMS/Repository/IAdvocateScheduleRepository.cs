@@ -1,7 +1,6 @@
 ﻿using AMS.Data;
 using AMS.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace AMS.Repository;
 
