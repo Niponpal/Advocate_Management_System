@@ -95,11 +95,22 @@
                                 </span>
                             </td>
                             <td class="py-6 px-8">
-                                <div class="flex gap-3 opacity-0 group-hover:opacity-100 transition-all">
+                                @* <div class="flex gap-3 opacity-0 group-hover:opacity-100 transition-all">
                                     <a href="@Url.Action("Details", new { id = item.Id })"
                                        class="text-slate-400 hover:text-emerald-500 transition-colors">
                                         <i class="fas fa-eye"></i>
                                     </a>
+                                    <a href="@Url.Action("CreateOrEdit", new { id = item.Id })"
+                                       class="text-slate-400 hover:text-amber-500 transition-colors">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div> *@
+                                <div class="flex gap-3">
+                                    <a href="@Url.Action("Details", new { id = item.Id })"
+                                       class="text-slate-400 hover:text-emerald-500 transition-colors">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+
                                     <a href="@Url.Action("CreateOrEdit", new { id = item.Id })"
                                        class="text-slate-400 hover:text-amber-500 transition-colors">
                                         <i class="fas fa-edit"></i>
