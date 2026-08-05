@@ -79,7 +79,21 @@ public class ClientRepository : IClientRepository
     }
     public async Task<IEnumerable<Client>> GetAllApplicationsAsync(CancellationToken cancellationToken)
     {
-       return await _context.clients.ToListAsync(cancellationToken);
+       var data = await _context.clients.Include(a => a.Cases)
+                                     .Include(a => a.Payments)
+                                     .Include(a => a.Appointments)
+                                     .Include(a => a.Invoices)
+                                     .Include(a => a.LegalNotices)
+                                     .ToListAsync(cancellationToken);
+        if (data != null)
+        {
+            return data;
+        }
+        else
+        {
+            throw new Exception("No clients found");
+        }
+
     }
 
     public IEnumerable<SelectListItem> Dropdown()
