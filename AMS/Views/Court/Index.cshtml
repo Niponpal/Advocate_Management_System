@@ -12,10 +12,11 @@
                 <h1 class="text-4xl font-bold text-slate-900 dark:text-white">Courts</h1>
                 <p class="text-slate-500 dark:text-slate-400 mt-1">Manage all courts and their jurisdictions</p>
             </div>
-            <button onclick="showCreateModal()"
-                    class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30 text-white">
+            <a asp-controller="Court"
+               asp-action="CreateOrEdit"
+               class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 transition-all rounded-2xl font-semibold flex items-center gap-3 text-lg shadow-lg shadow-emerald-500/30 text-white inline-flex">
                 <i class="fas fa-plus"></i> Add New Court
-            </button>
+            </a>
         </div>
 
         <!-- Filters -->
