@@ -80,19 +80,25 @@
                                         </a>
 
                                         <!-- Edit -->
-                                        <a asp-action="Edit"
+                                        <a asp-action="CreateOrEdit"
                                            asp-route-id="@court.Id"
                                            class="p-3 hover:bg-amber-100 dark:hover:bg-amber-900 text-amber-600 dark:text-amber-400 rounded-2xl transition-all hover:scale-110">
                                             <i class="fas fa-edit"></i>
                                         </a>
 
-                                        <!-- Delete -->
-                                        <a asp-action="Delete"
-                                           asp-route-id="@court.Id"
-                                           class="p-3 hover:bg-rose-100 dark:hover:bg-rose-900 text-rose-600 dark:text-rose-400 rounded-2xl transition-all hover:scale-110"
-                                           onclick="return confirm('Are you sure you want to delete this court?');">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <form asp-action="Delete"
+                                              asp-route-id="@court.Id"
+                                              method="post"
+                                              style="display:inline;"
+                                              onsubmit="return confirm('Are you sure you want to delete this Court?');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="p-3 hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400 rounded-2xl transition-all hover:scale-110">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
 
                                     </div>
                         </td>
