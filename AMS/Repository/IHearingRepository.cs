@@ -55,7 +55,7 @@ public class HearingRepository : IHearingRepository
     }
     public async Task<IEnumerable<Hearing>> GetAllHearingAsync(CancellationToken cancellationToken)
     {
-        return await _context.hearings.ToListAsync(cancellationToken);
+        return await _context.hearings.Include(a=>a.Case).Include(b=>b.Court).ToListAsync(cancellationToken);
     }
     public async Task<Hearing?> UpdateHearingAsync(Hearing hearing, CancellationToken cancellationToken)
     {

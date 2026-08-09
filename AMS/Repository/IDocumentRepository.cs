@@ -22,10 +22,14 @@ public class DocumentRepository : IDocumentRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Document>> GetAllDocumentsAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Document>> GetAllDocumentsAsync(
+      CancellationToken cancellationToken)
     {
-        var data = await _context.documents.ToListAsync(cancellationToken);
-         return data;
+        var data = await _context.documents
+            .Include(d => d.Case)
+            .ToListAsync(cancellationToken);
+
+        return data;
     }
 
     public async Task<Document?> GetDocumentByIdAsync(long id, CancellationToken cancellationToken)
