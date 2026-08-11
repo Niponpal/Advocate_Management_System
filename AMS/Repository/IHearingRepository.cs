@@ -43,7 +43,10 @@ public class HearingRepository : IHearingRepository
     }
     public async Task<Hearing> GetHearingByIdAsync(long id, CancellationToken cancellationToken)
     {
-        var data = await _context.hearings.FindAsync(id, cancellationToken);
+        var data = await _context.hearings
+      .Include(h => h.Case)
+      .Include(h => h.Court)
+      .FirstOrDefaultAsync(h => h.Id == id, cancellationToken);
         if (data != null)
         {
             return data;
