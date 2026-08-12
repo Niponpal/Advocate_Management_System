@@ -28,6 +28,7 @@ public class LegalNoticeRepository : ILegalNoticeRepository
     {
         return await _context.legalNotices
             .AsNoTracking()
+            .Include(a=> a.Client) // Include the Client navigation property
             .ToListAsync(cancellationToken);
     }
 
@@ -36,6 +37,7 @@ public class LegalNoticeRepository : ILegalNoticeRepository
     {
         return await _context.legalNotices
             .AsNoTracking()
+            .Include(a => a.Client)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
