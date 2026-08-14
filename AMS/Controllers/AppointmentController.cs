@@ -10,7 +10,7 @@ public class AppointmentController : Controller
     private readonly IAdvocateRepository _advocateRepository;
     private readonly IClientRepository _clientRepository;
 
-    public AppointmentController(IAppointmentRepository appointmentRepository, IAdvocateRepository advocateRepository,IClientRepository clientRepository)
+    public AppointmentController(IAppointmentRepository appointmentRepository, IAdvocateRepository advocateRepository, IClientRepository clientRepository)
     {
         _appointmentRepository = appointmentRepository;
         _advocateRepository = advocateRepository;

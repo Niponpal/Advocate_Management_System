@@ -24,6 +24,8 @@ public class LegalNoticeController : Controller
         return View();
 
     }
+
+
     [HttpGet]
     public async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
