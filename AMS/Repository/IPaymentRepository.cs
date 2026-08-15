@@ -44,7 +44,11 @@ public class PaymentRepository : IPaymentRepository
             data.PaymentDate = payment.PaymentDate;
             data.PaymentMethod = payment.PaymentMethod;
             data.ClientId = payment.ClientId;
+            data.Amount = payment.Amount;
             data.Client = payment.Client;
+            data.PaymentStatus = payment.PaymentStatus;
+            data.CaseId = payment.CaseId;
+            data.Case = payment.Case;
             await _context.SaveChangesAsync(cancellationToken);
             return data;
         }
