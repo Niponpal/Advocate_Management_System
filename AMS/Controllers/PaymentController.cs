@@ -28,7 +28,6 @@ public class PaymentController : Controller
     }
   
     [HttpGet]
-
     public  async Task<IActionResult> CreateOrEdit(long id, CancellationToken cancellationToken)
     {
         ViewData["ClientId"] = _clientRepository.Dropdown();
