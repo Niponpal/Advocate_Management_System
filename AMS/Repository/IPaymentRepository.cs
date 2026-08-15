@@ -24,13 +24,18 @@ public class PaymentRepository : IPaymentRepository
 
     public async Task<IEnumerable<Payment>> GetAllPaymentsAsync(CancellationToken cancellationToken)
     {
-       var data = await _context.payments.ToListAsync(cancellationToken);
+       var data = await _context.payments.Include(a => a.Client).Include(a => a.Case).ToListAsync(cancellationToken);
         return data;
     }
 
     public async Task<Payment?> GetPaymentByIdAsync(long id, CancellationToken cancellationToken)
     {
-       var data = await _context.payments.FindAsync(id, cancellationToken);
+       var data = await _context.payments
+            .Include(p => p.Client)
+            .Include(p => p.Case)
+            .FirstOrDefaultAsync(
+                p => p.Id == id,
+                cancellationToken); ;
 
         return data;
     }

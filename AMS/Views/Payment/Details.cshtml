@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AMS.Models.Payment
+@{
     ViewData["Title"] = "Payment Details";
 }
 
@@ -94,8 +95,8 @@
                         <div class="flex gap-5 bg-slate-800/60 p-6 rounded-2xl">
                             <div class="text-4xl">⚖️</div>
                             <div class="flex-1">
-                                <p class="font-semibold text-lg">@Model.Case.Title</p>
-                                <p class="text-slate-400">@Model.Case.CaseType • @Model.Case.CourtName</p>
+                                <p class="font-semibold text-lg">@Model.Case.CaseTitle</p>
+                                <p class="text-slate-400">@Model.Case.CaseType • @Model.Case.CaseNumber</p>
                                 <div class="mt-4 flex items-center gap-4">
                                     <span class="px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-2xl text-sm">
                                         @Model.Case.Status
@@ -127,7 +128,7 @@
                                 👤
                             </div>
                             <div>
-                                <p class="font-semibold text-xl">@Model.Client.FullName</p>
+                                <p class="font-semibold text-xl">@Model.Client.ClientName</p>
                                 <p class="text-slate-400">@Model.Client.Email</p>
                                 <p class="text-slate-400">@Model.Client.Phone</p>
                             </div>
