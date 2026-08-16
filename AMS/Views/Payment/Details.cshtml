@@ -9,16 +9,17 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
             <div class="flex items-center gap-4">
-                <a href="@Url.Action("Index", "Payments")"
+                <a href="@Url.Action("Index", "Payment")"
                    class="flex items-center gap-2 text-slate-400 hover:text-slate-300 transition">
                     <i class="fas fa-arrow-left"></i>
                     <span>Back to Payments</span>
                 </a>
+
                 <h1 class="text-3xl font-bold">Payment Details</h1>
             </div>
 
             <div class="flex items-center gap-3">
-                <a href="@Url.Action("Edit", "Payments", new { id = Model.Id })"
+                <a href="@Url.Action("CreateOrEdit", "Payment", new { id = Model.Id })"
                    class="px-5 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl flex items-center gap-2 transition">
                     <i class="fas fa-edit"></i>
                     Edit Payment
