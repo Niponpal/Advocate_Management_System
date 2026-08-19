@@ -10,4 +10,5 @@ public class TaskManagement: BaseEntity
     public string Status { get; set; }
     public long AdvocateId { get; set; }
     public Advocate Advocate { get; set; }
+    //public DateTime? UpdatedAt { get; set; }
 }
