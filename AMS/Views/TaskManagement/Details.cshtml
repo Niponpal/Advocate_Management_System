@@ -94,7 +94,7 @@
                             @Model.DueDate.ToString("dd MMMM yyyy")
                         </p>
                         <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                            @Model.DueDate.ToString("dddd")
+                            @Model.DueDate.ToString("dd MMMM yyyy hh mm ss") ?? "N/A"
                         </p>
                     </div>
 
