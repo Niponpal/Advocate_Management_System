@@ -43,12 +43,12 @@ public class TaskManagementRepository : ITaskManagementRepository
     }
     public async Task<IEnumerable<TaskManagement>> GetAllTasksAsync(CancellationToken cancellationToken)
     {
-       var data = await _context.taskManagements.ToListAsync(cancellationToken);
+       var data = await _context.taskManagements.Include(a=>a.Advocate).ToListAsync(cancellationToken);
         return data;
     }
     public async Task<TaskManagement> GetTaskByIdAsync(long id, CancellationToken cancellationToken)
     {
-       var data = await _context.taskManagements.FindAsync(id, cancellationToken);
+       var data = await _context.taskManagements.Include(a => a.Advocate).FirstAsync(a => a.Id == id, cancellationToken);
         return data;
     }
     public async Task<TaskManagement> UpdateTaskAsync(TaskManagement taskManagement, CancellationToken cancellationToken)
