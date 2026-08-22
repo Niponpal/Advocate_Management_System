@@ -44,7 +44,11 @@ public class CaseRepository : ICaseRepository
     }
     public async Task<Case?> GetCaseByIdAsync(long id, CancellationToken cancellationToken)
     {
-        var data = await _context.cases.FindAsync(id, cancellationToken);
+        var data = await _context.cases
+            .Include(x => x.Advocate)
+            .Include(x => x.Client)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
         if (data != null)
         {
             return data;
@@ -56,7 +60,7 @@ public class CaseRepository : ICaseRepository
     }
     public async Task<IEnumerable<Case>> GetAllCasesAsync(CancellationToken cancellationToken)
     {
-        var data = await _context.cases.ToListAsync(cancellationToken);
+        var data = await _context.cases.Include(x=>x.Advocate).Include(x => x.Client).ToListAsync(cancellationToken);
         if (data != null)
         {
             return data;
