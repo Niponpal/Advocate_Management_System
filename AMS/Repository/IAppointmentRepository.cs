@@ -40,17 +40,20 @@ public class AppointmentRepository : IAppointmentRepository
             throw new Exception("Appointment not found");
         }
     }
-    public async Task<Appointment?> GetAppointmentByIdAsync(long id, CancellationToken cancellationToken)
+    public async Task<Appointment?> GetAppointmentByIdAsync(
+     long id,
+     CancellationToken cancellationToken)
     {
-        var data = await _context.appointments.FindAsync(id, cancellationToken);
+        var data = await _context.appointments
+            .Include(a => a.Advocate)
+            .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+
         if (data != null)
         {
             return data;
         }
-        else
-        {
-            throw new Exception("Appointment not found");
-        }
+
+        throw new Exception("Appointment not found");
     }
     public async Task<IEnumerable<Appointment>> GetAllAppointmentAsync(CancellationToken cancellationToken)
     {
