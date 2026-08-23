@@ -35,13 +35,13 @@ public class CourtRepository : ICourtRepository
 
     public async Task<IEnumerable<Court>> GetAllCourtAsync(CancellationToken cancellationToken)
     {
-       var data = await _context.courts.ToListAsync(cancellationToken);
+       var data = await _context.courts.Include(a=>a.Hearings).ToListAsync(cancellationToken);
         return data;
     }
 
     public async Task<Court> GetCourtByIdAsync(long id, CancellationToken cancellationToken)
     {
-       var data = await _context.courts.FindAsync(id, cancellationToken);
+       var data = await _context.courts.Include(a=>a.Hearings).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         return data;
     }
 
