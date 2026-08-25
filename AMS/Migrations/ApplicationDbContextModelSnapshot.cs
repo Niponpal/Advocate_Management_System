@@ -86,9 +86,9 @@ namespace AMS.Migrations
                             Id = 2L,
                             CreatedBy = 0L,
                             CreatedDateUtc = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Description = "Default role assigned to all employees.",
-                            Name = "Seller",
-                            NormalizedName = "Seller",
+                            Description = "Default role assigned to all administrators.",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN",
                             StatusId = 0
                         },
                         new
@@ -96,9 +96,9 @@ namespace AMS.Migrations
                             Id = 3L,
                             CreatedBy = 0L,
                             CreatedDateUtc = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Description = "Default role assigned to all customers.",
-                            Name = "Buyer",
-                            NormalizedName = "Buyer",
+                            Description = "Default role assigned to all employees.",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE",
                             StatusId = 0
                         });
                 });
@@ -227,7 +227,7 @@ namespace AMS.Migrations
                             Id = 1L,
                             AccessFailedCount = 0,
                             Address = "",
-                            ConcurrencyStamp = "118a5e71-5bee-4c13-8d2a-720b4ea3d93b",
+                            ConcurrencyStamp = "4d7deca9-92a4-4ea5-a70c-32bab4091744",
                             CreatedBy = 0L,
                             CreatedDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "admin@localhost.com",
@@ -236,11 +236,11 @@ namespace AMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGqsNUhmu85AxH63d+NvJMO0yf0GI4LTeRkGSn1VFMWH+LuSGSD2gvhaj8sW4hVfUA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEac7nnmPsLFeV7f3a9eZyqSpaPVbYZcNCRDjvL38xIH6lpWjjyfSj6fTfxj1G/GqQ==",
                             Phone = "",
                             PhoneNumberConfirmed = false,
                             RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "2dfaac66-01a3-4d13-94fb-8b5d38866c29",
+                            SecurityStamp = "8bc41228-d391-4f69-ab8b-c2495efabc4f",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -249,22 +249,22 @@ namespace AMS.Migrations
                             Id = 2L,
                             AccessFailedCount = 0,
                             Address = "",
-                            ConcurrencyStamp = "f718092e-2804-4ceb-8b25-0187535f7e3a",
+                            ConcurrencyStamp = "2c1ad10f-bfc2-4d66-bd75-8c84293ee791",
                             CreatedBy = 0L,
                             CreatedDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Email = "seller@localhost.com",
+                            Email = "employee@localhost.com",
                             EmailConfirmed = true,
                             FullName = "",
                             LockoutEnabled = false,
-                            NormalizedEmail = "SELLER@LOCALHOST.COM",
-                            NormalizedUserName = "SELLER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDZYPt3vhxhUC+0Txrp806d+CZ1OS81UQTB5waGpBtK8aKihKAgc8PUdX8QoOYkcpA==",
+                            NormalizedEmail = "EMPLOYEE@LOCALHOST.COM",
+                            NormalizedUserName = "EMPLOYEE@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDrDLPojC5ATDokrY4a/zE106RTMhZ97IxErnxgnP5sI8cr3oYvgGU4i37+6MkokvA==",
                             Phone = "",
                             PhoneNumberConfirmed = false,
                             RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "23d5579d-550d-4add-8a67-850e69081d85",
+                            SecurityStamp = "f5cf642d-2070-41ff-b4b1-0ee34494b188",
                             TwoFactorEnabled = false,
-                            UserName = "seller@localhost.com"
+                            UserName = "employee@localhost.com"
                         });
                 });
 
@@ -359,7 +359,7 @@ namespace AMS.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Advocate", b =>
+            modelBuilder.Entity("AMS.Models.Advocate", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -368,7 +368,6 @@ namespace AMS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
@@ -393,12 +392,10 @@ namespace AMS.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Specialization")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -413,7 +410,7 @@ namespace AMS.Migrations
                     b.ToTable("Advocate", (string)null);
                 });
 
-            modelBuilder.Entity("AdvocateSchedule", b =>
+            modelBuilder.Entity("AMS.Models.AdvocateSchedule", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -439,7 +436,7 @@ namespace AMS.Migrations
                     b.ToTable("AdvocateSchedule", (string)null);
                 });
 
-            modelBuilder.Entity("Appointment", b =>
+            modelBuilder.Entity("AMS.Models.Appointment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -475,7 +472,7 @@ namespace AMS.Migrations
                     b.ToTable("Appointments", (string)null);
                 });
 
-            modelBuilder.Entity("Case", b =>
+            modelBuilder.Entity("AMS.Models.Case", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -526,7 +523,7 @@ namespace AMS.Migrations
                     b.ToTable("Case", (string)null);
                 });
 
-            modelBuilder.Entity("CaseCategory", b =>
+            modelBuilder.Entity("AMS.Models.CaseCategory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -547,7 +544,7 @@ namespace AMS.Migrations
                     b.ToTable("CaseCategory", (string)null);
                 });
 
-            modelBuilder.Entity("Client", b =>
+            modelBuilder.Entity("AMS.Models.Client", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -585,7 +582,7 @@ namespace AMS.Migrations
                     b.ToTable("Client", (string)null);
                 });
 
-            modelBuilder.Entity("Court", b =>
+            modelBuilder.Entity("AMS.Models.Court", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -613,7 +610,7 @@ namespace AMS.Migrations
                     b.ToTable("Court", (string)null);
                 });
 
-            modelBuilder.Entity("Document", b =>
+            modelBuilder.Entity("AMS.Models.Document", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -623,6 +620,9 @@ namespace AMS.Migrations
 
                     b.Property<long>("CaseId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DocumentTitle")
                         .IsRequired()
@@ -649,7 +649,7 @@ namespace AMS.Migrations
                     b.ToTable("Document", (string)null);
                 });
 
-            modelBuilder.Entity("Hearing", b =>
+            modelBuilder.Entity("AMS.Models.Hearing", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -667,12 +667,10 @@ namespace AMS.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("HearingStatus")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Remarks")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -685,7 +683,7 @@ namespace AMS.Migrations
                     b.ToTable("Hearing", (string)null);
                 });
 
-            modelBuilder.Entity("Invoice", b =>
+            modelBuilder.Entity("AMS.Models.Invoice", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -714,7 +712,7 @@ namespace AMS.Migrations
                     b.ToTable("Invoice", (string)null);
                 });
 
-            modelBuilder.Entity("LegalNotice", b =>
+            modelBuilder.Entity("AMS.Models.LegalNotice", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -744,7 +742,7 @@ namespace AMS.Migrations
                     b.ToTable("LegalNotice", (string)null);
                 });
 
-            modelBuilder.Entity("Payment", b =>
+            modelBuilder.Entity("AMS.Models.Payment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -781,7 +779,7 @@ namespace AMS.Migrations
                     b.ToTable("Payment", (string)null);
                 });
 
-            modelBuilder.Entity("TaskManagement", b =>
+            modelBuilder.Entity("AMS.Models.TaskManagement", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -808,6 +806,9 @@ namespace AMS.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -867,9 +868,9 @@ namespace AMS.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AdvocateSchedule", b =>
+            modelBuilder.Entity("AMS.Models.AdvocateSchedule", b =>
                 {
-                    b.HasOne("Advocate", "Advocate")
+                    b.HasOne("AMS.Models.Advocate", "Advocate")
                         .WithMany("AdvocateSchedules")
                         .HasForeignKey("AdvocateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -878,15 +879,15 @@ namespace AMS.Migrations
                     b.Navigation("Advocate");
                 });
 
-            modelBuilder.Entity("Appointment", b =>
+            modelBuilder.Entity("AMS.Models.Appointment", b =>
                 {
-                    b.HasOne("Advocate", "Advocate")
+                    b.HasOne("AMS.Models.Advocate", "Advocate")
                         .WithMany("Appointments")
                         .HasForeignKey("AdvocateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Client", "Client")
+                    b.HasOne("AMS.Models.Client", "Client")
                         .WithMany("Appointments")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -897,15 +898,15 @@ namespace AMS.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("Case", b =>
+            modelBuilder.Entity("AMS.Models.Case", b =>
                 {
-                    b.HasOne("Advocate", "Advocate")
+                    b.HasOne("AMS.Models.Advocate", "Advocate")
                         .WithMany("Cases")
                         .HasForeignKey("AdvocateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Client", "Client")
+                    b.HasOne("AMS.Models.Client", "Client")
                         .WithMany("Cases")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -916,9 +917,9 @@ namespace AMS.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("Document", b =>
+            modelBuilder.Entity("AMS.Models.Document", b =>
                 {
-                    b.HasOne("Case", "Case")
+                    b.HasOne("AMS.Models.Case", "Case")
                         .WithMany("Documents")
                         .HasForeignKey("CaseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -927,15 +928,15 @@ namespace AMS.Migrations
                     b.Navigation("Case");
                 });
 
-            modelBuilder.Entity("Hearing", b =>
+            modelBuilder.Entity("AMS.Models.Hearing", b =>
                 {
-                    b.HasOne("Case", "Case")
+                    b.HasOne("AMS.Models.Case", "Case")
                         .WithMany("Hearings")
                         .HasForeignKey("CaseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Court", "Court")
+                    b.HasOne("AMS.Models.Court", "Court")
                         .WithMany("Hearings")
                         .HasForeignKey("CourtId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -946,9 +947,9 @@ namespace AMS.Migrations
                     b.Navigation("Court");
                 });
 
-            modelBuilder.Entity("Invoice", b =>
+            modelBuilder.Entity("AMS.Models.Invoice", b =>
                 {
-                    b.HasOne("Client", "Client")
+                    b.HasOne("AMS.Models.Client", "Client")
                         .WithMany("Invoices")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -957,9 +958,9 @@ namespace AMS.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("LegalNotice", b =>
+            modelBuilder.Entity("AMS.Models.LegalNotice", b =>
                 {
-                    b.HasOne("Client", "Client")
+                    b.HasOne("AMS.Models.Client", "Client")
                         .WithMany("LegalNotices")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -968,15 +969,15 @@ namespace AMS.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("Payment", b =>
+            modelBuilder.Entity("AMS.Models.Payment", b =>
                 {
-                    b.HasOne("Case", "Case")
+                    b.HasOne("AMS.Models.Case", "Case")
                         .WithMany()
                         .HasForeignKey("CaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Client", "Client")
+                    b.HasOne("AMS.Models.Client", "Client")
                         .WithMany("Payments")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -987,9 +988,9 @@ namespace AMS.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("TaskManagement", b =>
+            modelBuilder.Entity("AMS.Models.TaskManagement", b =>
                 {
-                    b.HasOne("Advocate", "Advocate")
+                    b.HasOne("AMS.Models.Advocate", "Advocate")
                         .WithMany("TaskManagements")
                         .HasForeignKey("AdvocateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -998,7 +999,7 @@ namespace AMS.Migrations
                     b.Navigation("Advocate");
                 });
 
-            modelBuilder.Entity("Advocate", b =>
+            modelBuilder.Entity("AMS.Models.Advocate", b =>
                 {
                     b.Navigation("AdvocateSchedules");
 
@@ -1009,14 +1010,14 @@ namespace AMS.Migrations
                     b.Navigation("TaskManagements");
                 });
 
-            modelBuilder.Entity("Case", b =>
+            modelBuilder.Entity("AMS.Models.Case", b =>
                 {
                     b.Navigation("Documents");
 
                     b.Navigation("Hearings");
                 });
 
-            modelBuilder.Entity("Client", b =>
+            modelBuilder.Entity("AMS.Models.Client", b =>
                 {
                     b.Navigation("Appointments");
 
@@ -1029,7 +1030,7 @@ namespace AMS.Migrations
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("Court", b =>
+            modelBuilder.Entity("AMS.Models.Court", b =>
                 {
                     b.Navigation("Hearings");
                 });

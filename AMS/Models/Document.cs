@@ -11,7 +11,7 @@ namespace AMS.Models
         public long CaseId { get; set; }
         public Case Case { get; set; }
 
-        // ✅ ADD THIS PROPERTY
-      // public string? Description { get; set; }
+        
+       public string? Description { get; set; }
     }
 }

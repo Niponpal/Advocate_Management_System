@@ -21,10 +21,10 @@ namespace AMS.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AdvocateName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LicenseNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Specialization = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Specialization = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     ExperienceYears = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L)
                 },
                 constraints: table =>
@@ -164,7 +164,8 @@ namespace AMS.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    AdvocateId = table.Column<long>(type: "bigint", nullable: false)
+                    AdvocateId = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -398,7 +399,8 @@ namespace AMS.Migrations
                     FilePath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     DocumentType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CaseId = table.Column<long>(type: "bigint", nullable: false)
+                    CaseId = table.Column<long>(type: "bigint", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -418,8 +420,8 @@ namespace AMS.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HearingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    HearingStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Remarks = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    HearingStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CaseId = table.Column<long>(type: "bigint", nullable: false),
                     CourtId = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -476,8 +478,8 @@ namespace AMS.Migrations
                 values: new object[,]
                 {
                     { 1L, null, 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all employees.", "Administrator", "ADMINISTRATOR", 0, null, null },
-                    { 2L, null, 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all employees.", "Seller", "Seller", 0, null, null },
-                    { 3L, null, 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all customers.", "Buyer", "Buyer", 0, null, null }
+                    { 2L, null, 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all administrators.", "Admin", "ADMIN", 0, null, null },
+                    { 3L, null, 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Default role assigned to all employees.", "Employee", "EMPLOYEE", 0, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -485,8 +487,8 @@ namespace AMS.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "CreatedBy", "CreatedDate", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "Phone", "PhoneNumber", "PhoneNumberConfirmed", "RegisterDate", "SecurityStamp", "TwoFactorEnabled", "UpdatedBy", "UpdatedDate", "UserName" },
                 values: new object[,]
                 {
-                    { 1L, 0, "", "118a5e71-5bee-4c13-8d2a-720b4ea3d93b", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "admin@localhost.com", true, "", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEGqsNUhmu85AxH63d+NvJMO0yf0GI4LTeRkGSn1VFMWH+LuSGSD2gvhaj8sW4hVfUA==", "", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "2dfaac66-01a3-4d13-94fb-8b5d38866c29", false, null, null, "admin@localhost.com" },
-                    { 2L, 0, "", "f718092e-2804-4ceb-8b25-0187535f7e3a", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "seller@localhost.com", true, "", false, null, "SELLER@LOCALHOST.COM", "SELLER@LOCALHOST.COM", "AQAAAAIAAYagAAAAEDZYPt3vhxhUC+0Txrp806d+CZ1OS81UQTB5waGpBtK8aKihKAgc8PUdX8QoOYkcpA==", "", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "23d5579d-550d-4add-8a67-850e69081d85", false, null, null, "seller@localhost.com" }
+                    { 1L, 0, "", "4d7deca9-92a4-4ea5-a70c-32bab4091744", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "admin@localhost.com", true, "", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEEac7nnmPsLFeV7f3a9eZyqSpaPVbYZcNCRDjvL38xIH6lpWjjyfSj6fTfxj1G/GqQ==", "", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "8bc41228-d391-4f69-ab8b-c2495efabc4f", false, null, null, "admin@localhost.com" },
+                    { 2L, 0, "", "2c1ad10f-bfc2-4d66-bd75-8c84293ee791", 0L, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "employee@localhost.com", true, "", false, null, "EMPLOYEE@LOCALHOST.COM", "EMPLOYEE@LOCALHOST.COM", "AQAAAAIAAYagAAAAEDrDLPojC5ATDokrY4a/zE106RTMhZ97IxErnxgnP5sI8cr3oYvgGU4i37+6MkokvA==", "", null, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "f5cf642d-2070-41ff-b4b1-0ee34494b188", false, null, null, "employee@localhost.com" }
                 });
 
             migrationBuilder.InsertData(
