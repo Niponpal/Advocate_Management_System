@@ -39,6 +39,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     }
 }
 
+
 //using Microsoft.AspNetCore.Identity;
 //using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.Metadata.Builders;
