@@ -4,6 +4,7 @@ namespace AMS.Helper;
 
 public interface ISignInHelper
 {
+
     public long? UserId { get; }
     public string Email { get; }
     public string Fullname { get; }
