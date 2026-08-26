@@ -32,11 +32,6 @@ public class ClientRepository : IClientRepository
             data.Phone = client.Phone;
             data.Address = client.Address;
             data.NIDNumber = client.NIDNumber;
-            data.Cases = client.Cases;
-            data.Payments = client.Payments;
-            data.Appointments = client.Appointments;
-            data.Invoices = client.Invoices;
-            data.LegalNotices = client.LegalNotices;
             await _context.SaveChangesAsync(cancellationToken);
             return data;
         }
@@ -65,35 +60,36 @@ public class ClientRepository : IClientRepository
             throw new Exception("Client not found");
         }
     }
-    public async Task<Client?> GetClientByIdAsync(long id, CancellationToken cancellationToken)
+    public async Task<Client?> GetClientByIdAsync(
+        long id,
+        CancellationToken cancellationToken)
     {
-        var data = await _context.clients.FindAsync(id, cancellationToken);
+        var data = await _context.clients
+            .Include(a => a.Cases)
+            .Include(a => a.Payments)
+            .Include(a => a.Appointments)
+            .Include(a => a.Invoices)
+            .Include(a => a.LegalNotices)
+            .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+
         if (data != null)
         {
             return data;
-        }
-        else
-        {
-            throw new Exception("Client not found");
-        }
-    }
-    public async Task<IEnumerable<Client>> GetAllApplicationsAsync(CancellationToken cancellationToken)
-    {
-       var data = await _context.clients.Include(a => a.Cases)
-                                     .Include(a => a.Payments)
-                                     .Include(a => a.Appointments)
-                                     .Include(a => a.Invoices)
-                                     .Include(a => a.LegalNotices)
-                                     .ToListAsync(cancellationToken);
-        if (data != null)
-        {
-            return data;
-        }
-        else
-        {
-            throw new Exception("No clients found");
         }
 
+        throw new Exception("Client not found");
+    }
+    public async Task<IEnumerable<Client>> GetAllApplicationsAsync(
+        CancellationToken cancellationToken)
+    {
+        return await _context.clients
+            .Include(c => c.Cases)
+            .Include(c => c.Payments)
+            .Include(c => c.Appointments)
+            .Include(c => c.Invoices)
+            .Include(c => c.LegalNotices)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 
     public IEnumerable<SelectListItem> Dropdown()
