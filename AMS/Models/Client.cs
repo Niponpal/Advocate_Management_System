@@ -10,7 +10,7 @@ public class Client : BaseEntity
     public string Address { get; set; }
     public string NIDNumber { get; set; }
 
-    public ICollection<Case> Cases { get; set; }
+    public ICollection<Case> Cases { get; set; } = new List<Case>();
 
     public ICollection<Payment> Payments { get; set; }
     public ICollection<Appointment> Appointments { get; set; }
