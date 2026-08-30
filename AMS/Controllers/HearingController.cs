@@ -15,6 +15,7 @@ public class HearingController : Controller
         hearingRepository = _hearingRepository;
         caseRepository = _caseRepository;
         courtRepository = _courtRepository;
+
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
