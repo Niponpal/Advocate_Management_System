@@ -63,8 +63,7 @@ public class LegalNoticeRepository : ILegalNoticeRepository
         data.NoticeDate = legalNotice.NoticeDate;
         data.ClientId = legalNotice.ClientId;
 
-        // ❌ Avoid navigation update (prevents EF tracking issues)
-        // data.Client = legalNotice.Client;
+       
 
         await _context.SaveChangesAsync(cancellationToken);
 
