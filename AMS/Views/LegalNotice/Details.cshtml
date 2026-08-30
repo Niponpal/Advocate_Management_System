@@ -1,7 +1,356 @@
-﻿@{
+﻿@model AMS.Models.LegalNotice
+
+@{
     ViewData["Title"] = "Legal Notice Details";
 }
 
+<div class="min-h-screen bg-slate-950 text-slate-300 p-8">
+    <div class="max-w-6xl mx-auto">
+
+        <!-- Breadcrumb & Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-4">
+
+                <a asp-controller="LegalNotice"
+                   asp-action="Index"
+                   class="flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Legal Notices
+                </a>
+
+                <h1 class="text-3xl font-bold text-white">
+                    Legal Notice Details
+                </h1>
+            </div>
+
+            <div class="flex gap-3">
+
+                <a asp-controller="LegalNotice"
+                   asp-action="CreateOrEdit"
+                   asp-route-id="@Model.Id"
+                   class="px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-2xl flex items-center gap-2 transition-all">
+
+                    <i class="fas fa-edit"></i>
+                    Edit Notice
+                </a>
+
+                <button onclick="printNotice()"
+                        class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-2xl flex items-center gap-2 font-semibold transition-all">
+
+                    <i class="fas fa-print"></i>
+                    Print / Download PDF
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- Main Content Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+
+            <!-- Notice Header -->
+            <div class="px-10 py-8 bg-gradient-to-r from-slate-800 to-slate-900 border-b border-slate-700">
+
+                <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+
+                    <div>
+
+                        <span class="inline-flex items-center px-5 py-2 bg-emerald-500/10 text-emerald-400 text-sm font-semibold rounded-2xl">
+
+                            <i class="fas fa-file-contract mr-2"></i>
+                            LEGAL NOTICE
+
+                        </span>
+
+                        <h2 class="text-4xl font-bold text-white mt-4 leading-tight">
+                            @Model.NoticeTitle
+                        </h2>
+
+                    </div>
+
+                    <div class="text-right">
+
+                        <p class="text-slate-400 text-sm">
+                            Notice Date
+                        </p>
+
+                        <p class="text-2xl font-semibold text-white">
+                            @Model.NoticeDate.ToString("dd MMMM yyyy")
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Content -->
+            <div class="p-10">
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+
+                    <!-- Main Details -->
+                    <div class="lg:col-span-8 space-y-10">
+
+                        <!-- Description -->
+                        <div>
+
+                            <h3 class="uppercase text-slate-400 text-sm font-medium mb-4 tracking-wider">
+                                Description
+                            </h3>
+
+                            <div class="text-slate-200 text-[17px] leading-relaxed">
+
+                                @if (!string.IsNullOrEmpty(Model.Description))
+                                {
+                                    <p>
+                                        @Model.Description
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="text-slate-500">
+                                        No description available.
+                                    </p>
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Notice Metadata -->
+                        <div class="grid grid-cols-2 gap-6">
+
+                            <div class="bg-slate-800 rounded-2xl p-6">
+
+                                <p class="text-slate-400 text-sm">
+                                    Notice ID
+                                </p>
+
+                                <p class="font-mono text-xl text-white mt-1">
+                                    #LN-@Model.Id.ToString("D5")
+                                </p>
+
+                            </div>
+
+
+                            <div class="bg-slate-800 rounded-2xl p-6">
+
+                                <p class="text-slate-400 text-sm">
+                                    Status
+                                </p>
+
+                                <span class="inline-flex px-5 py-2 bg-emerald-500/10 text-emerald-400 rounded-2xl text-sm font-medium mt-1">
+
+                                    <i class="fas fa-circle-dot mr-2"></i>
+                                    Active
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Client Sidebar -->
+                    <div class="lg:col-span-4">
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-3xl p-7 sticky top-8">
+
+                            <h3 class="flex items-center gap-3 text-slate-400 text-sm font-medium mb-6">
+
+                                <i class="fas fa-user-tie"></i>
+                                CLIENT DETAILS
+
+                            </h3>
+
+
+                            @if (Model.Client != null)
+                            {
+                                <div class="flex items-center gap-4 mb-8">
+
+                                    <div class="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center text-4xl">
+                                        👤
+                                    </div>
+
+                                    <div>
+
+                                        <p class="text-2xl font-semibold text-white">
+                                            @Model.Client.ClientName
+                                        </p>
+
+                                        <p class="text-emerald-500 font-mono">
+                                            Client #@Model.ClientId
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="space-y-5 text-sm">
+
+                                    <!-- Client ID -->
+                                    <div class="flex justify-between border-b border-slate-700 pb-4">
+
+                                        <span class="text-slate-400">
+                                            Client ID
+                                        </span>
+
+                                        <span class="text-white font-medium">
+                                            @Model.ClientId
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- Contact -->
+                                    <div class="flex justify-between border-b border-slate-700 pb-4">
+
+                                        <span class="text-slate-400">
+                                            Contact
+                                        </span>
+
+                                        <span class="text-white font-medium">
+                                            @Model.Client.ClientName
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- Email -->
+                                    <div class="flex justify-between border-b border-slate-700 pb-4">
+
+                                        <span class="text-slate-400">
+                                            Email
+                                        </span>
+
+                                        <span class="text-white">
+                                            @Model.Client.Email
+                                        </span>
+
+                                    </div>
+
+
+                                    <!-- Phone -->
+                                    <div class="flex justify-between">
+
+                                        <span class="text-slate-400">
+                                            Phone
+                                        </span>
+
+                                        <span class="text-white">
+                                            @Model.Client.Phone
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <a asp-controller="Client"
+                                   asp-action="Details"
+                                   asp-route-id="@Model.ClientId"
+                                   class="block text-center mt-8 w-full py-4 bg-slate-700 hover:bg-slate-600 rounded-2xl text-sm font-medium transition">
+
+                                    View Complete Client Profile →
+
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="text-center py-8">
+
+                                    <i class="fas fa-user-slash text-4xl text-slate-600 mb-4"></i>
+
+                                    <p class="text-slate-400">
+                                        Client information not found.
+                                    </p>
+
+                                    <p class="text-slate-500 text-sm mt-2">
+                                        Client ID: @Model.ClientId
+                                    </p>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Bottom Actions -->
+            <div class="border-t border-slate-700 bg-slate-950 px-10 py-6 flex items-center justify-between">
+
+                <div class="text-slate-400 text-sm">
+
+                    Created:
+                    <span class="text-white">
+                        @Model.NoticeDate.ToString("dd MMMM yyyy")
+                    </span>
+
+                </div>
+
+
+                <div class="flex gap-4">
+
+                    <button onclick="sendToClient()"
+                            class="px-8 py-3 border border-slate-600 hover:border-emerald-500 rounded-2xl flex items-center gap-2 transition">
+
+                        <i class="fas fa-paper-plane"></i>
+                        Send to Client
+
+                    </button>
+
+
+                    <button onclick="archiveNotice()"
+                            class="px-8 py-3 border border-slate-600 hover:border-slate-400 rounded-2xl flex items-center gap-2 transition">
+
+                        <i class="fas fa-archive"></i>
+                        Archive
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+
+    function printNotice() {
+        window.print();
+    }
+
+    function sendToClient() {
+        alert("Legal Notice sent to client via Email & SMS.");
+    }
+
+    function archiveNotice() {
+        alert("Notice archived successfully.");
+    }
+
+</script>
+
+@* @model AMS.Models.LegalNotice
+
+@{
+    ViewData["Title"] = "Legal Notice Details";
+}
 <div class="min-h-screen bg-slate-950 text-slate-300 p-8">
     <div class="max-w-6xl mx-auto">
 
@@ -172,4 +521,4 @@
 
     // Initialize
     window.onload = loadDetails;
-</script>
+</script> *@
