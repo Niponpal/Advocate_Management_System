@@ -41,17 +41,20 @@ public class InvoiceRepository : IInvoiceRepository
             throw new Exception("Invoice not found");
         }
     }
-    public async Task<Invoice?> GetInvoiceByIdAsync(long id, CancellationToken cancellationToken)
+    public async Task<Invoice?> GetInvoiceByIdAsync(
+       long id,
+       CancellationToken cancellationToken)
     {
-        var data = await _context.invoices.FindAsync(id, cancellationToken);
-        if (data != null)
-        {
-            return data;
-        }
-        else
+        var data = await _context.invoices
+            .Include(a => a.Client)
+            .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+
+        if (data == null)
         {
             throw new Exception("Invoice not found");
         }
+
+        return data;
     }
     public async Task<IEnumerable<Invoice>> GetAllInvoicesAsync(CancellationToken cancellationToken)
     {
