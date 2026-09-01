@@ -10,7 +10,6 @@ public class CaseController : Controller
     private readonly IClientRepository _clientRepository;  
     private readonly IAdvocateRepository _advocateRepository;
 
-
     public CaseController(ICaseRepository caseRepository, IClientRepository clientRepository, IAdvocateRepository advocateRepository)
     {
         _caseRepository = caseRepository;
