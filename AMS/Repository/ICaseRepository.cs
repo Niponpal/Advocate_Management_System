@@ -82,8 +82,8 @@ public class CaseRepository : ICaseRepository
            data.Description = cases.Description;
            data.FilingDate = cases.FilingDate;
            data.Status = cases.Status;
-           data.AdvocateId = cases.AdvocateId;
-           data.ClientId = cases.ClientId;
+           //data.AdvocateId = cases.AdvocateId;
+           //data.ClientId = cases.ClientId;
            await _context.SaveChangesAsync(cancellationToken);
            return data;
        }
