@@ -31,6 +31,7 @@ public class CaseController : Controller
     {
         ViewData["ClientId"] = _clientRepository.Dropdown();
         ViewData["AdvocateId"] = _advocateRepository.Dropdown();
+
         if (id == 0)
         {
             return View();
