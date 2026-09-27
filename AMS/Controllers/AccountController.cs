@@ -17,6 +17,10 @@ namespace AMS.Controllers
             _authService = authService;
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         public IActionResult Index()
         {

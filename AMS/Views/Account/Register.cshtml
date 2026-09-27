@@ -1,0 +1,593 @@
+﻿
+@model AMS.Models.Auth.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="min-h-[calc(100vh-140px)] flex items-center justify-center py-10">
+    <div class="w-full max-w-2xl">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl
+                        bg-gradient-to-br from-indigo-600 to-violet-600
+                        text-white text-3xl
+                        shadow-lg shadow-indigo-500/30 mb-5">
+                <i class="fas fa-user-plus"></i>
+            </div>
+
+            <h1 class="text-4xl font-bold text-slate-800 dark:text-white tracking-tight">
+                Create Your Account
+            </h1>
+
+            <p class="text-slate-500 dark:text-slate-400 mt-3 text-lg">
+                Join AdvocatePro – Professional Law Firm Management
+            </p>
+        </div>
+
+
+        <!-- Register Card -->
+        <div class="bg-white dark:bg-slate-900
+                    border border-slate-200 dark:border-slate-800
+                    rounded-3xl shadow-xl overflow-hidden">
+
+            <div class="p-8 md:p-10">
+
+                <form asp-action="Register" method="post" class="space-y-6">
+
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="ModelOnly"
+                         class="bg-rose-50 dark:bg-rose-950/40
+                                border border-rose-200 dark:border-rose-900
+                                text-rose-600 dark:text-rose-400
+                                px-5 py-4 rounded-2xl text-sm">
+                    </div>
+
+
+                    <!-- Full Name -->
+                    <div>
+                        <label asp-for="FullName"
+                               class="block text-sm font-medium
+                                      text-slate-700 dark:text-slate-300 mb-2">
+                        </label>
+
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4
+                                        flex items-center pointer-events-none">
+                                <i class="fas fa-user text-slate-400"></i>
+                            </div>
+
+                            <input asp-for="FullName"
+                                   class="w-full pl-12 pr-4 py-3.5
+                                          bg-slate-50 dark:bg-slate-800
+                                          border border-slate-200 dark:border-slate-700
+                                          rounded-2xl
+                                          text-slate-800 dark:text-white
+                                          placeholder-slate-400
+                                          focus:outline-none
+                                          focus:ring-2 focus:ring-indigo-500
+                                          focus:border-transparent
+                                          transition"
+                                   placeholder="Enter your full name" />
+                        </div>
+
+                        <span asp-validation-for="FullName"
+                              class="text-rose-500 text-sm mt-1.5 block">
+                        </span>
+                    </div>
+
+
+                    <!-- Email + Phone -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <!-- Email -->
+                        <div>
+                            <label asp-for="Email"
+                                   class="block text-sm font-medium
+                                          text-slate-700 dark:text-slate-300 mb-2">
+                            </label>
+
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4
+                                            flex items-center pointer-events-none">
+                                    <i class="fas fa-envelope text-slate-400"></i>
+                                </div>
+
+                                <input asp-for="Email"
+                                       class="w-full pl-12 pr-4 py-3.5
+                                              bg-slate-50 dark:bg-slate-800
+                                              border border-slate-200 dark:border-slate-700
+                                              rounded-2xl
+                                              text-slate-800 dark:text-white
+                                              placeholder-slate-400
+                                              focus:outline-none
+                                              focus:ring-2 focus:ring-indigo-500
+                                              focus:border-transparent
+                                              transition"
+                                       placeholder="name@example.com" />
+                            </div>
+
+                            <span asp-validation-for="Email"
+                                  class="text-rose-500 text-sm mt-1.5 block">
+                            </span>
+                        </div>
+
+
+                        <!-- Phone -->
+                        <div>
+                            <label asp-for="PhoneNumber"
+                                   class="block text-sm font-medium
+                                          text-slate-700 dark:text-slate-300 mb-2">
+                            </label>
+
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4
+                                            flex items-center pointer-events-none">
+                                    <i class="fas fa-phone text-slate-400"></i>
+                                </div>
+
+                                <input asp-for="PhoneNumber"
+                                       class="w-full pl-12 pr-4 py-3.5
+                                              bg-slate-50 dark:bg-slate-800
+                                              border border-slate-200 dark:border-slate-700
+                                              rounded-2xl
+                                              text-slate-800 dark:text-white
+                                              placeholder-slate-400
+                                              focus:outline-none
+                                              focus:ring-2 focus:ring-indigo-500
+                                              focus:border-transparent
+                                              transition"
+                                       placeholder="+880 1XXX-XXXXXX" />
+                            </div>
+
+                            <span asp-validation-for="PhoneNumber"
+                                  class="text-rose-500 text-sm mt-1.5 block">
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Address -->
+                    <div>
+                        <label asp-for="Address"
+                               class="block text-sm font-medium
+                                      text-slate-700 dark:text-slate-300 mb-2">
+                        </label>
+
+                        <div class="relative">
+                            <div class="absolute top-3.5 left-0 pl-4
+                                        flex items-start pointer-events-none">
+                                <i class="fas fa-map-marker-alt text-slate-400"></i>
+                            </div>
+
+                            <textarea asp-for="Address"
+                                      rows="2"
+                                      class="w-full pl-12 pr-4 py-3.5
+                                             bg-slate-50 dark:bg-slate-800
+                                             border border-slate-200 dark:border-slate-700
+                                             rounded-2xl
+                                             text-slate-800 dark:text-white
+                                             placeholder-slate-400
+                                             focus:outline-none
+                                             focus:ring-2 focus:ring-indigo-500
+                                             focus:border-transparent
+                                             transition resize-none"
+                                      placeholder="Enter your full address"></textarea>
+                        </div>
+
+                        <span asp-validation-for="Address"
+                              class="text-rose-500 text-sm mt-1.5 block">
+                        </span>
+                    </div>
+
+
+                    <!-- ================================================= -->
+                    <!-- PROFESSIONAL ACCOUNT TYPE -->
+                    <!-- ================================================= -->
+
+                    <div>
+
+                        <div class="flex items-center justify-between mb-3">
+
+                            <label class="block text-sm font-semibold
+                                          text-slate-700 dark:text-slate-300">
+                                Account Type
+                            </label>
+
+                            <span class="text-xs text-slate-400">
+                                Select one
+                            </span>
+
+                        </div>
+
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+
+                            <!-- Advocate -->
+                            <label class="relative cursor-pointer group">
+
+                                <input asp-for="AccountType"
+                                       type="radio"
+                                       value="Advocate"
+                                       class="peer sr-only" />
+
+                                <div class="h-full p-5
+                                            rounded-2xl
+                                            border-2
+                                            border-slate-200 dark:border-slate-700
+                                            bg-slate-50 dark:bg-slate-800
+
+                                            group-hover:border-indigo-400
+
+                                            peer-checked:border-indigo-600
+                                            peer-checked:bg-indigo-50
+                                            dark:peer-checked:bg-indigo-950/30
+
+                                            transition-all duration-200">
+
+                                    <!-- Top -->
+                                    <div class="flex items-center justify-between mb-4">
+
+                                        <div class="w-11 h-11 rounded-xl
+                                                    bg-indigo-100 dark:bg-indigo-900/40
+                                                    flex items-center justify-center">
+
+                                            <i class="fas fa-gavel
+                                                      text-indigo-600
+                                                      dark:text-indigo-400
+                                                      text-lg">
+                                            </i>
+
+                                        </div>
+
+
+                                        <!-- Radio -->
+                                        <div class="w-5 h-5 rounded-full
+                                                    border-2
+                                                    border-slate-300
+                                                    dark:border-slate-600
+                                                    flex items-center justify-center">
+
+                                            <div class="w-2.5 h-2.5 rounded-full
+                                                        bg-indigo-600
+                                                        opacity-0
+                                                        peer-checked:opacity-100
+                                                        transition-opacity">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <h3 class="font-semibold
+                                               text-slate-800 dark:text-white">
+                                        Advocate
+                                    </h3>
+
+                                    <p class="text-xs
+                                              text-slate-500 dark:text-slate-400
+                                              mt-1 leading-relaxed">
+                                        Manage cases, clients and legal matters.
+                                    </p>
+
+                                </div>
+
+                            </label>
+
+
+                            <!-- Client -->
+                            <label class="relative cursor-pointer group">
+
+                                <input asp-for="AccountType"
+                                       type="radio"
+                                       value="Client"
+                                       class="peer sr-only" />
+
+                                <div class="h-full p-5
+                                            rounded-2xl
+                                            border-2
+                                            border-slate-200 dark:border-slate-700
+                                            bg-slate-50 dark:bg-slate-800
+
+                                            group-hover:border-emerald-400
+
+                                            peer-checked:border-emerald-600
+                                            peer-checked:bg-emerald-50
+                                            dark:peer-checked:bg-emerald-950/30
+
+                                            transition-all duration-200">
+
+                                    <div class="flex items-center justify-between mb-4">
+
+                                        <div class="w-11 h-11 rounded-xl
+                                                    bg-emerald-100 dark:bg-emerald-900/40
+                                                    flex items-center justify-center">
+
+                                            <i class="fas fa-user
+                                                      text-emerald-600
+                                                      dark:text-emerald-400
+                                                      text-lg">
+                                            </i>
+
+                                        </div>
+
+
+                                        <div class="w-5 h-5 rounded-full
+                                                    border-2
+                                                    border-slate-300
+                                                    dark:border-slate-600
+                                                    flex items-center justify-center">
+
+                                            <div class="w-2.5 h-2.5 rounded-full
+                                                        bg-emerald-600
+                                                        opacity-0
+                                                        peer-checked:opacity-100
+                                                        transition-opacity">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <h3 class="font-semibold
+                                               text-slate-800 dark:text-white">
+                                        Client
+                                    </h3>
+
+                                    <p class="text-xs
+                                              text-slate-500 dark:text-slate-400
+                                              mt-1 leading-relaxed">
+                                        Track cases, appointments and documents.
+                                    </p>
+
+                                </div>
+
+                            </label>
+
+
+                            <!-- Administrator -->
+                            <label class="relative cursor-pointer group">
+
+                                <input asp-for="AccountType"
+                                       type="radio"
+                                       value="Administrator"
+                                       class="peer sr-only" />
+
+                                <div class="h-full p-5
+                                            rounded-2xl
+                                            border-2
+                                            border-slate-200 dark:border-slate-700
+                                            bg-slate-50 dark:bg-slate-800
+
+                                            group-hover:border-violet-400
+
+                                            peer-checked:border-violet-600
+                                            peer-checked:bg-violet-50
+                                            dark:peer-checked:bg-violet-950/30
+
+                                            transition-all duration-200">
+
+                                    <div class="flex items-center justify-between mb-4">
+
+                                        <div class="w-11 h-11 rounded-xl
+                                                    bg-violet-100 dark:bg-violet-900/40
+                                                    flex items-center justify-center">
+
+                                            <i class="fas fa-shield-alt
+                                                      text-violet-600
+                                                      dark:text-violet-400
+                                                      text-lg">
+                                            </i>
+
+                                        </div>
+
+
+                                        <div class="w-5 h-5 rounded-full
+                                                    border-2
+                                                    border-slate-300
+                                                    dark:border-slate-600
+                                                    flex items-center justify-center">
+
+                                            <div class="w-2.5 h-2.5 rounded-full
+                                                        bg-violet-600
+                                                        opacity-0
+                                                        peer-checked:opacity-100
+                                                        transition-opacity">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <h3 class="font-semibold
+                                               text-slate-800 dark:text-white">
+                                        Administrator
+                                    </h3>
+
+                                    <p class="text-xs
+                                              text-slate-500 dark:text-slate-400
+                                              mt-1 leading-relaxed">
+                                        Manage users, system and permissions.
+                                    </p>
+
+                                </div>
+
+                            </label>
+
+                        </div>
+
+
+                        <span asp-validation-for="AccountType"
+                              class="text-rose-500 text-sm mt-2 block">
+                        </span>
+
+                    </div>
+
+
+                    <!-- Password + Confirm Password -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <!-- Password -->
+                        <div>
+                            <label asp-for="Password"
+                                   class="block text-sm font-medium
+                                          text-slate-700 dark:text-slate-300 mb-2">
+                            </label>
+
+                            <div class="relative">
+
+                                <div class="absolute inset-y-0 left-0 pl-4
+                                            flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-slate-400"></i>
+                                </div>
+
+                                <input asp-for="Password"
+                                       type="password"
+                                       class="w-full pl-12 pr-4 py-3.5
+                                              bg-slate-50 dark:bg-slate-800
+                                              border border-slate-200 dark:border-slate-700
+                                              rounded-2xl
+                                              text-slate-800 dark:text-white
+                                              placeholder-slate-400
+                                              focus:outline-none
+                                              focus:ring-2 focus:ring-indigo-500
+                                              focus:border-transparent
+                                              transition"
+                                       placeholder="Minimum 6 characters" />
+
+                            </div>
+
+                            <span asp-validation-for="Password"
+                                  class="text-rose-500 text-sm mt-1.5 block">
+                            </span>
+                        </div>
+
+
+                        <!-- Confirm Password -->
+                        <div>
+
+                            <label asp-for="ConfirmPassword"
+                                   class="block text-sm font-medium
+                                          text-slate-700 dark:text-slate-300 mb-2">
+                            </label>
+
+                            <div class="relative">
+
+                                <div class="absolute inset-y-0 left-0 pl-4
+                                            flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-slate-400"></i>
+                                </div>
+
+                                <input asp-for="ConfirmPassword"
+                                       type="password"
+                                       class="w-full pl-12 pr-4 py-3.5
+                                              bg-slate-50 dark:bg-slate-800
+                                              border border-slate-200 dark:border-slate-700
+                                              rounded-2xl
+                                              text-slate-800 dark:text-white
+                                              placeholder-slate-400
+                                              focus:outline-none
+                                              focus:ring-2 focus:ring-indigo-500
+                                              focus:border-transparent
+                                              transition"
+                                       placeholder="Re-enter password" />
+
+                            </div>
+
+                            <span asp-validation-for="ConfirmPassword"
+                                  class="text-rose-500 text-sm mt-1.5 block">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Submit Button -->
+                    <div class="pt-2">
+
+                        <button type="submit"
+                                class="w-full py-4
+                                       bg-gradient-to-r
+                                       from-indigo-600 to-violet-600
+                                       hover:from-indigo-500 hover:to-violet-500
+                                       text-white font-semibold
+                                       rounded-2xl
+                                       shadow-lg shadow-indigo-500/25
+                                       transition-all duration-300
+                                       flex items-center justify-center
+                                       gap-3 text-lg">
+
+                            <i class="fas fa-user-check"></i>
+
+                            Create Account
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- Login Link -->
+                    <div class="text-center pt-2">
+
+                        <p class="text-slate-500 dark:text-slate-400">
+
+                            Already have an account?
+
+                            <a asp-action="Login"
+                               class="text-indigo-600
+                                      dark:text-indigo-400
+                                      font-semibold
+                                      hover:underline ml-1">
+
+                                Login here
+
+                            </a>
+
+                        </p>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer Note -->
+        <p class="text-center text-sm
+                  text-slate-500 dark:text-slate-500 mt-8">
+
+            By creating an account, you agree to our
+
+            <a href="#"
+               class="text-indigo-500 hover:underline">
+                Terms of Service
+            </a>
+
+            and
+
+            <a href="#"
+               class="text-indigo-500 hover:underline">
+                Privacy Policy
+            </a>.
+
+        </p>
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}
+
