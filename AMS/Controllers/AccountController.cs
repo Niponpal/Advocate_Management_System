@@ -17,14 +17,17 @@ namespace AMS.Controllers
             _authService = authService;
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Login()
         {
             return View();
         }
+       
     }
 }
