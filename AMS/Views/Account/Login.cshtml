@@ -1,0 +1,199 @@
+﻿@model AMS.Models.Auth.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="min-h-[calc(100vh-140px)] flex items-center justify-center py-10">
+    <div class="w-full max-w-xl">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl
+                        bg-gradient-to-br from-indigo-600 to-violet-600
+                        text-white text-3xl
+                        shadow-lg shadow-indigo-500/30 mb-5">
+                <i class="fas fa-sign-in-alt"></i>
+            </div>
+
+            <h1 class="text-4xl font-bold text-slate-800 dark:text-white tracking-tight">
+                Welcome Back
+            </h1>
+
+            <p class="text-slate-500 dark:text-slate-400 mt-3 text-lg">
+                Sign in to your AdvocatePro account
+            </p>
+        </div>
+
+
+        <!-- Login Card -->
+        <div class="bg-white dark:bg-slate-900
+                    border border-slate-200 dark:border-slate-800
+                    rounded-3xl shadow-xl overflow-hidden">
+
+            <div class="p-8 md:p-10">
+
+                <form asp-action="Login" method="post" class="space-y-6">
+
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="ModelOnly"
+                         class="bg-rose-50 dark:bg-rose-950/40
+                                border border-rose-200 dark:border-rose-900
+                                text-rose-600 dark:text-rose-400
+                                px-5 py-4 rounded-2xl text-sm">
+                    </div>
+
+
+                    <!-- Email -->
+                    <div>
+                        <label asp-for="Email"
+                               class="block text-sm font-medium
+                                      text-slate-700 dark:text-slate-300 mb-2">
+                        </label>
+
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4
+                                        flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-slate-400"></i>
+                            </div>
+
+                            <input asp-for="Email"
+                                   class="w-full pl-12 pr-4 py-3.5
+                                          bg-slate-50 dark:bg-slate-800
+                                          border border-slate-200 dark:border-slate-700
+                                          rounded-2xl
+                                          text-slate-800 dark:text-white
+                                          placeholder-slate-400
+                                          focus:outline-none
+                                          focus:ring-2 focus:ring-indigo-500
+                                          focus:border-transparent
+                                          transition"
+                                   placeholder="name@example.com" />
+                        </div>
+
+                        <span asp-validation-for="Email"
+                              class="text-rose-500 text-sm mt-1.5 block">
+                        </span>
+                    </div>
+
+
+                    <!-- Password -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label asp-for="Password"
+                                   class="block text-sm font-medium
+                                          text-slate-700 dark:text-slate-300">
+                            </label>
+
+                            <a asp-action="ForgotPassword"
+                               class="text-xs text-indigo-600 dark:text-indigo-400
+                                      font-semibold hover:underline">
+                                Forgot password?
+                            </a>
+                        </div>
+
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4
+                                        flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-slate-400"></i>
+                            </div>
+
+                            <input asp-for="Password"
+                                   type="password"
+                                   class="w-full pl-12 pr-4 py-3.5
+                                          bg-slate-50 dark:bg-slate-800
+                                          border border-slate-200 dark:border-slate-700
+                                          rounded-2xl
+                                          text-slate-800 dark:text-white
+                                          placeholder-slate-400
+                                          focus:outline-none
+                                          focus:ring-2 focus:ring-indigo-500
+                                          focus:border-transparent
+                                          transition"
+                                   placeholder="Enter your password" />
+                        </div>
+
+                        <span asp-validation-for="Password"
+                              class="text-rose-500 text-sm mt-1.5 block">
+                        </span>
+                    </div>
+
+
+                    <!-- Remember Me -->
+                    <div class="flex items-center justify-between pt-1">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input asp-for="RememberMe"
+                                   type="checkbox"
+                                   class="w-5 h-5 rounded-lg
+                                          border-slate-300 dark:border-slate-700
+                                          text-indigo-600
+                                          focus:ring-indigo-500 dark:bg-slate-800
+                                          transition cursor-pointer" />
+
+                            <span class="ml-3 text-sm font-medium
+                                         text-slate-600 dark:text-slate-400">
+                                Remember me on this device
+                            </span>
+                        </label>
+                    </div>
+
+
+                    <!-- Submit Button -->
+                    <div class="pt-2">
+                        <button type="submit"
+                                class="w-full py-4
+                                       bg-gradient-to-r
+                                       from-indigo-600 to-violet-600
+                                       hover:from-indigo-500 hover:to-violet-500
+                                       text-white font-semibold
+                                       rounded-2xl
+                                       shadow-lg shadow-indigo-500/25
+                                       transition-all duration-300
+                                       flex items-center justify-center
+                                       gap-3 text-lg">
+
+                            <i class="fas fa-sign-in-alt"></i>
+
+                            Sign In
+
+                        </button>
+                    </div>
+
+
+                    <!-- Register Link -->
+                    <div class="text-center pt-2">
+                        <p class="text-slate-500 dark:text-slate-400">
+                            Don't have an account?
+                            <a asp-action="Register"
+                               class="text-indigo-600
+                                      dark:text-indigo-400
+                                      font-semibold
+                                      hover:underline ml-1">
+                                Create account here
+                            </a>
+                        </p>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer Note -->
+        <p class="text-center text-sm
+                  text-slate-500 dark:text-slate-500 mt-8">
+            Need help signing in?
+            <a href="#" class="text-indigo-500 hover:underline">
+                Contact Support
+            </a>
+        </p>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
