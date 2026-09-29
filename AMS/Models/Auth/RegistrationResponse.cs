@@ -1,8 +1,11 @@
-﻿namespace AMS.Models.Auth;
-
-public class RegistrationResponse
+﻿namespace AMS.Models.Auth
 {
-    public bool Success { get; set; } = true;
-    public long UserId { get; set; }
-    public List<string> Errors { get; set; } = new();
+    public class RegistrationResponse
+    {
+        public bool Success { get; set; }
+
+        public long UserId { get; set; }
+
+        public List<string> Errors { get; set; } = new();
+    }
 }

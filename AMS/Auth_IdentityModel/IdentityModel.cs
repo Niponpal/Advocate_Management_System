@@ -1,71 +1,108 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AMS.Auth_IdentityModel;
-
-
-public class IdentityModel
+namespace AMS.Auth_IdentityModel
 {
-    // ------------------ User Table ------------------
-    [Table("Users")]
-    public class User : IdentityUser<long>
+    public class IdentityModel
     {
-        public string FullName { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public DateTime RegisterDate { get; set; }
-        public long CreatedBy { get; set; }
-        public DateTimeOffset CreatedDate { get; set; }
-        public long? UpdatedBy { get; set; }
-        public DateTimeOffset? UpdatedDate { get; set; }
+        // =====================================================
+        // USER
+        // =====================================================
 
-    }
+        [Table("Users")]
+        public class User : IdentityUser<long>
+        {
+            public string FullName { get; set; } = string.Empty;
 
-    // ------------------ Roles ------------------
-    [Table("Roles")]
-    public class Role : IdentityRole<long>
-    {
-        public Role() { }
-        public Role(string name) { Name = name; }
+            // We use Phone instead of IdentityUser.PhoneNumber
+            public string Phone { get; set; } = string.Empty;
 
-        public int StatusId { get; set; }
-        public string Description { get; set; }
+            public string Address { get; set; } = string.Empty;
 
-        public long CreatedBy { get; set; }
-        public DateTimeOffset CreatedDateUtc { get; set; }
-        public long? UpdatedBy { get; set; }
-        public DateTimeOffset? UpdatedDateUtc { get; set; }
-    }
+            public DateTime RegisterDate { get; set; }
 
-    // ------------------ User Roles ------------------
-    [Table("UserRoles")]
-    public class UserRole : IdentityUserRole<long>
-    {
-    }
+            public long CreatedBy { get; set; }
 
-    // ------------------ User Claims ------------------
-    [Table("UserClaims")]
-    public class UserClaim : IdentityUserClaim<long>
-    {
-    }
+            public DateTimeOffset CreatedDate { get; set; }
 
-    // ------------------ User Logins ------------------
-    // ❌ এখানে আর কোন Key / ForeignKey override করা যাবে না
-    // IdentityUserLogin-এর PK = (LoginProvider, ProviderKey)
-    [Table("UserLogins")]
-    public class UserLogin : IdentityUserLogin<long>
-    {
-    }
+            public long? UpdatedBy { get; set; }
 
-    // ------------------ Role Claims ------------------
-    [Table("RoleClaims")]
-    public class RoleClaim : IdentityRoleClaim<long>
-    {
-    }
+            public DateTimeOffset? UpdatedDate { get; set; }
+        }
 
-    // ------------------ User Tokens ------------------
-    [Table("UserTokens")]
-    public class UserToken : IdentityUserToken<long>
-    {
+        // =====================================================
+        // ROLE
+        // =====================================================
+
+        [Table("Roles")]
+        public class Role : IdentityRole<long>
+        {
+            public Role()
+            {
+            }
+
+            public Role(string name)
+            {
+                Name = name;
+                NormalizedName = name.ToUpperInvariant();
+            }
+
+            public int StatusId { get; set; }
+
+            public string Description { get; set; } = string.Empty;
+
+            public long CreatedBy { get; set; }
+
+            public DateTimeOffset CreatedDateUtc { get; set; }
+
+            public long? UpdatedBy { get; set; }
+
+            public DateTimeOffset? UpdatedDateUtc { get; set; }
+        }
+
+        // =====================================================
+        // USER ROLES
+        // =====================================================
+
+        [Table("UserRoles")]
+        public class UserRole : IdentityUserRole<long>
+        {
+        }
+
+        // =====================================================
+        // USER CLAIMS
+        // =====================================================
+
+        [Table("UserClaims")]
+        public class UserClaim : IdentityUserClaim<long>
+        {
+        }
+
+        // =====================================================
+        // USER LOGINS
+        // =====================================================
+
+        [Table("UserLogins")]
+        public class UserLogin : IdentityUserLogin<long>
+        {
+        }
+
+        // =====================================================
+        // ROLE CLAIMS
+        // =====================================================
+
+        [Table("RoleClaims")]
+        public class RoleClaim : IdentityRoleClaim<long>
+        {
+        }
+
+        // =====================================================
+        // USER TOKENS
+        // =====================================================
+
+        [Table("UserTokens")]
+        public class UserToken : IdentityUserToken<long>
+        {
+        }
     }
 }
