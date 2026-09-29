@@ -5,18 +5,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
+using static AMS.Auth_IdentityModel.IdentityModel;
 
 namespace AMS.Data;
 
 public class ApplicationDbContext : IdentityDbContext<
-    IdentityModel.User,
-    IdentityModel.Role,
-    long,
-    IdentityModel.UserClaim,
-    IdentityModel.UserRole,
-    IdentityModel.UserLogin,
-    IdentityModel.RoleClaim,
-    IdentityModel.UserToken>
+         User,
+        Role,
+        long,
+        UserClaim,
+        UserRole,
+        UserLogin,
+        RoleClaim,
+        UserToken>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
