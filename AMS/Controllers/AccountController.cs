@@ -7,23 +7,24 @@ namespace AMS.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
 
         public AccountController(
-            SignInManager<User> signInManager,
             UserManager<User> userManager,
+            SignInManager<User> signInManager,
             RoleManager<Role> roleManager)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
+            _signInManager = signInManager;
             _roleManager = roleManager;
         }
 
-        // =========================================================
+
+        // =====================================================
         // REGISTER - GET
-        // =========================================================
+        // =====================================================
 
         [HttpGet]
         public IActionResult Register()
@@ -31,104 +32,136 @@ namespace AMS.Controllers
             return View();
         }
 
-        // =========================================================
+
+        // =====================================================
         // REGISTER - POST
-        // =========================================================
+        // =====================================================
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(
+            RegisterViewModel model)
         {
-            // ---------------------------------------------
-            // Validate Model
-            // ---------------------------------------------
+            // -----------------------------------------------
+            // Model Validation
+            // -----------------------------------------------
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // ---------------------------------------------
-            // Check Existing Email
-            // ---------------------------------------------
 
-            var existingUser = await _userManager.FindByEmailAsync(
-                model.Email.Trim()
-            );
+            // -----------------------------------------------
+            // Clean Data
+            // -----------------------------------------------
+
+            string email = model.Email.Trim();
+
+            string fullName = model.FullName.Trim();
+
+            string phone = model.PhoneNumber.Trim();
+
+            string address = model.Address.Trim();
+
+            string accountType = model.AccountType.Trim();
+
+
+            // -----------------------------------------------
+            // Check Existing Email
+            // -----------------------------------------------
+
+            var existingUser =
+                await _userManager.FindByEmailAsync(email);
 
             if (existingUser != null)
             {
                 ModelState.AddModelError(
                     nameof(model.Email),
-                    "An account with this email address already exists."
+                    "An account with this email already exists."
                 );
 
                 return View(model);
             }
 
-            // ---------------------------------------------
-            // Validate Account Type
-            // ---------------------------------------------
 
-            var accountType = model.AccountType?.Trim();
+            // =================================================
+            // VALIDATE ACCOUNT TYPE
+            // =================================================
 
-            if (string.IsNullOrWhiteSpace(accountType))
+            string[] allowedRoles =
+            {
+                "Advocate",
+                "Client",
+                "Administrator"
+            };
+
+
+            if (!allowedRoles.Contains(
+                    accountType,
+                    StringComparer.OrdinalIgnoreCase))
             {
                 ModelState.AddModelError(
                     nameof(model.AccountType),
-                    "Please select an account type."
+                    "Please select a valid account type."
                 );
 
                 return View(model);
             }
 
-            // Only Buyer or Seller is allowed
-            if (!accountType.Equals(
-                    "Buyer",
-                    StringComparison.OrdinalIgnoreCase) &&
-                !accountType.Equals(
-                    "Seller",
+
+            // Normalize role name
+
+            if (accountType.Equals(
+                    "Advocate",
                     StringComparison.OrdinalIgnoreCase))
             {
-                ModelState.AddModelError(
-                    nameof(model.AccountType),
-                    "Invalid account type. Please select Buyer or Seller."
-                );
-
-                return View(model);
+                accountType = "Advocate";
+            }
+            else if (accountType.Equals(
+                         "Client",
+                         StringComparison.OrdinalIgnoreCase))
+            {
+                accountType = "Client";
+            }
+            else
+            {
+                accountType = "Administrator";
             }
 
-            // Normalize account type
-            accountType = accountType.Equals(
-                "Buyer",
-                StringComparison.OrdinalIgnoreCase)
-                ? "Buyer"
-                : "Seller";
 
-            // =====================================================
-            // CREATE ROLE IF IT DOES NOT EXIST
-            // =====================================================
+            // =================================================
+            // CREATE ROLE
+            // =================================================
 
-            var roleExists = await _roleManager.RoleExistsAsync(
-                accountType
-            );
+            var roleExists =
+                await _roleManager.RoleExistsAsync(accountType);
+
 
             if (!roleExists)
             {
                 var role = new Role(accountType)
                 {
-                    Description = $"{accountType} account",
+                    Description =
+                        $"{accountType} account",
+
                     StatusId = 1,
+
                     CreatedBy = 0,
-                    CreatedDateUtc = DateTimeOffset.UtcNow
+
+                    CreatedDateUtc =
+                        DateTimeOffset.UtcNow
                 };
+
 
                 var createRoleResult =
                     await _roleManager.CreateAsync(role);
 
+
                 if (!createRoleResult.Succeeded)
                 {
-                    foreach (var error in createRoleResult.Errors)
+                    foreach (var error in
+                             createRoleResult.Errors)
                     {
                         ModelState.AddModelError(
                             string.Empty,
@@ -140,44 +173,51 @@ namespace AMS.Controllers
                 }
             }
 
-            // =====================================================
+
+            // =================================================
             // CREATE USER
-            // =====================================================
+            // =================================================
 
             var user = new User
             {
-                UserName = model.Email.Trim(),
-                Email = model.Email.Trim(),
+                UserName = email,
 
-                FullName = model.FullName.Trim(),
+                Email = email,
 
-                // Your User model uses Phone
-                // while RegisterViewModel uses PhoneNumber
-                Phone = model.PhoneNumber.Trim(),
+                FullName = fullName,
 
-                Address = model.Address.Trim(),
+                Phone = phone,
+
+                Address = address,
 
                 RegisterDate = DateTime.UtcNow,
 
                 CreatedBy = 0,
-                CreatedDate = DateTimeOffset.UtcNow,
+
+                CreatedDate =
+                    DateTimeOffset.UtcNow,
 
                 UpdatedBy = null,
+
                 UpdatedDate = null
             };
 
-            // ---------------------------------------------
-            // Create Identity User
-            // ---------------------------------------------
 
-            var createUserResult = await _userManager.CreateAsync(
-                user,
-                model.Password
-            );
+            // =================================================
+            // CREATE IDENTITY USER
+            // =================================================
+
+            var createUserResult =
+                await _userManager.CreateAsync(
+                    user,
+                    model.Password
+                );
+
 
             if (!createUserResult.Succeeded)
             {
-                foreach (var error in createUserResult.Errors)
+                foreach (var error in
+                         createUserResult.Errors)
                 {
                     ModelState.AddModelError(
                         string.Empty,
@@ -188,9 +228,10 @@ namespace AMS.Controllers
                 return View(model);
             }
 
-            // =====================================================
-            // ASSIGN BUYER / SELLER ROLE
-            // =====================================================
+
+            // =================================================
+            // ASSIGN ROLE
+            // =================================================
 
             var assignRoleResult =
                 await _userManager.AddToRoleAsync(
@@ -198,13 +239,16 @@ namespace AMS.Controllers
                     accountType
                 );
 
+
             if (!assignRoleResult.Succeeded)
             {
-                // If role assignment fails,
-                // remove the newly created user.
+                // Remove user if role assignment fails
+
                 await _userManager.DeleteAsync(user);
 
-                foreach (var error in assignRoleResult.Errors)
+
+                foreach (var error in
+                         assignRoleResult.Errors)
                 {
                     ModelState.AddModelError(
                         string.Empty,
@@ -215,43 +259,78 @@ namespace AMS.Controllers
                 return View(model);
             }
 
-            // =====================================================
-            // SIGN IN AFTER REGISTRATION
-            // =====================================================
+
+            // =================================================
+            // SIGN IN
+            // =================================================
 
             await _signInManager.SignInAsync(
                 user,
                 isPersistent: false
             );
 
+
             TempData["SuccessMessage"] =
                 "Your account has been created successfully.";
 
-            // =====================================================
-            // REDIRECT
-            // =====================================================
 
-            return RedirectToAction(
-                "Index",
-                "Home"
-            );
+            // =================================================
+            // ROLE BASED REDIRECT
+            // =================================================
+
+            switch (accountType)
+            {
+                case "Administrator":
+
+                    return RedirectToAction(
+                        "Index",
+                        "Admin"
+                    );
+
+
+                case "Advocate":
+
+                    return RedirectToAction(
+                        "Index",
+                        "Advocate"
+                    );
+
+
+                case "Client":
+
+                    return RedirectToAction(
+                        "Index",
+                        "Client"
+                    );
+
+
+                default:
+
+                    return RedirectToAction(
+                        "Index",
+                        "Home"
+                    );
+            }
         }
 
-        // =========================================================
+
+        // =====================================================
         // LOGIN - GET
-        // =========================================================
+        // =====================================================
 
         [HttpGet]
-        public IActionResult Login(string? returnUrl = null)
+        public IActionResult Login(
+            string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
 
             return View();
         }
 
-        // =========================================================
+
+        // =====================================================
         // LOGIN - POST
-        // =========================================================
+        // =====================================================
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -261,22 +340,23 @@ namespace AMS.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
 
-            // ---------------------------------------------
-            // Validate Model
-            // ---------------------------------------------
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // ---------------------------------------------
-            // Find User By Email
-            // ---------------------------------------------
 
-            var user = await _userManager.FindByEmailAsync(
-                model.Email.Trim()
-            );
+            string email = model.Email.Trim();
+
+
+            // -----------------------------------------------
+            // Find User
+            // -----------------------------------------------
+
+            var user =
+                await _userManager.FindByEmailAsync(email);
+
 
             if (user == null)
             {
@@ -288,9 +368,10 @@ namespace AMS.Controllers
                 return View(model);
             }
 
-            // =====================================================
-            // PASSWORD LOGIN
-            // =====================================================
+
+            // -----------------------------------------------
+            // Login
+            // -----------------------------------------------
 
             var loginResult =
                 await _signInManager.PasswordSignInAsync(
@@ -300,18 +381,66 @@ namespace AMS.Controllers
                     lockoutOnFailure: true
                 );
 
-            // =====================================================
-            // LOGIN SUCCESS
-            // =====================================================
+
+            // =================================================
+            // SUCCESS
+            // =================================================
 
             if (loginResult.Succeeded)
             {
-                // Prevent Open Redirect
+                // Safe return URL
+
                 if (!string.IsNullOrWhiteSpace(returnUrl) &&
                     Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
+
+
+                // ---------------------------------------------
+                // Administrator
+                // ---------------------------------------------
+
+                if (await _userManager.IsInRoleAsync(
+                        user,
+                        "Administrator"))
+                {
+                    return RedirectToAction(
+                        "Index",
+                        "Admin"
+                    );
+                }
+
+
+                // ---------------------------------------------
+                // Advocate
+                // ---------------------------------------------
+
+                if (await _userManager.IsInRoleAsync(
+                        user,
+                        "Advocate"))
+                {
+                    return RedirectToAction(
+                        "Index",
+                        "Advocate"
+                    );
+                }
+
+
+                // ---------------------------------------------
+                // Client
+                // ---------------------------------------------
+
+                if (await _userManager.IsInRoleAsync(
+                        user,
+                        "Client"))
+                {
+                    return RedirectToAction(
+                        "Index",
+                        "Client"
+                    );
+                }
+
 
                 return RedirectToAction(
                     "Index",
@@ -319,9 +448,10 @@ namespace AMS.Controllers
                 );
             }
 
-            // =====================================================
-            // ACCOUNT LOCKED
-            // =====================================================
+
+            // =================================================
+            // LOCKED OUT
+            // =================================================
 
             if (loginResult.IsLockedOut)
             {
@@ -333,9 +463,10 @@ namespace AMS.Controllers
                 return View(model);
             }
 
-            // =====================================================
-            // LOGIN NOT ALLOWED
-            // =====================================================
+
+            // =================================================
+            // NOT ALLOWED
+            // =================================================
 
             if (loginResult.IsNotAllowed)
             {
@@ -347,9 +478,10 @@ namespace AMS.Controllers
                 return View(model);
             }
 
-            // =====================================================
+
+            // =================================================
             // INVALID LOGIN
-            // =====================================================
+            // =================================================
 
             ModelState.AddModelError(
                 string.Empty,
@@ -359,9 +491,10 @@ namespace AMS.Controllers
             return View(model);
         }
 
-        // =========================================================
+
+        // =====================================================
         // LOGOUT
-        // =========================================================
+        // =====================================================
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -378,9 +511,10 @@ namespace AMS.Controllers
             );
         }
 
-        // =========================================================
+
+        // =====================================================
         // ACCESS DENIED
-        // =========================================================
+        // =====================================================
 
         [HttpGet]
         public IActionResult AccessDenied()
