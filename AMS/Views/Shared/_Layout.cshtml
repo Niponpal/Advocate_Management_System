@@ -84,14 +84,31 @@
             </nav>
 
             <!-- User Section -->
-            <div class="p-4 border-t border-slate-200 dark:border-slate-800">
-                <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-2xl">
-                    <img src="https://i.pravatar.cc/48?u=adv" class="w-10 h-10 rounded-full ring-2 ring-slate-200 dark:ring-slate-700">
-                    <div>
-                        <p class="font-semibold text-slate-800 dark:text-white">Adv. Rahim Khan</p>
-                        <p class="text-sm text-slate-500 dark:text-slate-400">Senior Advocate</p>
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                @if (User.Identity?.IsAuthenticated ?? false)
+                {
+                    <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                        <div class="flex items-center gap-3">
+                            <img src="https://i.pravatar.cc/48?u=adv" class="w-10 h-10 rounded-full ring-2 ring-slate-200 dark:ring-slate-700">
+                            <div>
+                                <p class="font-semibold text-slate-800 dark:text-white">@User.Identity?.Name</p>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">Senior Advocate</p>
+                            </div>
+                        </div>
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" title="Logout" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl text-rose-500 transition">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </form>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="flex items-center justify-center gap-2 w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-2xl transition">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                }
             </div>
         </div>
 
@@ -119,11 +136,26 @@
                     </button>
 
                     <div class="flex items-center gap-3">
-                        <div class="text-right">
-                            <p class="font-medium text-slate-800 dark:text-white">Rahim Khan</p>
-                            <p class="text-xs text-emerald-600">Online</p>
-                        </div>
-                        <img src="https://i.pravatar.cc/48?u=rahim" class="w-10 h-10 rounded-2xl border-2 border-white dark:border-slate-700 shadow">
+                        @if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <div class="text-right">
+                                <p class="font-medium text-slate-800 dark:text-white">@User.Identity?.Name</p>
+                                <p class="text-xs text-emerald-600">Online</p>
+                            </div>
+                            <img src="https://i.pravatar.cc/48?u=rahim" class="w-10 h-10 rounded-2xl border-2 border-white dark:border-slate-700 shadow">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="inline ml-1">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" title="Logout" class="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl text-slate-500 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 transition">
+                                    <i class="fas fa-sign-out-alt text-lg"></i>
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login" class="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-2xl transition">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        }
                     </div>
                 </div>
             </header>
