@@ -1,251 +1,893 @@
 ﻿@{
-    ViewData["Title"] = "AdvocatePro - Modern Law Firm & Legal Solutions";
+    Layout = null;
+    ViewData["Title"] = "Apex Legal Chambers — Corporate & Litigation Practice";
 }
 
-<!-- Hero Section -->
-<section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-8 md:p-14 mb-10 shadow-2xl">
-    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-7 space-y-6">
-            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-500/20 backdrop-blur-md rounded-full text-xs font-semibold text-indigo-300 border border-indigo-400/30">
-                <i class="fas fa-shield-halved"></i> Trusted Legal Firm Management System
-            </span>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
-                Empowering Justice with <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-sky-300 to-emerald-400">Precision & Expertise</span>
-            </h1>
-            <p class="text-slate-300 text-sm md:text-base leading-relaxed">
-                AdvocatePro connects individuals and businesses with certified senior advocates. Track cases, manage consultations, and secure top-tier legal counsel seamlessly.
-            </p>
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#f1c40f',
+                            500: '#d4af37',
+                            600: '#aa8c2c'
+                        },
+                        onyx: {
+                            800: '#12161f',
+                            900: '#0b0e14',
+                            950: '#06080c'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Pro / Free Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa8c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-border-glow:hover {
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+        }
+        .carousel-slide {
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .carousel-slide.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-onyx-950 text-slate-800 dark:text-slate-200 antialiased font-sans min-h-screen flex flex-col transition-colors duration-300">
 
-            <div class="flex flex-wrap gap-4 pt-2">
-                <a href="#consultation" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-2xl shadow-lg transition duration-200 flex items-center gap-2">
-                    <i class="fas fa-calendar-check"></i> Book Consultation
-                </a>
-                <a href="#cases-lookup" class="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm rounded-2xl border border-slate-700 transition duration-200 flex items-center gap-2">
-                    <i class="fas fa-magnifying-glass"></i> Track Case Status
+    <!-- Top Announcement & Emergency Desk -->
+    <div class="bg-slate-200 dark:bg-onyx-900 border-b border-slate-300 dark:border-amber-500/10 text-xs py-2.5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-6 text-slate-600 dark:text-slate-400">
+                <span class="flex items-center gap-2"><i class="fas fa-landmark text-amber-600 dark:text-amber-500"></i> Supreme Court & Appellate Bar Registered</span>
+                <span class="hidden md:flex items-center gap-2"><i class="fas fa-shield-halved text-amber-600 dark:text-amber-500"></i> confidential@apexchambers.com</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-semibold">
+                <span class="text-slate-600 dark:text-slate-400">Direct Desk: <strong class="text-amber-600 dark:text-amber-400 font-mono">+1 (800) 770-APEX</strong></span>
+                <span class="text-slate-400 dark:text-slate-600">|</span>
+                <span class="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Duty Advocate Active</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-onyx-900/90 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800/80 shadow-md dark:shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-onyx-950 text-xl font-black shadow-lg shadow-amber-500/20 group-hover:scale-105 transition">
+                    <i class="fas fa-scale-balanced"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white block leading-tight font-serif">
+                        APEX <span class="gold-gradient-text">CHAMBERS</span>
+                    </span>
+                    <span class="text-[9px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 font-bold block">Attorneys & Counselors at Law</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-8 text-xs uppercase tracking-widest font-semibold text-slate-700 dark:text-slate-300">
+                <a href="#overview" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Overview</a>
+                <a href="#practices" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Practice Groups</a>
+                <a href="#advocates" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Senior Partners</a>
+                <a href="#reviews" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Peer Reviews</a>
+                <a href="#case-tracker" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Case Portal</a>
+                <a href="#contact" class="hover:text-amber-600 dark:hover:text-amber-400 transition">Chambers Info</a>
+            </nav>
+
+            <!-- Actions, Theme Switcher & Auth Modal Trigger -->
+            <div class="flex items-center gap-3">
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-onyx-800 border border-slate-300 dark:border-slate-700 text-amber-600 dark:text-amber-400 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-800 transition shadow">
+                    <i id="themeIcon" class="fas fa-moon text-sm"></i>
+                </button>
+
+                <!-- Login / Register Button -->
+                <button onclick="openAuthModal('login')" class="px-4 py-2.5 bg-slate-100 dark:bg-onyx-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl transition flex items-center gap-2 shadow-sm">
+                    <i class="fas fa-right-to-bracket text-amber-600 dark:text-amber-400"></i> Client Login
+                </button>
+
+                <a href="#consultation" class="hidden sm:flex px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-onyx-950 font-bold text-xs rounded-xl shadow-lg transition duration-200 items-center gap-2">
+                    <i class="fas fa-gavel"></i> Schedule Intake
                 </a>
             </div>
         </div>
+    </header>
 
-        <!-- Quick Search Card -->
-        <div class="lg:col-span-5 bg-white/10 backdrop-blur-xl border border-white/10 p-6 rounded-3xl text-slate-100 shadow-inner">
-            <h3 class="text-lg font-bold mb-1 flex items-center gap-2">
-                <i class="fas fa-search text-indigo-400"></i> Public Case Tracker
-            </h3>
-            <p class="text-xs text-slate-300 mb-4">Enter your case filing number to inspect current hearing dates and status.</p>
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-20">
 
-            <div class="space-y-3">
-                <div>
-                    <label class="text-[11px] font-semibold uppercase text-slate-300 tracking-wider">Case Number</label>
-                    <input type="text" placeholder="e.g., #CR-2026-09" class="w-full mt-1 px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400">
+        <!-- SECTION 1: HERO SLIDER CAROUSEL & CASE PORTAL -->
+        <section id="overview" class="relative rounded-3xl bg-white dark:bg-onyx-800 border border-slate-200 dark:border-slate-800/80 p-8 md:p-14 overflow-hidden shadow-xl dark:shadow-2xl">
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Carousel Area -->
+                <div class="lg:col-span-7 space-y-6 relative">
+                    
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide active space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold">
+                            <i class="fas fa-certificate"></i> Ranked Tier-1 Law Practice 2026
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-extrabold font-serif text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                            Strategic Legal Defense & <br />
+                            <span class="gold-gradient-text">High-Stakes Corporate Advocacy</span>
+                        </h1>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                            We defend corporations, executive boards, and high-net-worth individuals in appellate courts, cross-border commercial arbitration, and white-collar defense.
+                        </p>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold">
+                            <i class="fas fa-gavel"></i> Supreme Court Practice
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-extrabold font-serif text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                            Constitutional Writs & <br />
+                            <span class="gold-gradient-text">Appellate Court Litigation</span>
+                        </h1>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                            Pioneering constitutional writ petitions, habeas corpus proceedings, and strategic defense in the highest appellate divisions.
+                        </p>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="carousel-slide space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold">
+                            <i class="fas fa-globe"></i> International Arbitration
+                        </div>
+                        <h1 class="text-4xl md:text-5xl font-extrabold font-serif text-slate-900 dark:text-white tracking-tight leading-[1.15]">
+                            Cross-Border Trade & <br />
+                            <span class="gold-gradient-text">Commercial Dispute Resolution</span>
+                        </h1>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                            Securing client assets in multinational arbitration, M&A disputes, and multi-jurisdiction commercial litigation.
+                        </p>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#consultation" class="px-6 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-onyx-950 font-bold text-xs rounded-xl shadow-lg transition duration-200 flex items-center gap-2">
+                            <i class="fas fa-user-shield"></i> Retain Senior Counsel
+                        </a>
+                        <button onclick="openAuthModal('register')" class="px-6 py-3.5 bg-slate-100 dark:bg-onyx-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-300 font-semibold text-xs rounded-xl border border-slate-300 dark:border-slate-700 transition duration-200 flex items-center gap-2">
+                            <i class="fas fa-user-plus"></i> Create Client Account
+                        </button>
+                    </div>
+
+                    <!-- Carousel Controls -->
+                    <div class="flex items-center gap-4 pt-4">
+                        <button onclick="prevSlide()" class="w-9 h-9 rounded-full bg-slate-200 dark:bg-onyx-900 hover:bg-amber-500 hover:text-onyx-950 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition flex items-center justify-center text-xs">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="flex gap-2" id="carouselDots">
+                            <span onclick="goToSlide(0)" class="w-3 h-3 rounded-full bg-amber-500 cursor-pointer"></span>
+                            <span onclick="goToSlide(1)" class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700 cursor-pointer"></span>
+                            <span onclick="goToSlide(2)" class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700 cursor-pointer"></span>
+                        </div>
+                        <button onclick="nextSlide()" class="w-9 h-9 rounded-full bg-slate-200 dark:bg-onyx-900 hover:bg-amber-500 hover:text-onyx-950 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition flex items-center justify-center text-xs">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
                 </div>
-                <div>
-                    <label class="text-[11px] font-semibold uppercase text-slate-300 tracking-wider">Client / Party Name</label>
-                    <input type="text" placeholder="Enter party name" class="w-full mt-1 px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400">
+
+                <!-- Case Tracker Card -->
+                <div id="case-tracker" class="lg:col-span-5 bg-slate-100 dark:bg-onyx-900/90 border border-slate-300 dark:border-amber-500/20 p-6 md:p-7 rounded-2xl shadow-xl space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-300 dark:border-slate-800">
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 font-serif">
+                            <i class="fas fa-magnifying-glass text-amber-600 dark:text-amber-400"></i> Public Case Tracker Portal
+                        </h3>
+                        <span class="text-[10px] uppercase tracking-widest font-bold text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Live Sync</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">Enter your official filing reference to verify hearing dates and bench status.</p>
+
+                    <form onsubmit="handleCaseSearch(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 tracking-wider mb-1">Case ID / Filing No.</label>
+                            <input type="text" required placeholder="e.g., #HC-2026-9021" class="w-full bg-white dark:bg-onyx-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 tracking-wider mb-1">Primary Representative Surname</label>
+                            <input type="text" required placeholder="e.g., Harrison" class="w-full bg-white dark:bg-onyx-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-onyx-950 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
+                            <i class="fas fa-search"></i> Inspect Case Record
+                        </button>
+                    </form>
+
+                    <div id="caseSearchResult" class="hidden p-4 bg-white dark:bg-onyx-950 border border-amber-500/30 rounded-xl text-xs space-y-1.5 shadow">
+                        <div class="flex justify-between items-center text-emerald-600 dark:text-emerald-400 font-bold">
+                            <span><i class="fas fa-check-circle mr-1"></i> Active High Court Bench</span>
+                            <span class="text-[10px] text-slate-500 font-mono">HC-2026-9021</span>
+                        </div>
+                        <p class="text-slate-700 dark:text-slate-300">Next Hearing: <strong class="text-slate-900 dark:text-white">November 12, 2026</strong></p>
+                        <p class="text-slate-700 dark:text-slate-300">Presiding Judge: <strong class="text-slate-900 dark:text-white">Appellate Division — Division Bench 02</strong></p>
+                        <p class="text-slate-700 dark:text-slate-300">Senior Advocate: <strong class="text-slate-900 dark:text-white">Adv. Rahim Khan</strong></p>
+                    </div>
                 </div>
-                <button class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs rounded-xl shadow transition mt-2 flex items-center justify-center gap-2">
-                    <i class="fas fa-arrow-right"></i> Check Status
+            </div>
+
+            <!-- Ambient Glow -->
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        </section>
+
+        <!-- SECTION 2: STATS BAR -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl text-center gold-border-glow transition shadow-sm">
+                <div class="text-2xl font-black text-amber-600 dark:text-amber-400 font-serif">2,400+</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1 uppercase tracking-wider">Litigated Verdicts</div>
+            </div>
+            <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl text-center gold-border-glow transition shadow-sm">
+                <div class="text-2xl font-black text-amber-600 dark:text-amber-400 font-serif">98.4%</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1 uppercase tracking-wider">Arbitration Success Rate</div>
+            </div>
+            <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl text-center gold-border-glow transition shadow-sm">
+                <div class="text-2xl font-black text-amber-600 dark:text-amber-400 font-serif">35+</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1 uppercase tracking-wider">Senior Bar Advocates</div>
+            </div>
+            <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl text-center gold-border-glow transition shadow-sm">
+                <div class="text-2xl font-black text-amber-600 dark:text-amber-400 font-serif">$1.2B+</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1 uppercase tracking-wider">Corporate Disputes Settled</div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PRACTICE GROUPS -->
+        <section id="practices" class="space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <span class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest">Our Specializations</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white font-serif">Core Practice Groups</h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Our chambers provide focused litigation and dispute resolution across major sectors.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Group 1 -->
+                <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-7 rounded-2xl gold-border-glow transition space-y-4 shadow-sm">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white font-serif">Corporate & M&A Arbitration</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Cross-border dispute resolution, shareholder litigation, international commercial arbitration, and regulatory compliance.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300 font-medium border-t border-slate-200 dark:border-slate-800 pt-3">
+                        <li class="flex items-center gap-2"><i class="fas fa-angle-right text-amber-500"></i> Commercial Contract Litigation</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-angle-right text-amber-500"></i> Corporate Governance Advisory</li>
+                    </ul>
+                </div>
+
+                <!-- Group 2 -->
+                <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-7 rounded-2xl gold-border-glow transition space-y-4 shadow-sm">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white font-serif">Constitutional Writs & Defense</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        White-collar criminal defense, High Court writ petitions, habeas corpus proceedings, and financial fraud trials.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300 font-medium border-t border-slate-200 dark:border-slate-800 pt-3">
+                        <li class="flex items-center gap-2"><i class="fas fa-angle-right text-amber-500"></i> Appellate Criminal Writs</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-angle-right text-amber-500"></i> Anticipatory Bail Advocacy</li>
+                    </ul>
+                </div>
+
+                <!-- Group 3 -->
+                <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-7 rounded-2xl gold-border-glow transition space-y-4 shadow-sm">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fas fa-building-columns"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white font-serif">Real Estate & Asset Litigation</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        High-value land acquisitions, title due diligence, property partition suits, and commercial developer disputes.
+                    </p>
+                    <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300 font-medium border-t border-slate-200 dark:border-slate-800 pt-3">
+                        <li class="flex items-center gap-2"><i class="fas fa-angle-right text-amber-500"></i> Title Verification Audit</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-angle-right text-amber-500"></i> Partition & Estate Settlement</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: SENIOR ADVOCATES & PEER REVIEWS -->
+        <section id="advocates" class="space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between">
+                <div>
+                    <span class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest">Leadership</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white font-serif mt-1">Senior Advocates & Partners</h2>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mt-2 md:mt-0">
+                    Our lead partners are enrolled advocates of the Supreme Court with active practice in appellate divisions.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Advocate 1 -->
+                <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl flex flex-col justify-between gold-border-glow transition space-y-4 shadow-sm">
+                    <div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="https://i.pravatar.cc/150?u=rahim" alt="Adv. Rahim Khan" class="w-16 h-16 rounded-xl object-cover border-2 border-amber-500 shadow-md">
+                            <div>
+                                <h3 class="font-bold text-slate-900 dark:text-white text-base font-serif">Adv. Rahim Khan</h3>
+                                <p class="text-xs text-amber-600 dark:text-amber-400 font-medium">Senior Partner — Criminal Defense</p>
+                                <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">20+ Yrs Supreme Court</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            Specializes in high-court criminal writs, appellate trials, and corporate fraud defense.
+                        </p>
+                        <!-- Peer Review -->
+                        <div class="bg-slate-50 dark:bg-onyx-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px] space-y-1">
+                            <div class="flex items-center justify-between text-amber-500">
+                                <div class="flex text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                <span class="font-bold text-slate-500 dark:text-slate-400 text-[10px]">Bar Association Rated</span>
+                            </div>
+                            <p class="text-slate-700 dark:text-slate-300 italic">"Master of appellate cross-examination in complex criminal suits."</p>
+                            <p class="text-[10px] text-slate-500 font-semibold">— Legal Counsel Review Journal</p>
+                        </div>
+                    </div>
+                    <button onclick="selectAdvocate('Adv. Rahim Khan')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-onyx-950 font-bold text-xs rounded-xl shadow transition">
+                        Select for Consultation
+                    </button>
+                </div>
+
+                <!-- Advocate 2 -->
+                <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl flex flex-col justify-between gold-border-glow transition space-y-4 shadow-sm">
+                    <div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="https://i.pravatar.cc/150?u=nusrat" alt="Adv. Nusrat Jahan" class="w-16 h-16 rounded-xl object-cover border-2 border-amber-500 shadow-md">
+                            <div>
+                                <h3 class="font-bold text-slate-900 dark:text-white text-base font-serif">Adv. Nusrat Jahan</h3>
+                                <p class="text-xs text-amber-600 dark:text-amber-400 font-medium">Partner — Corporate Arbitration</p>
+                                <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">14+ Yrs Bar Practice</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            Expert in international trade arbitration, M&A dispute resolution, and corporate compliance.
+                        </p>
+                        <!-- Peer Review -->
+                        <div class="bg-slate-50 dark:bg-onyx-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px] space-y-1">
+                            <div class="flex items-center justify-between text-amber-500">
+                                <div class="flex text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                <span class="font-bold text-slate-500 dark:text-slate-400 text-[10px]">Legal 500 Nominee</span>
+                            </div>
+                            <p class="text-slate-700 dark:text-slate-300 italic">"Exceptional tactician in commercial contract negotiation."</p>
+                            <p class="text-[10px] text-slate-500 font-semibold">— Global Corporate Review</p>
+                        </div>
+                    </div>
+                    <button onclick="selectAdvocate('Adv. Nusrat Jahan')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-onyx-950 font-bold text-xs rounded-xl shadow transition">
+                        Select for Consultation
+                    </button>
+                </div>
+
+                <!-- Advocate 3 -->
+                <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl flex flex-col justify-between gold-border-glow transition space-y-4 shadow-sm">
+                    <div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <img src="https://i.pravatar.cc/150?u=tariq" alt="Adv. Tariq Hasan" class="w-16 h-16 rounded-xl object-cover border-2 border-amber-500 shadow-md">
+                            <div>
+                                <h3 class="font-bold text-slate-900 dark:text-white text-base font-serif">Adv. Tariq Hasan</h3>
+                                <p class="text-xs text-amber-600 dark:text-amber-400 font-medium">Partner — Civil & Land Law</p>
+                                <span class="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">12+ Yrs High Court</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                            Specialized in high-stakes land partition suits, developer partnerships, and inheritance law.
+                        </p>
+                        <!-- Peer Review -->
+                        <div class="bg-slate-50 dark:bg-onyx-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px] space-y-1">
+                            <div class="flex items-center justify-between text-amber-500">
+                                <div class="flex text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                <span class="font-bold text-slate-500 dark:text-slate-400 text-[10px]">Civil Bench Rated</span>
+                            </div>
+                            <p class="text-slate-700 dark:text-slate-300 italic">"Unmatched precision in property title verifications."</p>
+                            <p class="text-[10px] text-slate-500 font-semibold">— Real Estate Bar Council</p>
+                        </div>
+                    </div>
+                    <button onclick="selectAdvocate('Adv. Tariq Hasan')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-onyx-950 font-bold text-xs rounded-xl shadow transition">
+                        Select for Consultation
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CLIENT TESTIMONIALS -->
+        <section id="reviews" class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 p-8 md:p-12 rounded-3xl space-y-8 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-end justify-between">
+                <div>
+                    <span class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest">Client Feedback</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white font-serif mt-1">Verified Client Testimonials</h2>
+                </div>
+                <div class="flex items-center gap-3 mt-4 md:mt-0">
+                    <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-serif">4.9 / 5.0</span>
+                    <div class="text-xs text-slate-500 dark:text-slate-400">
+                        <div class="text-amber-500 flex"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <span>Over 350 Verified Client Reviews</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="bg-slate-50 dark:bg-onyx-950 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                    <div class="flex text-amber-500 text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">
+                        "Advocate Nusrat Jahan represented our company during a critical international contract dispute. Her arbitration strategy resulted in a complete victory."
+                    </p>
+                    <div class="border-t border-slate-200 dark:border-slate-800 pt-3 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-xs flex items-center justify-center">MA</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Mahmud Ahmed</h4>
+                            <p class="text-[10px] text-slate-500">Managing Director, Apex Trade Corp</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-slate-50 dark:bg-onyx-950 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                    <div class="flex text-amber-500 text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">
+                        "Advocate Rahim Khan defended our family property suit in the High Court. His cross-examination was decisive, and the ruling was completely in our favor."
+                    </p>
+                    <div class="border-t border-slate-200 dark:border-slate-800 pt-3 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-xs flex items-center justify-center">SR</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Syeda Rahman</h4>
+                            <p class="text-[10px] text-slate-500">Civil Litigation Client</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-slate-50 dark:bg-onyx-950 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                    <div class="flex text-amber-500 text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">
+                        "The public case tracking system gave our board real-time visibility into hearing dates. Highly professional administration and transparent communication."
+                    </p>
+                    <div class="border-t border-slate-200 dark:border-slate-800 pt-3 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-xs flex items-center justify-center">KC</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white">Kabir Chowdhury</h4>
+                            <p class="text-[10px] text-slate-500">VP, TechVentures Ltd.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: INTAKE & CONSULTATION FORM -->
+        <section id="consultation" class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 md:p-12 shadow-xl dark:shadow-2xl">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <!-- Info -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest">Confidential Legal Intake</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white font-serif">Book Private Consultation</h2>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Submit your legal query for review by our senior partners. All information is held under strict attorney-client confidentiality.
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-onyx-950 border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+                            <i class="fas fa-user-lock text-amber-600 dark:text-amber-400 text-base"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-white">Attorney-Client Privilege</h4>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400">Protected under Bar Council Privilege rules.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-onyx-950 border border-slate-200 dark:border-slate-800 flex items-center gap-3">
+                            <i class="fas fa-clock-rotate-left text-amber-600 dark:text-amber-400 text-base"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-white">24-Hour Review Turnaround</h4>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400">Our chief clerk will reach out within 1 business day.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <form id="consultationForm" onsubmit="handleConsultationSubmit(event)" class="lg:col-span-7 bg-slate-50 dark:bg-onyx-950 p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Full Legal Name *</label>
+                            <input type="text" id="clientName" required placeholder="John Doe" class="w-full bg-white dark:bg-onyx-900 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Contact Telephone *</label>
+                            <input type="tel" id="clientPhone" required placeholder="+1 (555) 000-0000" class="w-full bg-white dark:bg-onyx-900 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Email Address *</label>
+                            <input type="email" id="clientEmail" required placeholder="john@example.com" class="w-full bg-white dark:bg-onyx-900 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Practice Category</label>
+                            <select id="categorySelect" class="w-full bg-white dark:bg-onyx-900 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-800 dark:text-slate-300 focus:outline-none focus:border-amber-500">
+                                <option>Corporate & M&A Arbitration</option>
+                                <option>Constitutional Writs & Criminal Defense</option>
+                                <option>Real Estate & Property Litigation</option>
+                                <option>General Advisory</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Preferred Senior Advocate</label>
+                        <select id="advocateSelect" class="w-full bg-white dark:bg-onyx-900 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-800 dark:text-slate-300 focus:outline-none focus:border-amber-500">
+                            <option value="">No preference (Assign senior duty partner)</option>
+                            <option value="Adv. Rahim Khan">Adv. Rahim Khan (Criminal & Writs)</option>
+                            <option value="Adv. Nusrat Jahan">Adv. Nusrat Jahan (Corporate Arbitration)</option>
+                            <option value="Adv. Tariq Hasan">Adv. Tariq Hasan (Civil & Land Law)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Case Brief & Summary *</label>
+                        <textarea id="caseDescription" rows="4" required placeholder="Outline key facts, opposing parties, or current court status..." class="w-full bg-white dark:bg-onyx-900 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-onyx-950 font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fas fa-paper-plane"></i> Submit Confidential Case Intake
+                    </button>
+
+                    <div id="consultationAlert" class="hidden p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold text-center">
+                        <i class="fas fa-circle-check mr-1"></i> Intake submitted successfully. Our chief clerk will reach out shortly.
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECTION 7: CHAMBERS LOCATION & CONTACT -->
+        <section id="contact" class="space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <span class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest">Connect With Chambers</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white font-serif">Chambers Location & Office Desk</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- Info Cards -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="p-5 rounded-2xl bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 flex items-start gap-4 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fas fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Main Office Chambers</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                                Level 14, Apex Tower, Legal District<br />
+                                High Court Extension Boulevard, Central City
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 flex items-start gap-4 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Direct Telephone Lines</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400"><strong class="text-slate-900 dark:text-white">Main Desk:</strong> +1 (800) 770-APEX</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400"><strong class="text-slate-900 dark:text-white">Clerk Desk:</strong> +1 (800) 770-0199</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400"><strong class="text-slate-900 dark:text-white">Email:</strong> confidential@apexchambers.com</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 flex items-start gap-4 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fas fa-business-time"></i>
+                        </div>
+                        <div class="w-full">
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">Hours of Operation</h4>
+                            <div class="flex justify-between text-xs text-slate-600 dark:text-slate-400 py-0.5">
+                                <span>Monday — Friday:</span>
+                                <strong class="text-slate-900 dark:text-white">8:30 AM – 6:30 PM</strong>
+                            </div>
+                            <div class="flex justify-between text-xs text-slate-600 dark:text-slate-400 py-0.5">
+                                <span>Saturday (Urgent Motions):</span>
+                                <strong class="text-slate-900 dark:text-white">10:00 AM – 2:00 PM</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Map -->
+                <div class="lg:col-span-7 bg-white dark:bg-onyx-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden relative min-h-[300px] flex items-center justify-center text-center p-6 shadow-sm">
+                    <div class="absolute inset-0 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=40.712776,-74.005974&zoom=13&size=800x400&sensor=false')] bg-cover bg-center opacity-25"></div>
+                    <div class="relative z-10 bg-white/95 dark:bg-onyx-950/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 max-w-sm space-y-3 shadow-lg">
+                        <i class="fas fa-landmark text-3xl text-amber-600 dark:text-amber-400"></i>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white font-serif">Apex Chambers Main Office</h4>
+                        <p class="text-xs text-slate-600 dark:text-slate-400">Located 2 blocks from the Appellate High Court Bench.</p>
+                        <a href="https://maps.google.com" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-onyx-950 font-bold text-xs rounded-xl transition">
+                            <i class="fas fa-directions"></i> Get Driving Directions
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-onyx-900 border-t border-slate-200 dark:border-slate-800 mt-auto py-10 text-xs text-slate-600 dark:text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded bg-amber-500 text-onyx-950 flex items-center justify-center font-bold text-sm">
+                            <i class="fas fa-scale-balanced"></i>
+                        </div>
+                        <span class="font-bold text-slate-900 dark:text-white font-serif text-sm">APEX CHAMBERS</span>
+                    </div>
+                    <p class="leading-relaxed">
+                        Appellate litigation, constitutional advocacy, and corporate arbitration counsel.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Specializations</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#practices" class="hover:text-amber-600 dark:hover:text-amber-400">Corporate Arbitration</a></li>
+                        <li><a href="#practices" class="hover:text-amber-600 dark:hover:text-amber-400">Criminal Writs & Defense</a></li>
+                        <li><a href="#practices" class="hover:text-amber-600 dark:hover:text-amber-400">Land Title Litigation</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Portal Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#advocates" class="hover:text-amber-600 dark:hover:text-amber-400">Senior Partners</a></li>
+                        <li><a href="#case-tracker" class="hover:text-amber-600 dark:hover:text-amber-400">Case Tracker Portal</a></li>
+                        <li><a href="#consultation" class="hover:text-amber-600 dark:hover:text-amber-400">Consultation Intake</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Bar Enrolment</h4>
+                    <p class="leading-relaxed">
+                        Registered with the Supreme Court Bar Association. Reg No. SCBA-2026-APEX.
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-200 dark:border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p>&copy; 2026 Apex Legal Chambers. All Rights Reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-amber-600 dark:hover:text-amber-400">Privacy Policy</a>
+                    <a href="#" class="hover:text-amber-600 dark:hover:text-amber-400">Terms of Engagement</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOGIN / REGISTER MODAL -->
+    <div id="authModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-onyx-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 md:p-8 relative shadow-2xl space-y-6">
+            
+            <!-- Modal Close Button -->
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white transition text-lg">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Auth Header -->
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl mx-auto mb-2">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <h3 class="text-2xl font-bold font-serif text-slate-900 dark:text-white">Apex Client Portal</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Access your confidential case proceedings</p>
+            </div>
+
+            <!-- Tab Switcher (Login / Register) -->
+            <div class="grid grid-cols-2 bg-slate-100 dark:bg-onyx-950 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-bold">
+                <button id="loginTabBtn" onclick="switchAuthTab('login')" class="py-2.5 rounded-lg bg-white dark:bg-onyx-900 text-slate-900 dark:text-white shadow transition">
+                    Sign In
+                </button>
+                <button id="registerTabBtn" onclick="switchAuthTab('register')" class="py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+                    Register Client
                 </button>
             </div>
-        </div>
-    </div>
 
-    <div class="absolute -right-16 -top-16 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute right-1/3 -bottom-20 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-</section>
-
-<!-- Firm Overview & Impact Stats -->
-<section class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-12">
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 card-hover text-center">
-        <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
-            <i class="fas fa-gavel"></i>
-        </div>
-        <h3 class="text-3xl font-extrabold text-slate-800 dark:text-white">1,850+</h3>
-        <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Cases Represented</p>
-    </div>
-
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 card-hover text-center">
-        <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
-            <i class="fas fa-award"></i>
-        </div>
-        <h3 class="text-3xl font-extrabold text-slate-800 dark:text-white">97.8%</h3>
-        <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Success Rate</p>
-    </div>
-
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 card-hover text-center">
-        <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
-            <i class="fas fa-user-tie"></i>
-        </div>
-        <h3 class="text-3xl font-extrabold text-slate-800 dark:text-white">45+</h3>
-        <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Senior Advocates</p>
-    </div>
-
-    <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 card-hover text-center">
-        <div class="w-12 h-12 bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
-            <i class="fas fa-building-columns"></i>
-        </div>
-        <h3 class="text-3xl font-extrabold text-slate-800 dark:text-white">20+</h3>
-        <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Court Jurisdictions</p>
-    </div>
-</section>
-
-<!-- Practice Areas -->
-<section class="mb-12">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
-        <div>
-            <h2 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">Legal Practice Areas</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Comprehensive counsel tailored to corporate, civil, and individual legal matters.</p>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Practice Card 1 -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 card-hover">
-            <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center text-xl mb-4">
-                <i class="fas fa-briefcase"></i>
-            </div>
-            <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Corporate & Business Law</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                Corporate governance, contract negotiations, intellectual property, mergers and acquisitions, and regulatory compliance.
-            </p>
-            <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium">
-                <li><i class="fas fa-circle-check text-emerald-500 mr-2"></i>Commercial Contracts</li>
-                <li><i class="fas fa-circle-check text-emerald-500 mr-2"></i>Entity Formation</li>
-            </ul>
-        </div>
-
-        <!-- Practice Card 2 -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 card-hover">
-            <div class="w-12 h-12 bg-rose-50 dark:bg-rose-950 text-rose-600 dark:text-rose-400 rounded-2xl flex items-center justify-center text-xl mb-4">
-                <i class="fas fa-scale-balanced"></i>
-            </div>
-            <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Criminal Defense</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                Strategic defence for white-collar crime, financial fraud, bail applications, appeals, and high-court trial representations.
-            </p>
-            <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium">
-                <li><i class="fas fa-circle-check text-emerald-500 mr-2"></i>Bail & Writ Petitions</li>
-                <li><i class="fas fa-circle-check text-emerald-500 mr-2"></i>Financial Defense</li>
-            </ul>
-        </div>
-
-        <!-- Practice Card 3 -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 card-hover">
-            <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-xl mb-4">
-                <i class="fas fa-house-chimney-window"></i>
-            </div>
-            <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Real Estate & Property</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                Land acquisition litigation, property title verification, commercial lease agreements, and construction disputes.
-            </p>
-            <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium">
-                <li><i class="fas fa-circle-check text-emerald-500 mr-2"></i>Title Due Diligence</li>
-                <li><i class="fas fa-circle-check text-emerald-500 mr-2"></i>Land Litigation</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<!-- Our Advocates -->
-<section class="mb-12">
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h2 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">Our Lead Advocates</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Consult with top legal minds registered with Supreme and High Courts.</p>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Advocate Card 1 -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 text-center card-hover">
-            <img src="https://i.pravatar.cc/150?u=rahim" class="w-20 h-20 rounded-2xl mx-auto mb-4 border-2 border-indigo-500 shadow-md">
-            <h3 class="font-bold text-slate-800 dark:text-white text-base">Adv. Rahim Khan</h3>
-            <p class="text-xs text-indigo-600 dark:text-indigo-400 font-medium mb-2">Senior Partner — Criminal Law</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">18+ years of court litigation experience across High Court and Supreme Court benches.</p>
-            <a href="#consultation" class="block w-full py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-medium text-xs rounded-xl transition">
-                Request Session
-            </a>
-        </div>
-
-        <!-- Advocate Card 2 -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 text-center card-hover">
-            <img src="https://i.pravatar.cc/150?u=nusrat" class="w-20 h-20 rounded-2xl mx-auto mb-4 border-2 border-indigo-500 shadow-md">
-            <h3 class="font-bold text-slate-800 dark:text-white text-base">Adv. Nusrat Jahan</h3>
-            <p class="text-xs text-indigo-600 dark:text-indigo-400 font-medium mb-2">Associate Partner — Corporate Law</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Specialized in corporate arbitration, cross-border contracts, and commercial compliance.</p>
-            <a href="#consultation" class="block w-full py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-medium text-xs rounded-xl transition">
-                Request Session
-            </a>
-        </div>
-
-        <!-- Advocate Card 3 -->
-        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 text-center card-hover">
-            <img src="https://i.pravatar.cc/150?u=tariq" class="w-20 h-20 rounded-2xl mx-auto mb-4 border-2 border-indigo-500 shadow-md">
-            <h3 class="font-bold text-slate-800 dark:text-white text-base">Adv. Tariq Hasan</h3>
-            <p class="text-xs text-indigo-600 dark:text-indigo-400 font-medium mb-2">Senior Associate — Civil & Property</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Specialist in property acquisition disputes, family law settlements, and estate planning.</p>
-            <a href="#consultation" class="block w-full py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-white font-medium text-xs rounded-xl transition">
-                Request Session
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- Consultation Booking Form -->
-<section id="consultation" class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 md:p-12 mb-8">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-5 space-y-4">
-            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Book Legal Advice</span>
-            <h2 class="text-3xl font-bold text-slate-800 dark:text-white tracking-tight">Schedule Your Consultation Today</h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                Connect directly with our legal team. Submit your details below and an advocate will review your matter in confidence within 24 hours.
-            </p>
-
-            <div class="space-y-3 pt-2">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">100% Confidential Attorney-Client Privilege</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <span class="text-xs text-slate-700 dark:text-slate-300 font-medium">Fast Emergency Callback Available</span>
-                </div>
-            </div>
-        </div>
-
-        <form class="lg:col-span-7 space-y-4 bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- LOGIN FORM -->
+            <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
-                    <input type="text" placeholder="John Doe" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs focus:outline-none focus:border-indigo-500">
+                    <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Email / Client Reference ID</label>
+                    <input type="text" required placeholder="client@company.com" class="w-full bg-slate-50 dark:bg-onyx-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                    <input type="tel" placeholder="+1 (555) 000-0000" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs focus:outline-none focus:border-indigo-500">
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400">Password</label>
+                        <a href="#" class="text-[10px] text-amber-600 dark:text-amber-400 hover:underline">Forgot password?</a>
+                    </div>
+                    <input type="password" required placeholder="••••••••" class="w-full bg-slate-50 dark:bg-onyx-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
                 </div>
-            </div>
+                <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-onyx-950 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
+                    <i class="fas fa-right-to-bracket"></i> Secure Log In
+                </button>
+            </form>
 
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Select Practice Category</label>
-                <select class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:border-indigo-500">
-                    <option>Corporate & Business Law</option>
-                    <option>Criminal Defense</option>
-                    <option>Real Estate & Property</option>
-                    <option>General Consultation</option>
-                </select>
-            </div>
+            <!-- REGISTER FORM -->
+            <form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Full Legal Name</label>
+                    <input type="text" required placeholder="Jane Doe" class="w-full bg-slate-50 dark:bg-onyx-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Email Address</label>
+                    <input type="email" required placeholder="jane@example.com" class="w-full bg-slate-50 dark:bg-onyx-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 mb-1">Create Password</label>
+                    <input type="password" required placeholder="••••••••" class="w-full bg-slate-50 dark:bg-onyx-950 border border-slate-300 dark:border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-onyx-950 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
+                    <i class="fas fa-user-check"></i> Register Account
+                </button>
+            </form>
 
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Brief Description of Case</label>
-                <textarea rows="3" placeholder="Outline key details regarding your legal inquiry..." class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs focus:outline-none focus:border-indigo-500"></textarea>
-            </div>
+            <!-- Status Alert Container -->
+            <div id="authAlert" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold text-center"></div>
 
-            <button type="button" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow transition">
-                Submit Consultation Request
-            </button>
-        </form>
+        </div>
     </div>
-</section>
+
+    <!-- INTERACTIVE JAVASCRIPT -->
+    <script>
+        /* --- DARK / LIGHT THEME TOGGLE --- */
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                html.classList.add('dark');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        /* --- HERO SLIDER CAROUSEL --- */
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('#carouselDots span');
+        let autoSlideInterval = setInterval(nextSlide, 5000);
+
+        function updateCarousel() {
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlide);
+            });
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlide) {
+                    dot.className = 'w-3 h-3 rounded-full bg-amber-500 cursor-pointer';
+                } else {
+                    dot.className = 'w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700 cursor-pointer';
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateCarousel();
+            resetTimer();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateCarousel();
+            resetTimer();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
+
+        /* --- AUTH MODAL & TABS --- */
+        function openAuthModal(tab = 'login') {
+            document.getElementById('authModal').classList.remove('hidden');
+            switchAuthTab(tab);
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('authAlert').classList.add('hidden');
+        }
+
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const loginBtn = document.getElementById('loginTabBtn');
+            const registerBtn = document.getElementById('registerTabBtn');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                loginBtn.className = 'py-2.5 rounded-lg bg-white dark:bg-onyx-900 text-slate-900 dark:text-white shadow transition';
+                registerBtn.className = 'py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                registerBtn.className = 'py-2.5 rounded-lg bg-white dark:bg-onyx-900 text-slate-900 dark:text-white shadow transition';
+                loginBtn.className = 'py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+            }
+        }
+
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+            const alertBox = document.getElementById('authAlert');
+            alertBox.innerHTML = '<i class="fas fa-circle-check mr-1"></i> Authenticated successfully. Redirecting to client portal...';
+            alertBox.classList.remove('hidden');
+            setTimeout(() => closeAuthModal(), 2000);
+        }
+
+        function handleRegisterSubmit(event) {
+            event.preventDefault();
+            const alertBox = document.getElementById('authAlert');
+            alertBox.innerHTML = '<i class="fas fa-circle-check mr-1"></i> Registration complete. Verification email sent!';
+            alertBox.classList.remove('hidden');
+            setTimeout(() => switchAuthTab('login'), 2000);
+        }
+
+        /* --- CASE TRACKER & INTAKE JS --- */
+        function handleCaseSearch(event) {
+            event.preventDefault();
+            document.getElementById('caseSearchResult').classList.remove('hidden');
+        }
+
+        function selectAdvocate(advocateName) {
+            const advocateSelect = document.getElementById('advocateSelect');
+            const caseDesc = document.getElementById('caseDescription');
+            
+            if (advocateSelect) advocateSelect.value = advocateName;
+            if (caseDesc) caseDesc.value = `Requesting legal consultation with ${advocateName}. `;
+            
+            document.getElementById('consultation').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleConsultationSubmit(event) {
+            event.preventDefault();
+            const alertBox = document.getElementById('consultationAlert');
+            alertBox.classList.remove('hidden');
+            
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+                document.getElementById('consultationForm').reset();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
