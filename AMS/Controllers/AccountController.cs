@@ -21,501 +21,210 @@ namespace AMS.Controllers
             _roleManager = roleManager;
         }
 
-
         // =====================================================
         // REGISTER - GET
         // =====================================================
-
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             return View();
         }
-
 
         // =====================================================
         // REGISTER - POST
         // =====================================================
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(
-            RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            // -----------------------------------------------
-            // Model Validation
-            // -----------------------------------------------
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-
-            // -----------------------------------------------
-            // Clean Data
-            // -----------------------------------------------
-
             string email = model.Email.Trim();
-
             string fullName = model.FullName.Trim();
-
-            string phone = model.PhoneNumber.Trim();
-
-            string address = model.Address.Trim();
-
+            string phone = model.PhoneNumber?.Trim() ?? string.Empty;
+            string address = model.Address?.Trim() ?? string.Empty;
             string accountType = model.AccountType.Trim();
 
-
-            // -----------------------------------------------
-            // Check Existing Email
-            // -----------------------------------------------
-
-            var existingUser =
-                await _userManager.FindByEmailAsync(email);
-
+            var existingUser = await _userManager.FindByEmailAsync(email);
             if (existingUser != null)
             {
-                ModelState.AddModelError(
-                    nameof(model.Email),
-                    "An account with this email already exists."
-                );
-
+                ModelState.AddModelError(nameof(model.Email), "An account with this email already exists.");
                 return View(model);
             }
 
+            string[] allowedRoles = { "Advocate", "Client", "Administrator" };
+            var matchedRole = allowedRoles.FirstOrDefault(r => r.Equals(accountType, StringComparison.OrdinalIgnoreCase));
 
-            // =================================================
-            // VALIDATE ACCOUNT TYPE
-            // =================================================
-
-            string[] allowedRoles =
+            if (matchedRole == null)
             {
-                "Advocate",
-                "Client",
-                "Administrator"
-            };
-
-
-            if (!allowedRoles.Contains(
-                    accountType,
-                    StringComparer.OrdinalIgnoreCase))
-            {
-                ModelState.AddModelError(
-                    nameof(model.AccountType),
-                    "Please select a valid account type."
-                );
-
+                ModelState.AddModelError(nameof(model.AccountType), "Please select a valid account type.");
                 return View(model);
             }
 
+            accountType = matchedRole;
 
-            // Normalize role name
-
-            if (accountType.Equals(
-                    "Advocate",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                accountType = "Advocate";
-            }
-            else if (accountType.Equals(
-                         "Client",
-                         StringComparison.OrdinalIgnoreCase))
-            {
-                accountType = "Client";
-            }
-            else
-            {
-                accountType = "Administrator";
-            }
-
-
-            // =================================================
-            // CREATE ROLE
-            // =================================================
-
-            var roleExists =
-                await _roleManager.RoleExistsAsync(accountType);
-
-
+            var roleExists = await _roleManager.RoleExistsAsync(accountType);
             if (!roleExists)
             {
                 var role = new Role(accountType)
                 {
-                    Description =
-                        $"{accountType} account",
-
+                    Description = $"{accountType} account",
                     StatusId = 1,
-
                     CreatedBy = 0,
-
-                    CreatedDateUtc =
-                        DateTimeOffset.UtcNow
+                    CreatedDateUtc = DateTimeOffset.UtcNow
                 };
 
-
-                var createRoleResult =
-                    await _roleManager.CreateAsync(role);
-
-
+                var createRoleResult = await _roleManager.CreateAsync(role);
                 if (!createRoleResult.Succeeded)
                 {
-                    foreach (var error in
-                             createRoleResult.Errors)
+                    foreach (var error in createRoleResult.Errors)
                     {
-                        ModelState.AddModelError(
-                            string.Empty,
-                            error.Description
-                        );
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
-
                     return View(model);
                 }
             }
 
-
-            // =================================================
-            // CREATE USER
-            // =================================================
-
             var user = new User
             {
                 UserName = email,
-
                 Email = email,
-
                 FullName = fullName,
-
                 Phone = phone,
-
                 Address = address,
-
                 RegisterDate = DateTime.UtcNow,
-
                 CreatedBy = 0,
-
-                CreatedDate =
-                    DateTimeOffset.UtcNow,
-
+                CreatedDate = DateTimeOffset.UtcNow,
                 UpdatedBy = null,
-
                 UpdatedDate = null
             };
 
-
-            // =================================================
-            // CREATE IDENTITY USER
-            // =================================================
-
-            var createUserResult =
-                await _userManager.CreateAsync(
-                    user,
-                    model.Password
-                );
-
+            var createUserResult = await _userManager.CreateAsync(user, model.Password);
 
             if (!createUserResult.Succeeded)
             {
-                foreach (var error in
-                         createUserResult.Errors)
+                foreach (var error in createUserResult.Errors)
                 {
-                    ModelState.AddModelError(
-                        string.Empty,
-                        error.Description
-                    );
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
-
                 return View(model);
             }
 
-
-            // =================================================
-            // ASSIGN ROLE
-            // =================================================
-
-            var assignRoleResult =
-                await _userManager.AddToRoleAsync(
-                    user,
-                    accountType
-                );
-
+            var assignRoleResult = await _userManager.AddToRoleAsync(user, accountType);
 
             if (!assignRoleResult.Succeeded)
             {
-                // Remove user if role assignment fails
-
                 await _userManager.DeleteAsync(user);
-
-
-                foreach (var error in
-                         assignRoleResult.Errors)
+                foreach (var error in assignRoleResult.Errors)
                 {
-                    ModelState.AddModelError(
-                        string.Empty,
-                        error.Description
-                    );
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
-
                 return View(model);
             }
 
+            // সফলভাবে রেজিস্ট্রেশনের পর সাইন-ইন করিয়ে সরাসরি Dashboard-এ পাঠাবে
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            TempData["SuccessMessage"] = "Your account has been created successfully.";
 
-            // =================================================
-            // SIGN IN
-            // =================================================
-
-            await _signInManager.SignInAsync(
-                user,
-                isPersistent: false
-            );
-
-
-            TempData["SuccessMessage"] =
-                "Your account has been created successfully.";
-
-
-            // =================================================
-            // ROLE BASED REDIRECT
-            // =================================================
-
-            switch (accountType)
-            {
-                case "Administrator":
-
-                    return RedirectToAction(
-                        "Index",
-                        "Admin"
-                    );
-
-
-                case "Advocate":
-
-                    return RedirectToAction(
-                        "Index",
-                        "Advocate"
-                    );
-
-
-                case "Client":
-
-                    return RedirectToAction(
-                        "Index",
-                        "Client"
-                    );
-
-
-                default:
-
-                    return RedirectToAction(
-                        "Index",
-                        "Home"
-                    );
-            }
+            return RedirectToAction("Index", "Dashboard");
         }
-
 
         // =====================================================
         // LOGIN - GET
         // =====================================================
-
         [HttpGet]
-        public IActionResult Login(
-            string? returnUrl = null)
+        public IActionResult Login(string? returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
 
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
-
 
         // =====================================================
         // LOGIN - POST
         // =====================================================
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(
-            LoginViewModel model,
-            string? returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-
             string email = model.Email.Trim();
-
-
-            // -----------------------------------------------
-            // Find User
-            // -----------------------------------------------
-
-            var user =
-                await _userManager.FindByEmailAsync(email);
-
+            var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
             {
-                ModelState.AddModelError(
-                    string.Empty,
-                    "Invalid email or password."
-                );
-
+                ModelState.AddModelError(string.Empty, "Invalid email or password.");
                 return View(model);
             }
 
-
-            // -----------------------------------------------
-            // Login
-            // -----------------------------------------------
-
-            var loginResult =
-                await _signInManager.PasswordSignInAsync(
-                    user,
-                    model.Password,
-                    model.RememberMe,
-                    lockoutOnFailure: true
-                );
-
-
-            // =================================================
-            // SUCCESS
-            // =================================================
+            var loginResult = await _signInManager.PasswordSignInAsync(
+                user.UserName!,
+                model.Password,
+                model.RememberMe,
+                lockoutOnFailure: true
+            );
 
             if (loginResult.Succeeded)
             {
-                // Safe return URL
-
-                if (!string.IsNullOrWhiteSpace(returnUrl) &&
-                    Url.IsLocalUrl(returnUrl))
+                // নির্দিষ্ট returnUrl থাকলে সেখানে পাঠাবে (যদি তা শুধু Home পেজ না হয়)
+                if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl) && returnUrl != "/")
                 {
                     return Redirect(returnUrl);
                 }
 
-
-                // ---------------------------------------------
-                // Administrator
-                // ---------------------------------------------
-
-                if (await _userManager.IsInRoleAsync(
-                        user,
-                        "Administrator"))
-                {
-                    return RedirectToAction(
-                        "Index",
-                        "Admin"
-                    );
-                }
-
-
-                // ---------------------------------------------
-                // Advocate
-                // ---------------------------------------------
-
-                if (await _userManager.IsInRoleAsync(
-                        user,
-                        "Advocate"))
-                {
-                    return RedirectToAction(
-                        "Index",
-                        "Advocate"
-                    );
-                }
-
-
-                // ---------------------------------------------
-                // Client
-                // ---------------------------------------------
-
-                if (await _userManager.IsInRoleAsync(
-                        user,
-                        "Client"))
-                {
-                    return RedirectToAction(
-                        "Index",
-                        "Client"
-                    );
-                }
-
-
-                return RedirectToAction(
-                    "Index",
-                    "Home"
-                );
+                // অন্যথায় সরাসরি Dashboard Controller-এর Index পেজে পাঠাবে
+                return RedirectToAction("Index", "Dashboard");
             }
-
-
-            // =================================================
-            // LOCKED OUT
-            // =================================================
 
             if (loginResult.IsLockedOut)
             {
-                ModelState.AddModelError(
-                    string.Empty,
-                    "Your account has been locked. Please try again later."
-                );
-
+                ModelState.AddModelError(string.Empty, "Your account has been locked due to multiple failed attempts. Please try again later.");
                 return View(model);
             }
-
-
-            // =================================================
-            // NOT ALLOWED
-            // =================================================
 
             if (loginResult.IsNotAllowed)
             {
-                ModelState.AddModelError(
-                    string.Empty,
-                    "Login is not allowed for this account."
-                );
-
+                ModelState.AddModelError(string.Empty, "Login is not allowed for this account. Please verify your account.");
                 return View(model);
             }
 
-
-            // =================================================
-            // INVALID LOGIN
-            // =================================================
-
-            ModelState.AddModelError(
-                string.Empty,
-                "Invalid email or password."
-            );
-
+            ModelState.AddModelError(string.Empty, "Invalid email or password.");
             return View(model);
         }
-
 
         // =====================================================
         // LOGOUT
         // =====================================================
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-
-            TempData["SuccessMessage"] =
-                "You have been logged out successfully.";
-
-            return RedirectToAction(
-                "Login",
-                "Account"
-            );
+            TempData["SuccessMessage"] = "You have been logged out successfully.";
+            return RedirectToAction("Login", "Account");
         }
-
 
         // =====================================================
         // ACCESS DENIED
         // =====================================================
-
         [HttpGet]
         public IActionResult AccessDenied()
         {

@@ -13,9 +13,14 @@ namespace AMS.Controllers
             _logger = logger;
         }
 
-
         public IActionResult Index()
         {
+            // ????? ??? ????? ???? ??? ????? ???? ?????? Dashboard-? ??????
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             return View();
         }
 
