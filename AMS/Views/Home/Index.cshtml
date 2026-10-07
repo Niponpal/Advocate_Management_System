@@ -340,14 +340,13 @@
             document.getElementById('caseSearchResult').classList.remove('hidden');
         }
 
-        // Advocate select
+
         function selectAdvocate(name) {
             const select = document.getElementById('selectedAdvocateInput');
             if (select) select.value = name;
             window.location.hash = '#consultation';
         }
 
-        // Consultation
         function handleConsultationSubmit(e) {
             e.preventDefault();
             showToast('Intake Received', 'Desk Counsel will confirm within 2 hours.');
