@@ -21,27 +21,28 @@ namespace AMS.Controllers
             _roleManager = roleManager;
         }
 
-        // =====================================================
-        // REGISTER - GET
-        // =====================================================
+        // ========================= REGISTER GET =========================
         [HttpGet]
         public IActionResult Register()
         {
-            if (User.Identity != null && User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 return RedirectToAction("Index", "Dashboard");
             }
 
-            return View();
+            return View(new RegisterViewModel());
         }
 
-        // =====================================================
-        // REGISTER - POST
-        // =====================================================
+        // ========================= REGISTER POST =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -51,28 +52,49 @@ namespace AMS.Controllers
             string fullName = model.FullName.Trim();
             string phone = model.PhoneNumber?.Trim() ?? string.Empty;
             string address = model.Address?.Trim() ?? string.Empty;
-            string accountType = model.AccountType.Trim();
+
+            if (string.IsNullOrWhiteSpace(model.AccountType))
+            {
+                ModelState.AddModelError(
+                    nameof(model.AccountType),
+                    "Please select an account type.");
+
+                return View(model);
+            }
+
+            string requestedRole = model.AccountType.Trim();
+
+            // Public registration is limited to Advocate and Client.
+            // Create Administrator accounts through a secure admin process.
+            string[] allowedRoles = { "Advocate", "Client" };
+
+            string? accountType = allowedRoles.FirstOrDefault(
+                role => role.Equals(
+                    requestedRole,
+                    StringComparison.OrdinalIgnoreCase));
+
+            if (accountType == null)
+            {
+                ModelState.AddModelError(
+                    nameof(model.AccountType),
+                    "Please select a valid account type.");
+
+                return View(model);
+            }
 
             var existingUser = await _userManager.FindByEmailAsync(email);
+
             if (existingUser != null)
             {
-                ModelState.AddModelError(nameof(model.Email), "An account with this email already exists.");
+                ModelState.AddModelError(
+                    nameof(model.Email),
+                    "An account with this email already exists.");
+
                 return View(model);
             }
 
-            string[] allowedRoles = { "Advocate", "Client", "Administrator" };
-            var matchedRole = allowedRoles.FirstOrDefault(r => r.Equals(accountType, StringComparison.OrdinalIgnoreCase));
-
-            if (matchedRole == null)
-            {
-                ModelState.AddModelError(nameof(model.AccountType), "Please select a valid account type.");
-                return View(model);
-            }
-
-            accountType = matchedRole;
-
-            var roleExists = await _roleManager.RoleExistsAsync(accountType);
-            if (!roleExists)
+            // Ensure the selected role exists.
+            if (!await _roleManager.RoleExistsAsync(accountType))
             {
                 var role = new Role(accountType)
                 {
@@ -82,13 +104,17 @@ namespace AMS.Controllers
                     CreatedDateUtc = DateTimeOffset.UtcNow
                 };
 
-                var createRoleResult = await _roleManager.CreateAsync(role);
-                if (!createRoleResult.Succeeded)
+                var roleResult = await _roleManager.CreateAsync(role);
+
+                if (!roleResult.Succeeded)
                 {
-                    foreach (var error in createRoleResult.Errors)
+                    foreach (var error in roleResult.Errors)
                     {
-                        ModelState.AddModelError(string.Empty, error.Description);
+                        ModelState.AddModelError(
+                            string.Empty,
+                            error.Description);
                     }
+
                     return View(model);
                 }
             }
@@ -107,58 +133,77 @@ namespace AMS.Controllers
                 UpdatedDate = null
             };
 
-            var createUserResult = await _userManager.CreateAsync(user, model.Password);
+            var createUserResult = await _userManager.CreateAsync(
+                user,
+                model.Password);
 
             if (!createUserResult.Succeeded)
             {
                 foreach (var error in createUserResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(
+                        string.Empty,
+                        error.Description);
                 }
+
                 return View(model);
             }
 
-            var assignRoleResult = await _userManager.AddToRoleAsync(user, accountType);
+            var assignRoleResult = await _userManager.AddToRoleAsync(
+                user,
+                accountType);
 
             if (!assignRoleResult.Succeeded)
             {
+                // Roll back user creation if role assignment fails.
                 await _userManager.DeleteAsync(user);
+
                 foreach (var error in assignRoleResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(
+                        string.Empty,
+                        error.Description);
                 }
+
                 return View(model);
             }
 
-            // সফলভাবে রেজিস্ট্রেশনের পর সাইন-ইন করিয়ে সরাসরি Dashboard-এ পাঠাবে
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            TempData["SuccessMessage"] = "Your account has been created successfully.";
+            await _signInManager.SignInAsync(
+                user,
+                isPersistent: false);
+
+            TempData["SuccessMessage"] =
+                "Your account has been created successfully.";
 
             return RedirectToAction("Index", "Dashboard");
         }
 
-        // =====================================================
-        // LOGIN - GET
-        // =====================================================
+        // ========================= LOGIN GET =========================
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
-            if (User.Identity != null && User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 return RedirectToAction("Index", "Dashboard");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+
+            return View(new LoginViewModel());
         }
 
-        // =====================================================
-        // LOGIN - POST
-        // =====================================================
+        // ========================= LOGIN POST =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
+        public async Task<IActionResult> Login(
+            LoginViewModel model,
+            string? returnUrl = null)
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             ViewData["ReturnUrl"] = returnUrl;
 
             if (!ModelState.IsValid)
@@ -167,64 +212,75 @@ namespace AMS.Controllers
             }
 
             string email = model.Email.Trim();
+
             var user = await _userManager.FindByEmailAsync(email);
 
-            if (user == null)
+            if (user == null || string.IsNullOrWhiteSpace(user.UserName))
             {
-                ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                ModelState.AddModelError(
+                    string.Empty,
+                    "Invalid email or password.");
+
                 return View(model);
             }
 
             var loginResult = await _signInManager.PasswordSignInAsync(
-                user.UserName!,
+                user.UserName,
                 model.Password,
                 model.RememberMe,
-                lockoutOnFailure: true
-            );
+                lockoutOnFailure: true);
 
             if (loginResult.Succeeded)
             {
-                // নির্দিষ্ট returnUrl থাকলে সেখানে পাঠাবে (যদি তা শুধু Home পেজ না হয়)
-                if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl) && returnUrl != "/")
+                if (!string.IsNullOrWhiteSpace(returnUrl) &&
+                    Url.IsLocalUrl(returnUrl) &&
+                    returnUrl != "/")
                 {
                     return Redirect(returnUrl);
                 }
 
-                // অন্যথায় সরাসরি Dashboard Controller-এর Index পেজে পাঠাবে
                 return RedirectToAction("Index", "Dashboard");
             }
 
             if (loginResult.IsLockedOut)
             {
-                ModelState.AddModelError(string.Empty, "Your account has been locked due to multiple failed attempts. Please try again later.");
+                ModelState.AddModelError(
+                    string.Empty,
+                    "Your account is locked due to multiple failed attempts. Please try again later.");
+
                 return View(model);
             }
 
             if (loginResult.IsNotAllowed)
             {
-                ModelState.AddModelError(string.Empty, "Login is not allowed for this account. Please verify your account.");
+                ModelState.AddModelError(
+                    string.Empty,
+                    "Login is not allowed for this account. Please verify your account.");
+
                 return View(model);
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid email or password.");
+            ModelState.AddModelError(
+                string.Empty,
+                "Invalid email or password.");
+
             return View(model);
         }
 
-        // =====================================================
-        // LOGOUT
-        // =====================================================
+        // ========================= LOGOUT =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            TempData["SuccessMessage"] = "You have been logged out successfully.";
-            return RedirectToAction("Login", "Account");
+
+            TempData["SuccessMessage"] =
+                "You have been logged out successfully.";
+
+            return RedirectToAction("Index", "Home");
         }
 
-        // =====================================================
-        // ACCESS DENIED
-        // =====================================================
+        // ========================= ACCESS DENIED =========================
         [HttpGet]
         public IActionResult AccessDenied()
         {
