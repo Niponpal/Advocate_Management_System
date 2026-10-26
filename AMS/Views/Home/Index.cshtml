@@ -155,11 +155,27 @@
 
             <!-- Right Actions -->
             <div class="flex items-center gap-3">
-                <button onclick="openAuthModal('login')"
-                        class="px-4 py-2.5 text-navy-800 font-semibold text-sm rounded-lg border border-navy-200 hover:bg-navy-50 transition flex items-center gap-2">
-                    <i class="fas fa-right-to-bracket text-gold-600"></i>
-                    Client Login
-                </button>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Dashboard" asp-action="Index"
+                       class="px-4 py-2.5 text-white bg-navy-900 hover:bg-navy-800 font-semibold text-sm rounded-lg transition flex items-center gap-2">
+                        <i class="fas fa-gauge-high text-gold-400"></i>
+                        Dashboard
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login"
+                       class="px-4 py-2.5 text-navy-800 font-semibold text-sm rounded-lg border border-navy-200 hover:bg-navy-50 transition flex items-center gap-2">
+                        <i class="fas fa-right-to-bracket text-gold-600"></i>
+                        Client Login
+                    </a>
+                    <a asp-controller="Account" asp-action="Register"
+                       class="px-4 py-2.5 text-white bg-navy-900 hover:bg-navy-800 font-semibold text-sm rounded-lg transition flex items-center gap-2">
+                        <i class="fas fa-user-plus text-gold-400"></i>
+                        Register
+                    </a>
+                }
                 <a href="#consultation"
                    class="hidden sm:flex px-5 py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-semibold text-sm rounded-lg shadow-md transition items-center gap-2">
                     <i class="fas fa-gavel text-gold-400"></i>
@@ -226,10 +242,10 @@
                                class="px-7 py-3.5 bg-gold-500 hover:bg-gold-400 text-navy-950 font-semibold text-sm rounded-lg shadow-lg shadow-gold-500/20 transition flex items-center gap-2">
                                 <i class="fas fa-user-shield"></i> Retain Senior Counsel
                             </a>
-                            <button onclick="openAuthModal('register')"
-                                    class="px-7 py-3.5 bg-white/5 hover:bg-white/10 text-white font-medium text-sm rounded-lg border border-white/15 transition flex items-center gap-2">
+                            <a asp-controller="Account" asp-action="Register"
+                               class="px-7 py-3.5 bg-white/5 hover:bg-white/10 text-white font-medium text-sm rounded-lg border border-white/15 transition flex items-center gap-2">
                                 <i class="fas fa-user-plus"></i> Create Client Account
-                            </button>
+                            </a>
                         </div>
 
                         <!-- Carousel Dots -->
@@ -501,16 +517,6 @@
         </footer>
     </main>
 
-    <!-- AUTH MODAL -->
-    <div id="authModal" class="fixed inset-0 z-50 bg-navy-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-navy-400 hover:text-navy-900 transition">
-                <i class="fas fa-xmark text-lg"></i>
-            </button>
-            <div id="modalContent"></div>
-        </div>
-    </div>
-
     <script>
         // Carousel
         let currentSlide = 0;
@@ -557,99 +563,6 @@
                 toast.classList.remove('show');
                 setTimeout(() => toast.classList.add('hidden'), 350);
             }, 3200);
-        }
-
-        // Auth Modal
-        function openAuthModal(mode) {
-            const modal = document.getElementById('authModal');
-            const content = document.getElementById('modalContent');
-
-            if (mode === 'login') {
-                content.innerHTML = `
-                    <div class="mb-6">
-                        <h3 class="text-2xl font-bold font-serif text-navy-900">Client Portal Access</h3>
-                        <p class="text-sm text-navy-700/70 mt-1">Enter your credentials to continue.</p>
-                    </div>
-                    <form method="post" action="/Account/Login" class="space-y-4">
-                        @Html.AntiForgeryToken()
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-navy-700/60 mb-1.5">Email Address</label>
-                            <input type="email" name="Email" required placeholder="client@example.com"
-                                   class="w-full bg-cream-50 border border-navy-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 transition" />
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-navy-700/60 mb-1.5">Password</label>
-                            <input type="password" name="Password" required placeholder="••••••••"
-                                   class="w-full bg-cream-50 border border-navy-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 transition" />
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" name="RememberMe" value="true" id="rememberMe" class="rounded border-navy-300 text-gold-500 focus:ring-gold-500" />
-                            <label for="rememberMe" class="text-sm text-navy-700/70">Remember me</label>
-                        </div>
-                        <button type="submit" class="w-full py-3.5 bg-navy-900 hover:bg-navy-800 text-white font-semibold text-sm rounded-xl transition">
-                            Sign In
-                        </button>
-                    </form>
-                    <p class="text-center text-sm text-navy-700/70 mt-5">
-                        New client?
-                        <button type="button" onclick="openAuthModal('register')" class="text-gold-600 font-medium hover:underline">Create account</button>
-                    </p>
-                `;
-            } else {
-                content.innerHTML = `
-                    <div class="mb-6">
-                        <h3 class="text-2xl font-bold font-serif text-navy-900">Create Client Account</h3>
-                        <p class="text-sm text-navy-700/70 mt-1">Register for the client portal.</p>
-                    </div>
-                    <form method="post" action="/Account/Register" class="space-y-4">
-                        @Html.AntiForgeryToken()
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-navy-700/60 mb-1.5">Full Name</label>
-                            <input type="text" name="FullName" required placeholder="John Doe"
-                                   class="w-full bg-cream-50 border border-navy-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 transition" />
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-navy-700/60 mb-1.5">Email Address</label>
-                            <input type="email" name="Email" required placeholder="john@example.com"
-                                   class="w-full bg-cream-50 border border-navy-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 transition" />
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-navy-700/60 mb-1.5">Address</label>
-                            <input type="text" name="Address" required placeholder="Enter your address"
-                                   class="w-full bg-cream-50 border border-navy-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 transition" />
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-navy-700/60 mb-1.5">Account Type</label>
-                            <select name="AccountType" required
-                                    class="w-full bg-cream-50 border border-navy-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 transition">
-                                <option value="Client">Client</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-navy-700/60 mb-1.5">Phone Number</label>
-                            <input type="text" name="PhoneNumber" placeholder="+1 (555) 000-0000"
-                                   class="w-full bg-cream-50 border border-navy-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 transition" />
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-navy-700/60 mb-1.5">Password</label>
-                            <input type="password" name="Password" required minlength="6" placeholder="••••••••"
-                                   class="w-full bg-cream-50 border border-navy-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 transition" />
-                        </div>
-                        <button type="submit" class="w-full py-3.5 bg-navy-900 hover:bg-navy-800 text-white font-semibold text-sm rounded-xl transition">
-                            Create Account
-                        </button>
-                    </form>
-                    <p class="text-center text-sm text-navy-700/70 mt-5">
-                        Already registered?
-                        <button type="button" onclick="openAuthModal('login')" class="text-gold-600 font-medium hover:underline">Sign in</button>
-                    </p>
-                `;
-            }
-            modal.classList.remove('hidden');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.add('hidden');
         }
     </script>
 </body>
