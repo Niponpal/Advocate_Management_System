@@ -66,18 +66,21 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">
+                        <a asp-controller="Advocate" asp-action="Index"
+                           class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">
                             <i class="fas fa-user-tie"></i> Advocates
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">
-                            <i class="fas fa-briefcase"></i> Cases
+                        <a asp-controller="Client" asp-action="Index"
+                           class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">
+                            <i class="fas fa-users"></i> Clients
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">
-                            <i class="fas fa-users"></i> Clients
+                        <a asp-controller="Case" asp-action="Index"
+                           class="flex items-center gap-3 px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">
+                            <i class="fas fa-briefcase"></i> Cases
                         </a>
                     </li>
                 </ul>
