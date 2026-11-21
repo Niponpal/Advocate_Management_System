@@ -25,6 +25,7 @@ public class AdvocateScheduleController : Controller
             schedules = new List<AdvocateSchedule>();
         }
 
+
         return View(schedules);
     }
     [HttpGet]
