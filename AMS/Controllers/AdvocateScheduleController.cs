@@ -17,9 +17,9 @@ public class AdvocateScheduleController : Controller
     }
     public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
     {
-        var schedules = await _advocateScheduleRepository.GetAllApplicationsAsync(cancellationToken);
+        var schedules = await _advocateScheduleRepository.GetAllApplicationsAsync( cancellationToken);
 
-        // Better approach: Never return NotFound for list page, return empty list instead
+
         if (schedules == null)
         {
             schedules = new List<AdvocateSchedule>();
